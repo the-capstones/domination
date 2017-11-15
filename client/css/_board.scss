@@ -1,0 +1,54 @@
+@import './_variables.scss';
+
+.Board {
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -moz-user-drag: element;
+  -webkit-user-drag: element;
+  -khtml-user-drag: element;
+  user-drag: element;
+}
+
+svg {
+
+}
+
+svg g {
+  fill: $neutral;
+  fill-opacity: 0.6;
+}
+
+svg g:hover {
+  fill-opacity: 1;
+}
+
+svg g polygon {
+  stroke: $neutral-dark;
+  stroke-width: 0.1;
+}
+
+svg g text {
+  font-size: 0.07em;
+  fill: $black;
+  fill-opacity: 1;
+}
+
+
+// Don't know what this did
+// svg path {
+//   fill: none;
+//   stroke: hsl(60, 20%, 70%);
+//   stroke-width: 0.4em;
+//   stroke-opacity: 0.3;
+//   stroke-linecap: round;
+//   stroke-linejoin: round;
+// }
