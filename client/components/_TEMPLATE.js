@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import '../css/_sidebar.scss';
+// import '../css/_component.scss';
 
-const Sidebar = (props) => {
+const COMPONENT = (props) => {
 
   return (
-    <div className="sidebar-wrapper">
+    <div className="component-wrapper">
 
     </div>
   )
@@ -26,11 +26,11 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Sidebar);
+export default connect(mapState, mapDispatch)(COMPONENT);
 
 /**
  * PROP TYPES
  */
-Sidebar.propTypes = {
+COMPONENT.propTypes = {
 
 }

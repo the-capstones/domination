@@ -27,6 +27,29 @@ const Sidebar = (props) => {
       <div className="players">
         <button>Scoreboard</button>
         <table>
+          <tbody>
+            <tr>
+              <th>{/*color*/}</th>
+              <th>Username</th>
+            </tr>
+            <tr>
+              <td style={{ background: 'salmon' }}><i class="fa fa-arrow-right" aria-hidden="true"></i>
+              </td>
+              <td>Smith</td>
+            </tr>
+            <tr>
+              <td style={{ background: 'skyblue' }}></td>
+              <td>Jackson</td>
+            </tr>
+            <tr>
+              <td style={{ background: 'lightgreen' }}></td>
+              <td>Johnson</td>
+            </tr>
+            <tr>
+              <td style={{ background: 'orchid' }}></td>
+              <td>Simpson</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
