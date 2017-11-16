@@ -10,7 +10,7 @@ import '../css/_board.scss';
 class Board extends Component {
   constructor(props) {
     super(props);
-    const config = configs['rectangle'];
+    const config = configs['triangle'];
     const generator = GridGenerator.getGenerator(config.map);
     const hexagons = generator.apply(this, config.mapProps);
     this.state = { hexagons, config };
