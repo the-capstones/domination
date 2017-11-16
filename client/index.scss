@@ -1,5 +1,14 @@
+@import './css/_variables.scss';
+
+html {
+  font-size: 10px;
+}
+
 body {
-  font-family: sans-serif;
+  margin: 0;
+  font-family: $text;
+  color: $neutral;
+  background: $black-light;
 
   a {
     text-decoration: none;
@@ -9,20 +18,26 @@ body {
     display: block;
   }
 
-  nav a {
-    display: inline-block;
-    margin: 1em;
-  }
-
   form div {
     margin: 1em;
     display: inline-block;
   }
+
+  button {
+    padding: 0.5rem 0;
+    font-family: $text;
+    font-size: 1.5rem;
+    border: 1px solid $neutral;
+    background: white;
+    outline: none;
+  }
+
+  button:hover {
+    color: white;
+    background: $primary;
+  }
 }
 
-body {
-  margin: 0;
-  padding: 1em;
-  font-family: sans-serif;
-  background: #f0f0f0;
+.main-wrapper {
+  display: flex;
 }

@@ -1,9 +1,10 @@
 @import './_variables.scss';
 
-.Board {
+.board {
+  flex-basis: 85%;
+  margin: 0.5rem;
   text-align: center;
-  width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 1rem - 2px);
   overflow: scroll;
 }
 
@@ -18,13 +19,15 @@
   user-drag: element;
 }
 
+.board,
 svg {
-
+  fill: $black;
+  background: $black;
 }
 
 svg g {
   fill: $neutral;
-  fill-opacity: 0.6;
+  fill-opacity: 0.8;
 }
 
 svg g:hover {
@@ -37,7 +40,7 @@ svg g polygon {
 }
 
 svg g text {
-  font-size: 0.07em;
+  font-size: 0.18em;
   fill: $black;
   fill-opacity: 1;
 }
@@ -52,3 +55,4 @@ svg g text {
 //   stroke-linecap: round;
 //   stroke-linejoin: round;
 // }
+

@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Router } from 'react-router'
-import { Route, Switch } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import history from './history'
-import { Main, Login, Signup, UserHome, Board } from './components'
-import { me } from './store'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Router } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import history from './history';
+import { Main, Login, Signup, UserHome } from './components';
+import { me } from './store';
 /**
  * COMPONENT
  */
@@ -22,17 +22,16 @@ class Routes extends Component {
       <Router history={history}>
         <Main>
           <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
             {
               isLoggedIn &&
               <Switch>
                 <Route path="/home" component={UserHome} />
               </Switch>
             }
-            <Route component={Login} />
+            <Route exact path="/login" component={Login} />
           </Switch>
-          <Board />
         </Main>
       </Router>
     )
