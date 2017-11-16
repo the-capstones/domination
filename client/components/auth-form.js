@@ -1,7 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import { withRouter, Link } from 'react-router-dom';
 import {auth} from '../store'
+
+import '../css/_auth-form.scss';
 
 /**
  * COMPONENT
@@ -10,7 +13,8 @@ const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div>
+    <div className="form">
+      <h1>{displayName}</h1>
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="email"><small>Email</small></label>
@@ -53,7 +57,7 @@ const mapSignup = (state) => {
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
     handleSubmit (evt) {
       evt.preventDefault()
@@ -61,12 +65,13 @@ const mapDispatch = (dispatch) => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(email, password, formName))
+      ownProps.history.push('/')
     }
   }
 }
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Login = withRouter(connect(mapLogin, mapDispatch)(AuthForm))
+export const Signup = withRouter(connect(mapSignup, mapDispatch)(AuthForm))
 
 /**
  * PROP TYPES
