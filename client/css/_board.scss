@@ -20,13 +20,15 @@
   user-drag: element;
 }
 
+.board,
 svg {
-
+  fill: $black;
+  background: $black;
 }
 
 svg g {
-  fill: $neutral;
-  fill-opacity: 0.6;
+  fill: white;
+  fill-opacity: 0.8;
 }
 
 svg g:hover {
@@ -55,7 +57,3 @@ svg g text {
 //   stroke-linejoin: round;
 // }
 
-
-.test {
-  fill: red;
-}
