@@ -9,28 +9,51 @@
 
 nav {
   font-size: 1.5rem;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+}
 
-  div {
-    display: flex;
-    flex-direction: column;
-  }
+.dropbtn {
+  background-color: $primary;
+  border-radius: 0px;
+  color: white;
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
 
-  a {
-    font-family: $text;
-    padding: 1rem 0;
-    text-align: center;
-    color: $black;
-    width: calc(100%);
-    height: 1.5rem;
-  }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: $neutral-light;
+  min-width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
 
-  a:hover {
-    color: white;
-    background: $primary;
-  }
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: $primary-lighter;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: $primary-dark;
 }
 
 .players {
@@ -39,6 +62,7 @@ nav {
   font-size: 1.5rem;
 
   table{
+    margin: 1rem 0 0.5rem 0;
     width: 100%;
     text-align: center;
   }
@@ -59,5 +83,9 @@ nav {
     font-size: 2rem;
     color: white;
     -webkit-text-stroke: 1px $black;
+  }
+
+  .fa-pie-chart:hover {
+    color: $primary;
   }
 }

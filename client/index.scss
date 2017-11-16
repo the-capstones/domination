@@ -6,7 +6,8 @@ html {
 
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: $text;
+  color: $black;
 
   a {
     text-decoration: none;
@@ -22,7 +23,17 @@ body {
   }
 
   button {
+    padding: 0.5rem 0;
+    font-family: $text;
+    font-size: 1.5rem;
+    border: 1px solid $neutral;
+    background: white;
+    outline: none;
+  }
 
+  button:hover {
+    color: white;
+    background: $primary;
   }
 }
 

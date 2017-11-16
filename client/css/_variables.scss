@@ -1,9 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Montez|Monsteratt');
 
+$title: 'Montez', cursive;
+$text: 'Monsteratt', helvetica, sans serif;
 $black: #222;
 $neutral: #ddd;
 $neutral-light: $neutral * 1.1;
 $neutral-dark: $neutral / 1.4;
-$primary: rgb(180, 0, 0);
-$title: 'Montez', cursive;
-$text: 'Monsteratt', helvetica, sans serif;
+$primary: rgb(255, 100, 100);
+$primary-dark: $primary / 1.1;
+$primary-darker: $primary / 1.4;
+$primary-light: $primary * 1.1;
+$primary-lighter: $primary * 1.4;

@@ -11,25 +11,28 @@ const Sidebar = (props) => {
 
   return (
     <div className="sidebar-wrapper">
-      <nav>
-        {
-          isLoggedIn
-            ? <div>
-              <Link to="/home">Home</Link>
-              <a href="#" onClick={handleClick}>Logout</a>
-            </div>
-            : <div>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
-            </div>
-        }
+      <nav className="dropdown">
+        <button class="dropbtn">Menu</button>
+        <div class="dropdown-content">
+          {
+            isLoggedIn
+              ? <div>
+                <Link to="/home">Home</Link>
+                <a href="#" onClick={handleClick}>Logout</a>
+              </div>
+              : <div>
+                <Link to="/login">Login</Link>
+                <Link to="/signup">Sign Up</Link>
+              </div>
+          }
+        </div>
       </nav>
       <div className="players">
-        <button>Scoreboard</button>
         <table>
           <tbody>
             <tr>
-              <th>{/*color*/}</th>
+              <th><i class="fa fa-pie-chart" aria-hidden="true"></i>
+              </th>
               <th>Username</th>
             </tr>
             <tr>
