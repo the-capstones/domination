@@ -2,12 +2,19 @@
 
 $title: 'Montez', cursive;
 $text: 'Monsteratt', helvetica, sans serif;
-$black: #222;
-$neutral: #ddd;
+$black: #343233;
+$black-light: #3f3d3e;
+$neutral: #efdab9;
 $neutral-light: $neutral * 1.1;
 $neutral-dark: $neutral / 1.4;
-$primary: rgb(255, 100, 100);
+$primary: #b3482e;
 $primary-dark: $primary / 1.1;
 $primary-darker: $primary / 1.4;
 $primary-light: $primary * 1.1;
 $primary-lighter: $primary * 1.4;
+
+$player-red: #b3482e;
+$player-orange: #c7723d;
+$player-yellow: #d5a149;
+$player-green: #83ada0;
+$player-blue: #6f9bc4;

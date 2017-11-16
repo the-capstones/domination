@@ -4,7 +4,7 @@
   flex-basis: 15%;
   margin: 0.5rem;
   height: calc(100vh - 1rem - 2px);
-  border: 1px solid $neutral;
+  background: $black;
 }
 
 nav {
@@ -81,7 +81,7 @@ nav {
   }
 
   tbody > tr:nth-child(even) {
-    background: $neutral-light;
+    background: $black-light;
   }
 
   tr > th:nth-child(1) {
@@ -94,8 +94,7 @@ nav {
 
   .fa-arrow-right {
     font-size: 2rem;
-    color: white;
-    -webkit-text-stroke: 1px $black;
+    color: $black;
   }
 
   .fa-pie-chart:hover {
