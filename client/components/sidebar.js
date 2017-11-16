@@ -11,6 +11,7 @@ const Sidebar = (props) => {
 
   return (
     <div className="sidebar-wrapper">
+
       <nav className="dropdown">
         <button class="dropbtn">Menu</button>
         <div class="dropdown-content">
@@ -27,6 +28,11 @@ const Sidebar = (props) => {
           }
         </div>
       </nav>
+
+      <div className="avatar">
+          <img src="assets/wizard-avatar.jpg" />
+      </div>
+
       <div className="players">
         <table>
           <tbody>

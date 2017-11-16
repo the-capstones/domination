@@ -45,7 +45,8 @@ nav {
 }
 
 .dropdown-content a:hover {
-  background-color: $primary-lighter;
+  background-color: $primary-light;
+  color: white;
 }
 
 .dropdown:hover .dropdown-content {
@@ -54,6 +55,18 @@ nav {
 
 .dropdown:hover .dropbtn {
   background-color: $primary-dark;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+
+  img {
+    width: 50%;
+    border-radius: 50%;
+  }
 }
 
 .players {
