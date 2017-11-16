@@ -1,49 +1,97 @@
 import React from 'react';
 
+import '../css/_combat.scss';
+
 const Combat = () => {
   return (
-    <div>
+    <div className="combat">
       <div className="battalion-container">
-        <div className="reserve-units">
-          <img id="unit-a" />
-          <img id="unit-b" />
-          <img id="unit-c" />
-          <p>RESERVE FORCES</p>
+        <div className="type-container">
+
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT A</p>
+          </div>
+
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT B</p>
+          </div>
+
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT C</p>
+          </div>
+
+          <label>RESERVE FORCES</label>
         </div>
 
-        <div className="active-units">
-          <img id="unit-a" />
-          <img id="unit-b" />
-          <img id="unit-c" />
-          <p>ACTIVE FORCES</p>
+        <div className="type-container">
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT A</p>
+          </div>
+
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT B</p>
+          </div>
+
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT C</p>
+          </div>
+          <label>ACTIVE FORCES</label>
         </div>
       </div>
 
-      <div className="combat-container">
-        <div className="die-display">
+      <div className="dice-container">
+        <div className="die-display-player">
           <h4>PLAYER</h4>
           <h3>DIE</h3>
         </div>
-        <h2>RESULT</h2>
-        <div className="die-display">
+        <label>RESULT</label>
+        <div className="die-display-enemy">
           <h3>DIE</h3>
           <h4>PLAYER</h4>
         </div>
       </div>
 
       <div className="battalion-container">
-        <div className="reserve-units">
-          <img id="unit-a" />
-          <img id="unit-b" />
-          <img id="unit-c" />
-          <p>RESERVE FORCES</p>
+        <div className="type-container">
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT A</p>
+          </div>
+
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT B</p>
+          </div>
+
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT C</p>
+          </div>
+        <label>ACTIVE FORCES</label>
         </div>
 
-        <div className="active-units">
-          <img id="unit-a" />
-          <img id="unit-b" />
-          <img id="unit-c" />
-          <p>ACTIVE FORCES</p>
+        <div className="type-container">
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT A</p>
+          </div>
+
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT B</p>
+          </div>
+
+          <div className="unit-container">
+            <img src="assets/wizard-avatar.jpg" />
+            <p>UNIT C</p>
+          </div>
+        <label>RESERVE FORCES</label>
         </div>
       </div>
     </div>
