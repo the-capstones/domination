@@ -7,7 +7,7 @@ import { logout } from '../store';
 import '../css/_sidebar.scss';
 
 const Sidebar = (props) => {
-  const { isLoggedIn } = props;
+  const { isLoggedIn, handleClick } = props;
 
   return (
     <div className="sidebar-wrapper">
@@ -94,5 +94,5 @@ export default connect(mapState, mapDispatch)(Sidebar);
  * PROP TYPES
  */
 Sidebar.propTypes = {
-
+  handleClick: PropTypes.func.isRequired,
 }
