@@ -1,0 +1,17 @@
+@import './_variables.scss';
+
+.settings-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: $black;
+}
+
+
+.settings {
+  width: 75vw;
+  height: 75vh;
+  background: $neutral;
+}
