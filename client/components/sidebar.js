@@ -39,12 +39,12 @@ const Sidebar = (props) => {
         <table>
           <tbody>
             <tr>
-              <th><i class="fa fa-pie-chart" aria-hidden="true"></i>
+              <th><i className="fa fa-pie-chart" aria-hidden="true"></i>
               </th>
               <th>Username</th>
             </tr>
             <tr>
-              <td style={{ background: '#b3482e' }}><i class="fa fa-arrow-right" aria-hidden="true"></i>
+              <td style={{ background: '#b3482e' }}><i className="fa fa-arrow-right" aria-hidden="true"></i>
               </td>
               <td>Smith</td>
             </tr>
