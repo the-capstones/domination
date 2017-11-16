@@ -5,8 +5,25 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import user from './user';
 import hexagon from './boardHexagon';
 import config from './boardConfig';
+import boardId from './boardId';
+import gameSettings from './gameSettings';
+import playerOrder from './playerOrder';
+import currentPlayer from './currentPlayer';
+import currentPhase from './currentPhase';
 
-const board = combineReducers({ hexagon, config });
+const state = combineReducers({
+  gameSettings,
+  playerOrder,
+  currentPlayer,
+  currentPhase,
+});
+
+const board = combineReducers({
+  boardId,
+  hexagon,
+  config,
+  state,
+});
 
 const reducer = combineReducers({
   user,
@@ -24,3 +41,4 @@ export default store
 export * from './user';
 export * from './boardHexagon';
 export * from './boardConfig';
+export * from './boardId';
