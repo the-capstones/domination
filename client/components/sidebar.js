@@ -13,8 +13,8 @@ const Sidebar = (props) => {
     <div className="sidebar-wrapper">
 
       <nav className="dropdown">
-        <button class="dropbtn">Menu</button>
-        <div class="dropdown-content">
+        <button className="dropbtn">Menu</button>
+        <div className="dropdown-content">
           {
             isLoggedIn
               ? <div>
