@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import store, { setBoard } from '../store';
+import store, { setConfig, setHexagons } from '../store';
 import { HexGrid, Layout, Hexagon, Text, GridGenerator, HexUtils, Pattern } from 'react-hexgrid';
 import configs from '../configurations';
 
@@ -18,7 +18,16 @@ class Board extends Component {
 
   componentDidMount() {
     const { hexagons, config } = this.state;
-    store.dispatch(setBoard({ hexagons, config }));
+    store.dispatch(setHexagons(hexagons));
+    store.dispatch(setConfig(config));
+
+    // adds id's of coordinates to the polygon from a dummy div because you can't add it directly then deletes dummy div from dom
+    const polyIdDivs = [...document.getElementsByClassName('poly-id')];
+    polyIdDivs.forEach(polyIdDiv => {
+      const poly = polyIdDiv.parentNode.firstChild;
+      poly.id = polyIdDiv.id;
+      polyIdDiv.remove();
+    });
   }
 
   render() {
@@ -27,7 +36,7 @@ class Board extends Component {
     const size = { x: layout.width, y: layout.height };
 
     return (
-      <div className="Board">
+      <div className="board">
         <HexGrid width={config.width} height={config.height}>
           <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
             {
@@ -37,8 +46,8 @@ class Board extends Component {
                   q={hex.q}
                   r={hex.r}
                   s={hex.s}
-                  onClick={() => console.dir(HexUtils.getID(hex))}
                 >
+                  <div className="poly-id" id={`${hex.q},${hex.r},${hex.s}`}></div>
                   <Text>{HexUtils.getID(hex)}</Text>
                 </Hexagon>
               ))
