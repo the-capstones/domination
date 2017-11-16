@@ -32,7 +32,7 @@ const Sidebar = (props) => {
       </nav>
 
       <div className="avatar">
-          <img src="assets/wizard-avatar.jpg" />
+        <img src="assets/wizard-avatar.jpg" />
       </div>
 
       <div className="players">
@@ -44,21 +44,25 @@ const Sidebar = (props) => {
               <th>Username</th>
             </tr>
             <tr>
-              <td style={{ background: 'salmon' }}><i class="fa fa-arrow-right" aria-hidden="true"></i>
+              <td style={{ background: '#b3482e' }}><i class="fa fa-arrow-right" aria-hidden="true"></i>
               </td>
               <td>Smith</td>
             </tr>
             <tr>
-              <td style={{ background: 'skyblue' }}></td>
+              <td style={{ background: '#c7723d' }}></td>
               <td>Jackson</td>
             </tr>
             <tr>
-              <td style={{ background: 'lightgreen' }}></td>
+              <td style={{ background: '#d5a149' }}></td>
               <td>Johnson</td>
             </tr>
             <tr>
-              <td style={{ background: 'orchid' }}></td>
+              <td style={{ background: '#83ada0' }}></td>
               <td>Simpson</td>
+            </tr>
+            <tr>
+              <td style={{ background: '#6f9bc4' }}></td>
+              <td>Friedmen</td>
             </tr>
           </tbody>
         </table>

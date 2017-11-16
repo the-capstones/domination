@@ -7,7 +7,8 @@ html {
 body {
   margin: 0;
   font-family: $text;
-  color: $font;
+  color: $neutral;
+  background: $black-light;
 
   a {
     text-decoration: none;
