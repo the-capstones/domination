@@ -1,0 +1,104 @@
+@import './_variables.scss';
+
+.sidebar-wrapper {
+  flex-basis: 15%;
+  margin: 0.5rem;
+  height: calc(100vh - 1rem - 2px);
+  border: 1px solid $neutral;
+}
+
+nav {
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.dropbtn {
+  background-color: $primary;
+  border-radius: 0px;
+  color: white;
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: $neutral-light;
+  min-width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: $primary-light;
+  color: white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: $primary-dark;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+
+  img {
+    width: 50%;
+    border-radius: 50%;
+  }
+}
+
+.players {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+
+  table{
+    margin: 1rem 0 0.5rem 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  tbody > tr:nth-child(even) {
+    background: $neutral-light;
+  }
+
+  tr > th:nth-child(1) {
+    width: 20%;
+  }
+
+  td, th {
+    padding: 0.5rem 0;
+  }
+
+  .fa-arrow-right {
+    font-size: 2rem;
+    color: white;
+    -webkit-text-stroke: 1px $black;
+  }
+
+  .fa-pie-chart:hover {
+    color: $primary;
+  }
+}
