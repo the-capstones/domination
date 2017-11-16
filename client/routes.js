@@ -4,7 +4,7 @@ import { Router } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import history from './history';
-import { Main, Login, Signup, UserHome, Combat } from './components';
+import { Main, Login, Signup, UserHome, Sidebar, Board, Settings } from './components';
 import { me } from './store';
 /**
  * COMPONENT
@@ -21,7 +21,10 @@ class Routes extends Component {
     return (
       <Router history={history}>
         <Main>
+          <Route path="/" component={Sidebar} />
           <Switch>
+            <Route path="/play" component={Board} />
+            <Route exact path="/" component={Login} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/combat" component={Combat} />
@@ -29,6 +32,7 @@ class Routes extends Component {
               isLoggedIn &&
               <Switch>
                 <Route path="/home" component={UserHome} />
+                <Route path="/settings" component={Settings} />
               </Switch>
             }
             <Route exact path="/login" component={Login} />
