@@ -1,9 +1,11 @@
 @import './_variables.scss';
 
-.Board {
+.board {
+  flex-basis: 85%;
+  margin: 0.5rem;
   text-align: center;
-  width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 1rem - 2px);
+  border: 1px solid $neutral;
   overflow: scroll;
 }
 
@@ -52,3 +54,8 @@ svg g text {
 //   stroke-linecap: round;
 //   stroke-linejoin: round;
 // }
+
+
+.test {
+  fill: red;
+}

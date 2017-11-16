@@ -1,4 +1,11 @@
+@import './css/_variables.scss';
+
+html {
+  font-size: 10px;
+}
+
 body {
+  margin: 0;
   font-family: sans-serif;
 
   a {
@@ -9,20 +16,16 @@ body {
     display: block;
   }
 
-  nav a {
-    display: inline-block;
-    margin: 1em;
-  }
-
   form div {
     margin: 1em;
     display: inline-block;
   }
+
+  button {
+
+  }
 }
 
-body {
-  margin: 0;
-  padding: 1em;
-  font-family: sans-serif;
-  background: #f0f0f0;
+.main-wrapper {
+  display: flex;
 }

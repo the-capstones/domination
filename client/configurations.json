@@ -27,9 +27,9 @@
     "width": 2000,
     "height": 1600,
     "layout": { "width": 3, "height": 3, "flat": false, "spacing": 1.05 },
-    "origin": { "x": -55, "y": -45 },
+    "origin": { "x": -58, "y": -46 },
     "map": "rectangle",
-    "mapProps": [ 20, 10 ]
+    "mapProps": [ 15, 12 ]
   },
   "orientedRectangle": {
     "width": 1000,
