@@ -20,10 +20,12 @@ const Sidebar = (props) => {
               ? <div>
                 <Link to="/home">Home</Link>
                 <a href="#" onClick={handleClick}>Logout</a>
+                <Link to="/rules">Rules</Link>
               </div>
               : <div>
                 <Link to="/login">Login</Link>
                 <Link to="/signup">Sign Up</Link>
+                <Link to="/rules">Rules</Link>
               </div>
           }
         </div>
