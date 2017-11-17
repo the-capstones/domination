@@ -4,7 +4,11 @@ import { Router } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import history from './history';
+<<<<<<< HEAD
 import { Main, Login, Signup, UserHome, Sidebar, Board, Settings, CombatRisk, CombatCustom } from './components';
+=======
+import { Main, Login, Signup, UserHome, Sidebar, Board, Settings, ChannelList } from './components';
+>>>>>>> master
 import { me } from './store';
 /**
  * COMPONENT
@@ -24,6 +28,7 @@ class Routes extends Component {
           <Route path="/" component={Sidebar} />
           <Switch>
             <Route path="/play" component={Board} />
+            <Route path="/channels" component={ChannelList} />
             <Route exact path="/" component={Login} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
