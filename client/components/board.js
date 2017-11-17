@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import store, { setConfig, setHexagons } from '../store';
 import { HexGrid, Layout, Hexagon, Text, GridGenerator, HexUtils, Pattern } from 'react-hexgrid';
 import configs from '../configurations';
+import firebase from '../firebase'
 
 import '../css/_board.scss';
 
