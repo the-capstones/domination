@@ -10,3 +10,4 @@ export { default as Board } from './board';
 export { default as Sidebar } from './sidebar';
 export { default as Settings } from './settings';
 export { default as AllotmentGUI } from './allotment';
+export { default as ChannelList } from './channelList';
