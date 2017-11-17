@@ -4,7 +4,7 @@ import { Router } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import history from './history';
-import { Main, Login, Signup, UserHome, Sidebar, Board, Settings, JoinGame } from './components';
+import { Main, Login, Signup, UserHome, Sidebar, Board, Settings, NewGame } from './components';
 import { me } from './store';
 /**
  * COMPONENT
@@ -24,7 +24,7 @@ class Routes extends Component {
           <Route path="/" component={Sidebar} />
           <Switch>
             <Route path="/play" component={Board} />
-            <Route path="/join" component={JoinGame} />
+            <Route path="/newGame" component={NewGame} />
             <Route exact path="/" component={Login} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
