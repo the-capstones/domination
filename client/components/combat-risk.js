@@ -13,6 +13,12 @@ const CombatRisk = () => {
           <button>END COMBAT</button>
         </div>
 
+        <div className="unit-container">
+          <h2>10</h2>
+          <label>UNITS</label>
+          <label>REMAINING</label>
+        </div>
+
         <div className="roll-container">
           <div className="die-container">
             <img src="assets/wizard-avatar.jpg" />
@@ -41,6 +47,13 @@ const CombatRisk = () => {
         <div className="option-container">
           <label>ENEMY</label>
         </div>
+
+        <div className="unit-container">
+          <h2>10</h2>
+          <label>UNITS</label>
+          <label>REMAINING</label>
+        </div>
+
 
         <div className="roll-container">
           <div className="enemy-die-container">

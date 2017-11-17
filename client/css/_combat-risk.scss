@@ -23,7 +23,7 @@
 .option-container {
   display: flex;
   flex-direction: column;
-  flex-basis: 50%;
+  flex-basis: 33%;
   background: $black-light;
   margin: 0.5rem 0.25rem 0.5rem 0.25rem;
   justify-content: space-around;
@@ -34,10 +34,29 @@
   }
 }
 
+.unit-container {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 33%;
+  background: $black-light;
+  margin: 0.5rem 0.25rem 0.5rem 0.25rem;
+  justify-content: space-around;
+
+  label {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 4rem;
+    margin: 2rem;
+  }
+}
+
 .roll-container {
   display: flex;
   flex-direction: column;
-  flex-basis: 50%;
+  flex-basis: 33%;
   justify-content: center;
   align-items: center;
 }
