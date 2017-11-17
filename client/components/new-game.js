@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import { withRouter, Link } from 'react-router-dom';
-import  {auth, setInGame } from '../store'
+import  {auth, setInGame, setBoardName, setMaxPlayers, setBoardId } from '../store'
 
 import '../css/_auth-form.scss';
 
@@ -16,12 +16,12 @@ const NewGame = (props) => {
       <h1>Start a New Game</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="gameName"><small>Game Room Name</small></label>
-          <input name="gameName" type="text" />
+          <label htmlFor="boardName"><small>Game Room Name</small></label>
+          <input name="boardName" type="text" />
         </div>
         <div>
-          <label htmlFor="numPlayers"><small>Max # of Players</small></label>
-          <input name="numPlayers" type="text" />
+          <label htmlFor="maxPlayers"><small>Max # of Players</small></label>
+          <input name="maxPlayers" type="text" />
         </div>
         <div>Select game settings</div>
         <div>
@@ -44,12 +44,12 @@ const mapDispatch = (dispatch, ownProps) => {
   return {
     handleSubmit (evt) {
       evt.preventDefault();
-      const gameName = evt.target.gameName.value;
-      const numPlayers = evt.target.numPlayers.value;
-
+      const boardName = evt.target.boardName.value;
+      const maxPlayers = evt.target.maxPlayers.value;
+      dispatch(setBoardName(boardName));
+      dispatch(setMaxPlayers(maxPlayers));
       dispatch(setInGame(true))
       ownProps.history.push('/play')
-
     }
   }
 }

@@ -6,6 +6,8 @@ import user from './user';
 import hexagons from './boardHexagon';
 import config from './boardConfig';
 import boardId from './boardId';
+import boardName from './boardName';
+import maxPlayers from './maxPlayers';
 import gameSettings from './gameSettings';
 import playerOrder from './playerOrder';
 import currentPlayer from './currentPlayer';
@@ -24,6 +26,8 @@ const board = combineReducers({
   hexagons,
   config,
   state,
+  boardName,
+  maxPlayers
 });
 
 const reducer = combineReducers({
@@ -44,4 +48,6 @@ export * from './user';
 export * from './boardHexagon';
 export * from './boardConfig';
 export * from './boardId';
+export * from './boardName';
 export * from './inGame';
+export * from './maxPlayers';

@@ -24,7 +24,8 @@ class Board extends Component {
 
   componentDidMount() {
     const { hexagons, config } = this.state;
-    this.props.initializeBoard(hexagons)
+    const { boardName, maxPlayers } = this.props;
+    this.props.initializeBoard(hexagons, boardName, maxPlayers)
     // store.dispatch(setHexagons(hexagons));
     store.dispatch(setConfig(config));
 
@@ -73,7 +74,9 @@ class Board extends Component {
 const mapState = (state) => {
   return {
     hexagons: state.board.hexagons,
-    config: state.board.config
+    config: state.board.config,
+    boardName: state.board.boardName,
+    maxPlayers: state.board.maxPlayers
   }
 }
 
@@ -84,8 +87,8 @@ const mapDispatch = (dispatch) => {
     handleClick() {
       dispatch(logout())
     },
-    initializeBoard(hexagons) {
-      dispatch(initializeBoard(hexagons))
+    initializeBoard(hexagons, boardName, maxPlayers) {
+      dispatch(initializeBoard(hexagons, boardName, maxPlayers))
     }
   }
 }
