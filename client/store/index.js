@@ -3,17 +3,14 @@ import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import user from './user';
-import hexagon from './boardHexagon';
+import hexagons from './boardHexagon';
 import config from './boardConfig';
-<<<<<<< HEAD
 import boardId from './boardId';
 import gameSettings from './gameSettings';
 import playerOrder from './playerOrder';
 import currentPlayer from './currentPlayer';
 import currentPhase from './currentPhase';
-=======
 import inGame from './inGame';
->>>>>>> master
 
 const state = combineReducers({
   gameSettings,
@@ -24,7 +21,7 @@ const state = combineReducers({
 
 const board = combineReducers({
   boardId,
-  hexagon,
+  hexagons,
   config,
   state,
 });
@@ -46,8 +43,5 @@ export default store
 export * from './user';
 export * from './boardHexagon';
 export * from './boardConfig';
-<<<<<<< HEAD
 export * from './boardId';
-=======
 export * from './inGame';
->>>>>>> master
