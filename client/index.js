@@ -4,9 +4,11 @@ import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import store from './store'
 import Routes from './routes'
+import firebase from 'firebase'
 
 // establishes socket connection
 import './socket'
+
 
 ReactDOM.render(
   <Provider store={store}>
