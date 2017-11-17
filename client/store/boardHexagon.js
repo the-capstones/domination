@@ -1,29 +1,24 @@
 import axios from 'axios';
 
-/**
- * ACTION TYPES
- */
+// ACTION TYPES
+
 const SET_HEXAGONS = 'SET_HEXAGONS';
 
-/**
- * INITIAL STATE
- */
+// INITIAL STATE
+
 const defaultHexagons = {
   hexagons: [],
 };
 
-/**
- * ACTION CREATORS
- */
+// ACTION CREATORS
+
 export const setHexagons = hexagons => ({type: SET_HEXAGONS, hexagons});
 
-/**
- * THUNK CREATORS
- */
+//THUNK CREATORS
 
-/**
- * REDUCER
- */
+
+//REDUCER
+
 export default function (state = defaultHexagons, action) {
   switch (action.type) {
     case SET_HEXAGONS:
@@ -32,3 +27,4 @@ export default function (state = defaultHexagons, action) {
       return state
   }
 }
+

@@ -72,6 +72,8 @@ const mapState = (state) => {
 }
 
 const mapDispatch = (dispatch) => {
+  //THIS IS WHERE YOU ADD EVENT LISTENERS FOR FIREBASE (CHILD_ADDED ETC)
+  //EG watchGuestsAddedEvent(dispatch) [need dispatch]
   return {
     handleClick() {
       dispatch(logout())
@@ -89,3 +91,4 @@ export default connect(mapState, mapDispatch)(Board);
 Board.propTypes = {
 
 }
+

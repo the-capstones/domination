@@ -6,6 +6,7 @@ import user from './user';
 import hexagon from './boardHexagon';
 import config from './boardConfig';
 import inGame from './inGame';
+import gameId from './gameId';
 
 const board = combineReducers({ hexagon, config });
 
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   user,
   board,
   inGame,
+  gameId
 });
 
 const middleware = composeWithDevTools(applyMiddleware(
@@ -27,3 +29,4 @@ export * from './user';
 export * from './boardHexagon';
 export * from './boardConfig';
 export * from './inGame';
+export * from './gameId';
