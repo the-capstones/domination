@@ -9,7 +9,7 @@ import '../css/_auth-form.scss';
 // COMPONENT
 
 const NewGame = (props) => {
-  const { handleSubmit, tempChangeInGame } = props
+  const { handleSubmit } = props
 
   return (
     <div className="form">
@@ -25,7 +25,7 @@ const NewGame = (props) => {
         </div>
         <div>Select game settings</div>
         <div>
-          <button type="submit" onClick={tempChangeInGame}>Start Game</button>
+          <button type="submit">Start Game</button>
         </div>
       </form>
     </div>
@@ -47,10 +47,9 @@ const mapDispatch = (dispatch, ownProps) => {
       const gameName = evt.target.gameName.value;
       const numPlayers = evt.target.numPlayers.value;
 
-      ownProps.history.push('/play')
-    },
-    tempChangeInGame() {
       dispatch(setInGame(true))
+      ownProps.history.push('/play')
+
     }
   }
 }
