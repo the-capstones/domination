@@ -1,8 +1,8 @@
 import React from 'react';
 
-import '../css/_combat.scss';
+import '../css/_combat-custom.scss';
 
-const Combat = () => {
+const CombatCustom = () => {
   return (
     <div className="combat">
       <div className="battalion-container">
@@ -98,4 +98,4 @@ const Combat = () => {
   )
 }
 
-export default Combat;
+export default CombatCustom;

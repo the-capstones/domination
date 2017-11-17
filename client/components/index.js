@@ -9,3 +9,5 @@ export { Login, Signup } from './auth-form';
 export { default as Board } from './board';
 export { default as Sidebar } from './sidebar';
 export { default as Settings } from './settings';
+export { default as CombatRisk } from './combat-risk';
+export { default as CombatCustom } from './combat-custom';
