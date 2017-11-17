@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import store, { setConfig, setHexagons, initializeBoard } from '../store';
 import { HexGrid, Layout, Hexagon, Text, GridGenerator, HexUtils, Pattern } from 'react-hexgrid';
 import configs from '../configurations';
-import firebase from '../firebase'
+import firebase from '../firebase';
 
 import '../css/_board.scss';
 
@@ -14,6 +14,11 @@ class Board extends Component {
     const config = configs['rectangle'];
     const generator = GridGenerator.getGenerator(config.map);
     const hexagons = generator.apply(this, config.mapProps);
+    hexagons.forEach(hex => {
+      hex.id = `${hex.q},${hex.r},${hex.s}`;
+      if (!hex.owner) hex.owner = '';
+      if (!hex.moves) hex.moves = 0;
+    });
     this.state = { hexagons, config };
   }
 
