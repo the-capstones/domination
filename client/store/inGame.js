@@ -1,27 +1,22 @@
 import axios from 'axios';
 
-/**
- * ACTION TYPES
- */
+// ACTION TYPES
+
 const SET_IN_GAME = 'SET_IN_GAME';
 
-/**
- * INITIAL STATE
- */
+// INITIAL STATE
+
 const defaultInGame = false;
 
-/**
- * ACTION CREATORS
- */
+// ACTION CREATORS
+
 export const setInGame = inGame => ({type: SET_IN_GAME, inGame});
 
-/**
- * THUNK CREATORS
- */
+// THUNK CREATORS
 
-/**
- * REDUCER
- */
+
+// REDUCER
+
 export default function (state = defaultInGame, action) {
   switch (action.type) {
     case SET_IN_GAME:

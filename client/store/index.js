@@ -11,6 +11,7 @@ import playerOrder from './playerOrder';
 import currentPlayer from './currentPlayer';
 import currentPhase from './currentPhase';
 import inGame from './inGame';
+import gameId from './gameId';
 
 const state = combineReducers({
   gameSettings,
@@ -30,6 +31,7 @@ const reducer = combineReducers({
   user,
   board,
   inGame,
+  gameId
 });
 
 const middleware = composeWithDevTools(applyMiddleware(
@@ -45,3 +47,4 @@ export * from './boardHexagon';
 export * from './boardConfig';
 export * from './boardId';
 export * from './inGame';
+export * from './gameId';

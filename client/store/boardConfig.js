@@ -1,29 +1,24 @@
 import axios from 'axios';
 
-/**
- * ACTION TYPES
- */
+// ACTION TYPES
+
 const SET_CONFIG = 'SET_CONFIG';
 
-/**
- * INITIAL STATE
- */
+// INITIAL STATE
+
 const defaultConfig = {
   config: {},
 };
 
-/**
- * ACTION CREATORS
- */
+// ACTION CREATORS
+
 export const setConfig = config => ({type: SET_CONFIG, config});
 
-/**
- * THUNK CREATORS
- */
+// THUNK CREATORS
 
-/**
- * REDUCER
- */
+
+// REDUCER
+
 export default function (state = defaultConfig, action) {
   switch (action.type) {
     case SET_CONFIG:
