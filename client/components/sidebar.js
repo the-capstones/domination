@@ -36,6 +36,7 @@ const { isLoggedIn, handleClick, inGame, tempChangeInGame } = props;
       {!inGame && isLoggedIn && (<div>
         <div className="home-menu">
           <Link to="/play" onClick={tempChangeInGame}>Start Game</Link>
+          <Link to="/join">Join Game</Link>
           <Link to="/settings">Settings</Link>
         </div>
       </div>)
@@ -103,7 +104,8 @@ const mapDispatch = (dispatch) => {
     },
     tempChangeInGame() {
       dispatch(setInGame(true))
-    }
+    },
+
   }
 }
 
