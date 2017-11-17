@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import store, { setConfig, setHexagons } from '../store';
+import store, { setConfig, setHexagons, initializeBoard } from '../store';
 import { HexGrid, Layout, Hexagon, Text, GridGenerator, HexUtils, Pattern } from 'react-hexgrid';
 import configs from '../configurations';
-import firebase from '../firebase'
+import firebase from '../firebase';
 
 import '../css/_board.scss';
 
@@ -14,12 +14,18 @@ class Board extends Component {
     const config = configs['rectangle'];
     const generator = GridGenerator.getGenerator(config.map);
     const hexagons = generator.apply(this, config.mapProps);
+    hexagons.forEach(hex => {
+      hex.id = `${hex.q},${hex.r},${hex.s}`;
+      if (!hex.owner) hex.owner = '';
+      if (!hex.moves) hex.moves = 0;
+    });
     this.state = { hexagons, config };
   }
 
   componentDidMount() {
     const { hexagons, config } = this.state;
-    store.dispatch(setHexagons(hexagons));
+    this.props.initializeBoard(hexagons)
+    // store.dispatch(setHexagons(hexagons));
     store.dispatch(setConfig(config));
 
     // adds id's of coordinates to the polygon from a dummy div because you can't add it directly then deletes dummy div from dom
@@ -72,9 +78,14 @@ const mapState = (state) => {
 }
 
 const mapDispatch = (dispatch) => {
+  //THIS IS WHERE YOU ADD EVENT LISTENERS FOR FIREBASE (CHILD_ADDED ETC)
+  //EG watchGuestsAddedEvent(dispatch) [need dispatch]
   return {
     handleClick() {
       dispatch(logout())
+    },
+    initializeBoard(hexagons) {
+      dispatch(initializeBoard(hexagons))
     }
   }
 }
@@ -89,3 +100,4 @@ export default connect(mapState, mapDispatch)(Board);
 Board.propTypes = {
 
 }
+
