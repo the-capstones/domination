@@ -5,6 +5,11 @@
   margin: 0.5rem;
   height: calc(100vh - 1rem - 2px);
   background: $black;
+
+  h1 {
+    text-align: center;
+    font-family: $title;
+  }
 }
 
 nav {
@@ -99,5 +104,28 @@ nav {
 
   .fa-pie-chart:hover {
     color: $primary;
+  }
+}
+
+
+.home-menu {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 1rem 0;
+
+  a {
+    font-size: 2rem;
+    text-align: center;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0;
+    border: none;
+    background: $neutral;
+    color: $black;
+  }
+
+  a:hover {
+    background: $primary;
+    color: white;
   }
 }

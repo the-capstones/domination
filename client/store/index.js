@@ -5,11 +5,15 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import user from './user';
 import hexagon from './boardHexagon';
 import config from './boardConfig';
+<<<<<<< HEAD
 import boardId from './boardId';
 import gameSettings from './gameSettings';
 import playerOrder from './playerOrder';
 import currentPlayer from './currentPlayer';
 import currentPhase from './currentPhase';
+=======
+import inGame from './inGame';
+>>>>>>> master
 
 const state = combineReducers({
   gameSettings,
@@ -28,6 +32,7 @@ const board = combineReducers({
 const reducer = combineReducers({
   user,
   board,
+  inGame,
 });
 
 const middleware = composeWithDevTools(applyMiddleware(
@@ -41,4 +46,8 @@ export default store
 export * from './user';
 export * from './boardHexagon';
 export * from './boardConfig';
+<<<<<<< HEAD
 export * from './boardId';
+=======
+export * from './inGame';
+>>>>>>> master
