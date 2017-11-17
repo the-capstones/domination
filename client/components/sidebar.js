@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout, initializeBoard } from '../store';
+import { logout, setInGame } from '../store';
 
 import '../css/_sidebar.scss';
 
@@ -102,7 +102,7 @@ const mapDispatch = (dispatch) => {
       dispatch(logout())
     },
     tempChangeInGame() {
-      dispatch(initializeBoard(true))
+      dispatch(setInGame(true))
     }
   }
 }

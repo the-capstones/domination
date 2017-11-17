@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import store, { setConfig, setHexagons } from '../store';
+import store, { setConfig, setHexagons, initializeBoard } from '../store';
 import { HexGrid, Layout, Hexagon, Text, GridGenerator, HexUtils, Pattern } from 'react-hexgrid';
 import configs from '../configurations';
 import firebase from '../firebase'
@@ -19,7 +19,8 @@ class Board extends Component {
 
   componentDidMount() {
     const { hexagons, config } = this.state;
-    store.dispatch(setHexagons(hexagons));
+    this.props.initializeBoard(hexagons)
+    // store.dispatch(setHexagons(hexagons));
     store.dispatch(setConfig(config));
 
     // adds id's of coordinates to the polygon from a dummy div because you can't add it directly then deletes dummy div from dom
@@ -77,6 +78,9 @@ const mapDispatch = (dispatch) => {
   return {
     handleClick() {
       dispatch(logout())
+    },
+    initializeBoard(hexagons) {
+      dispatch(initializeBoard(hexagons))
     }
   }
 }
