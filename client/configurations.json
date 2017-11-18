@@ -29,7 +29,7 @@
     "layout": { "width": 5, "height": 5, "flat": false, "spacing": 1.05 },
     "origin": { "x": -72, "y": -44 },
     "map": "rectangle",
-    "mapProps": [ 7, 7 ]
+    "mapProps": [ 16, 12 ]
   },
   "orientedRectangle": {
     "width": 1000,

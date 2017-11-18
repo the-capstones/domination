@@ -42,9 +42,13 @@ class Board extends Component {
   }
 
   divvySpaces() {
+    //MOCK PLAYERS - DELETE THIS WHEN WE SET PLAYERS ON THE STATE
+    this.props.players.push('Player1', 'Player2', 'Player3')
+    //THIS FUNCTION ALREADY GETS THE PLAYERS FROM THE STATE, BUT THERE AREN"T PLAYERS ON THE STATE YET
+
     let numPlayerSpaces;
     let numPlayers = this.props.players.length;
-    let numVoidSpaces = Math.floor(this.state.hexagons.length / 20);
+    let numVoidSpaces = Math.floor(this.state.hexagons.length / 10) * 2;
     let numAllotSpaces = this.state.hexagons.length - numVoidSpaces;
 
     if (numPlayers >= 2) {
