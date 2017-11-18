@@ -12,12 +12,16 @@ import currentPlayer from './currentPlayer';
 import currentPhase from './currentPhase';
 import inGame from './inGame';
 import gameId from './gameId';
+import allotmentLeft from './allotmentLeft';
+import selectedHex from './selectedHex';
 
 const state = combineReducers({
   gameSettings,
   playerOrder,
   currentPlayer,
   currentPhase,
+  allotmentLeft,
+  selectedHex,
 });
 
 const board = combineReducers({
@@ -48,3 +52,5 @@ export * from './boardConfig';
 export * from './boardId';
 export * from './inGame';
 export * from './gameId';
+export * from './allotmentLeft';
+export * from './selectedHex';
