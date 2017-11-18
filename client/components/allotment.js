@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import store, { updateHex } from '../store';
+import store, { updateHex, setAllotmentLeft } from '../store';
 
 import '../css/_allotment-gui.scss';
 
@@ -12,7 +12,7 @@ const AllotmentGUI = (props) => {
     <div className="allotment-gui-wrapper">
 
       <div className='allotment'>
-        <button onClick={() => addUnit(hexId, hexagons)}>
+        <button onClick={() => addUnit(hexId, hexagons, allotmentLeft)}>
           <i className="fa fa-plus" aria-hidden="true"></i>
         </button>
         <span className='muted'>{allotmentLeft}</span><span> unit left</span>
@@ -33,10 +33,14 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    addUnit(id, hexagons) {
-      const hexagon = hexagons.filter(hex => hex.id === id)[0];
-      const units = hexagon.units + 1;
-      store.dispatch(updateHex(id, { units }));
+    addUnit(id, hexagons, allotmentLeft) {
+      if (allotmentLeft > 0) {
+        const newAllotmentPoints = allotmentLeft > 0 ? allotmentLeft - 1 : 0;
+        const hexagon = hexagons.filter(hex => hex.id === id)[0];
+        const units = hexagon.units + 1;
+        store.dispatch(updateHex(id, { units }));
+        store.dispatch(setAllotmentLeft(newAllotmentPoints));
+      }
     }
   }
 }
