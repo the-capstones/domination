@@ -7,7 +7,7 @@ const SET_MAX_PLAYERS = 'SET_MAX_PLAYERS';
 
 // INITIAL STATE
 
-const defaultMaxPlayers = 1;
+const defaultMaxPlayers = 2;
 
 // ACTION CREATORS
 

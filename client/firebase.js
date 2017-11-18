@@ -11,4 +11,5 @@ let config = {
 firebase.initializeApp(config);
 
 const database = firebase.database()
+firebase.database.enableLogging(true)
 export default database

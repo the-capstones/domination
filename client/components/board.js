@@ -11,14 +11,7 @@ import '../css/_board.scss';
 class Board extends Component {
   constructor(props) {
     super(props);
-    const config = configs['rectangle'];
-    const generator = GridGenerator.getGenerator(config.map);
-    const hexagons = generator.apply(this, config.mapProps);
-    hexagons.forEach(hex => {
-      hex.id = `${hex.q},${hex.r},${hex.s}`;
-      if (!hex.owner) hex.owner = '';
-      if (!hex.moves) hex.moves = 0;
-    });
+
     this.state = { hexagons, config };
   }
 
