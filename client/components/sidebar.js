@@ -2,13 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout, setInGame } from '../store';
+import { logout, setInGame, setCurrentPhase, setCurrentPlayer } from '../store';
 
 import '../css/_sidebar.scss';
 
 const Sidebar = (props) => {
 
-const { isLoggedIn, handleClick, inGame } = props;
+  const {
+    isLoggedIn,
+    handleClick,
+    inGame,
+    user,
+    currentPhase,
+    currentPlayer,
+    changePhase,
+    playerOrder,
+  } = props;
 
   return (
     <div className="sidebar-wrapper">
@@ -82,6 +91,18 @@ const { isLoggedIn, handleClick, inGame } = props;
         </div>)
       }
 
+      {currentPlayer === user
+        && inGame
+        && (
+          <div>
+            <button className="phase-btn" onClick={() => changePhase(currentPhase, currentPlayer, playerOrder)}>
+              {
+                currentPhase === 'allotment' ? 'Start Attack Phase' : 'End Turn'
+              }
+            </button>
+          </div>
+        )
+      }
     </div>
   )
 }
@@ -91,8 +112,12 @@ const { isLoggedIn, handleClick, inGame } = props;
  */
 const mapState = (state) => {
   return {
+    user: state.user.email,
     isLoggedIn: !!state.user.id,
     inGame: state.inGame,
+    currentPlayer: state.board.state.currentPlayer,
+    currentPhase: state.board.state.currentPhase,
+    playerOrder: state.board.state.playerOrder,
   }
 }
 
@@ -100,6 +125,26 @@ const mapDispatch = (dispatch) => {
   return {
     handleClick() {
       dispatch(logout())
+    },
+    changePhase(currentPhase, currentPlayer, playerOrder) {
+      if (currentPhase === 'allotment') {
+        dispatch(setCurrentPhase('attack'));
+      }
+      else {
+        const currIdx = playerOrder.indexOf(currentPlayer);
+        let nextIdx;
+
+        if (currIdx === playerOrder.length - 1) {
+          nextIdx = 0;
+        }
+        else {
+          nextIdx = currIdx + 1;
+        }
+
+        const nextPlayer = playerOrder[nextIdx];
+        dispatch(setCurrentPlayer(nextPlayer));
+        dispatch(setCurrentPhase('allotment'));
+      }
     }
   }
 }

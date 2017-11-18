@@ -57,3 +57,7 @@ export * from './inGame';
 export * from './allotmentLeft';
 export * from './selectedHex';
 export * from './maxPlayers';
+export * from './currentPhase';
+export * from './currentPlayer';
+export * from './playerOrder';
+export * from './gameSettings';
