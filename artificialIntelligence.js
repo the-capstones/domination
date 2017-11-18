@@ -49,5 +49,71 @@ function expectedProbability(arr) {
   return probabilityObject;
 }
 // Step 4) Define the probability objects for two dice and three dice for easy reference
-const twoDiceProbability = expectedProbability(twoDice);
-const threeDiceProbability = expectedProbability(threeDice);
+const defendObj = expectedProbability(twoDice);
+const attackObj = expectedProbability(threeDice);
+
+// Step 5) Calculate the probability that an attacker will win in a 1 on 1 battle
+function calculateAttackerWinPercentage(arr, attackObj, defendObj){
+  let attackerWinPercentage = 0
+  arr.forEach(diceCombo => {
+      if (diceCombo[0] > diceCombo[1]) {
+        //   console.log(diceCombo, 'attacker won')
+          attackerWinPercentage += attackObj[diceCombo[0]] * defendObj[diceCombo[1]]
+      } else {
+        //   console.log(diceCombo, 'defender won')
+        }
+  })
+  return attackerWinPercentage
+}
+
+const attackerWinPercentage = calculateAttackerWinPercentage(diceCombinations(2), attackObj, defendObj)
+// console.log(attackerWinPercentage)
+
+function bestDamnedBattleMatrix(originalA, originalD, currentA, currentD, aWinPercent, battleObject = {}){
+// track the start time of this function
+// build the object structure if it doesn't already exist
+if (!battleObject[originalA]){battleObject[originalA] = {}}
+if (!battleObject[originalA][originalD]){battleObject[originalA][originalD] = {}}
+if (!battleObject[originalA][originalD].A){battleObject[originalA][originalD].A = {}}
+if (!battleObject[originalA][originalD].D){battleObject[originalA][originalD].D = {}}
+// define the probability calculation for the leaves of the tree
+let probabilityCalc = Math.pow(aWinPercent, (originalD - currentD)) *
+Math.pow((1 - aWinPercent), (originalA - currentA))
+// if all the attackers are dead, add to the battle matrix for the defender
+if (currentA === 0) {
+    // if this object has already been hit by another leaf, we want to add to it, not replace it
+    if (battleObject[originalA][originalD].D[currentD]) {
+        battleObject[originalA][originalD].D[currentD] += probabilityCalc
+    } else { // if not, we'll just initialize it
+    battleObject[originalA][originalD].D[currentD] = probabilityCalc
+}
+}
+// if all the defenders are dead, add to the battle matrix for the attacker
+else if (currentD === 0) {
+    // if this object has already been hit by another leaf, we want to add to it, not replace it
+    if (battleObject[originalA][originalD].A[currentA]) {
+        battleObject[originalA][originalD].A[currentA] += probabilityCalc
+    } else { // if not, we'll just initialize it
+    battleObject[originalA][originalD].A[currentA] = probabilityCalc
+}
+}
+// if there are still units on both sides, split the tree
+else {
+    bestDamnedBattleMatrix(originalA, originalD, currentA - 1, currentD, aWinPercent, battleObject)
+    bestDamnedBattleMatrix(originalA, originalD, currentA, currentD - 1, aWinPercent, battleObject)
+}
+// log the end time of this function
+}
+console.time('start')
+let fullBattleMatrix = {}
+bestDamnedBattleMatrix(17, 17, 17, 17, attackerWinPercentage, fullBattleMatrix)
+console.timeEnd('start')
+console.log(fullBattleMatrix[17][17])
+
+//building a battle matrix times by match up
+// 17 v 17 - 336 seconds
+// 16 v 16 - 89 seconds
+// 15 v 15 - 24 seconds
+// 14 v 14 - 6 seconds
+// 13 v 13 - 1.5 seconds
+// 12 v 12 - 0.5 seconds
