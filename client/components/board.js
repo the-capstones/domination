@@ -26,7 +26,8 @@ class Board extends Component {
 
   componentDidMount() {
     const { hexagons, config } = this.state;
-    this.props.initializeBoard(hexagons)
+    const { boardName, maxPlayers } = this.props;
+    this.props.initializeBoard(hexagons, boardName, maxPlayers)
     // store.dispatch(setHexagons(hexagons));
     store.dispatch(setConfig(config));
 
@@ -87,6 +88,8 @@ const mapState = (state) => {
     config: state.board.config,
     currentPhase: state.board.state.currentPhase,
     selectedHex: state.board.state.selectedHex,
+    boardName: state.board.boardName,
+    maxPlayers: state.board.maxPlayers
   }
 }
 
@@ -94,11 +97,8 @@ const mapDispatch = (dispatch) => {
   //THIS IS WHERE YOU ADD EVENT LISTENERS FOR FIREBASE (CHILD_ADDED ETC)
   //EG watchGuestsAddedEvent(dispatch) [need dispatch]
   return {
-    handleClick() {
-      dispatch(logout())
-    },
-    initializeBoard(hexagons) {
-      dispatch(initializeBoard(hexagons))
+    initializeBoard(hexagons, boardName, maxPlayers) {
+      dispatch(initializeBoard(hexagons, boardName, maxPlayers))
     },
     renderAllotmentGUI(phase, id, selectedHexId) {
       if (phase === 'allotment') {

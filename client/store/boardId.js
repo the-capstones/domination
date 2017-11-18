@@ -1,26 +1,22 @@
 import axios from 'axios';
+import firebase from '../firebase'
 
-/**
- * ACTION TYPES
- */
+// ACTION TYPES
+
 const SET_BOARD_ID = 'SET_BOARD_ID';
 
-/**
- * INITIAL STATE
- */
+// INITIAL STATE
+
 const defaultBoardId = null;
-/**
- * ACTION CREATORS
- */
+// ACTION CREATORS
+
 export const setBoardId = boardId => ({type: SET_BOARD_ID, boardId});
 
-/**
- * THUNK CREATORS
- */
+// THUNK CREATORS
 
-/**
- * REDUCER
- */
+
+// REDUCER
+
 export default function (state = defaultBoardId, action) {
   switch (action.type) {
     case SET_BOARD_ID:

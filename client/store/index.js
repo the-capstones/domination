@@ -6,12 +6,13 @@ import user from './user';
 import hexagons from './boardHexagon';
 import config from './boardConfig';
 import boardId from './boardId';
+import boardName from './boardName';
+import maxPlayers from './maxPlayers';
 import gameSettings from './gameSettings';
 import playerOrder from './playerOrder';
 import currentPlayer from './currentPlayer';
 import currentPhase from './currentPhase';
 import inGame from './inGame';
-import gameId from './gameId';
 import allotmentLeft from './allotmentLeft';
 import selectedHex from './selectedHex';
 
@@ -29,13 +30,14 @@ const board = combineReducers({
   hexagons,
   config,
   state,
+  boardName,
+  maxPlayers
 });
 
 const reducer = combineReducers({
   user,
   board,
-  inGame,
-  gameId
+  inGame
 });
 
 const middleware = composeWithDevTools(applyMiddleware(
@@ -50,7 +52,8 @@ export * from './user';
 export * from './boardHexagon';
 export * from './boardConfig';
 export * from './boardId';
+export * from './boardName';
 export * from './inGame';
-export * from './gameId';
 export * from './allotmentLeft';
 export * from './selectedHex';
+export * from './maxPlayers';
