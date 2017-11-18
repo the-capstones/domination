@@ -47,56 +47,58 @@ class Board extends Component {
     let numVoidSpaces = Math.floor(this.state.hexagons.length / 20);
     let numAllotSpaces = this.state.hexagons.length - numVoidSpaces;
 
-    if (numAllotSpaces % numPlayers !== 0) {
-      let numExtra = numAllotSpaces % numPlayers;
-      numVoidSpaces += numExtra;
-      numAllotSpaces -= numExtra;
-    }
+    if (numPlayers >= 2) {
+      if (numAllotSpaces % numPlayers !== 0) {
+        let numExtra = numAllotSpaces % numPlayers;
+        numVoidSpaces += numExtra;
+        numAllotSpaces -= numExtra;
+      }
 
-    numPlayerSpaces = numAllotSpaces / numPlayers;
+      numPlayerSpaces = numAllotSpaces / numPlayers;
 
-    console.log('Spaces/Player', numPlayerSpaces)
-    console.log('VOID', numVoidSpaces)
+      console.log('Spaces/Player', numPlayerSpaces)
+      console.log('VOID', numVoidSpaces)
 
-    let numRed = numPlayerSpaces;
-    let numOrange = numPlayerSpaces;
-    let numYellow = numPlayerSpaces;
-    let numGreen = numPlayerSpaces;
-    let numBlue = numPlayerSpaces;
+      let numRed = numPlayerSpaces;
+      let numOrange = numPlayerSpaces;
+      let numYellow = numPlayerSpaces;
+      let numGreen = numPlayerSpaces;
+      let numBlue = numPlayerSpaces;
 
-    let assignmentColors = [
-      {color: 'black', amount: numVoidSpaces},
-      {color: 'red', amount: numRed},
-      {color: 'orange', amount: numOrange},
-      {color: 'yellow', amount: numYellow},
-      {color: 'green', amount: numGreen},
-      {color: 'blue', amount: numBlue}]
+      let assignmentColors = [
+        {color: 'black', amount: numVoidSpaces},
+        {color: 'red', amount: numRed},
+        {color: 'orange', amount: numOrange},
+        {color: 'yellow', amount: numYellow},
+        {color: 'green', amount: numGreen},
+        {color: 'blue', amount: numBlue}]
 
-    this.state.hexagons.forEach(hex => {
-      hex = document.getElementById(hex.id)
-      while (!hex.classList[0]) {
-        let assign = Math.floor(Math.random() * (numPlayers + 1));
-        if (assignmentColors[assign].amount) {
-          assignmentColors[assign].amount--
-          switch (assignmentColors[assign].color) {
-            case 'black':
-              return hex.classList.add('hex-fill-black');
-            case 'red':
-              return hex.classList.add('hex-fill-red');
-            case 'orange':
-              return hex.classList.add('hex-fill-orange');
-            case 'yellow':
-              return hex.classList.add('hex-fill-yellow');
-            case 'green':
-              return hex.classList.add('hex-fill-green');
-            case 'blue':
-              return hex.classList.add('hex-fill-blue');
-            default:
-              break;
+      this.state.hexagons.forEach(hex => {
+        hex = document.getElementById(hex.id)
+        while (!hex.classList[0]) {
+          let assign = Math.floor(Math.random() * (numPlayers + 1));
+          if (assignmentColors[assign].amount) {
+            assignmentColors[assign].amount--
+            switch (assignmentColors[assign].color) {
+              case 'black':
+                return hex.classList.add('hex-fill-black');
+              case 'red':
+                return hex.classList.add('hex-fill-red');
+              case 'orange':
+                return hex.classList.add('hex-fill-orange');
+              case 'yellow':
+                return hex.classList.add('hex-fill-yellow');
+              case 'green':
+                return hex.classList.add('hex-fill-green');
+              case 'blue':
+                return hex.classList.add('hex-fill-blue');
+              default:
+                break;
+            }
           }
         }
-      }
-    })
+      })
+    }
   }
 
   render() {
