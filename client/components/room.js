@@ -18,14 +18,14 @@ const mapState = state => ({ board: state.board })
 
 const mapDispatch = (dispatch, ownProps) => {
   const boardId = ownProps.match.params.boardId
-  firebase.ref(`/boards/${boardId}`).once('value', snap => {
-    console.log('SNAP IS', snap.exists())
-    // dispatch(setBoard(snap.val()))
+  firebase.ref(`/${boardId}`).once('value', snap => {
+    console.log('SNAP ON CE IS', snap.exists())
+    dispatch(setBoard(snap.val()))
   })
-  firebase.ref(`/boards/${boardId}`).on('child_changed', snap => {
-    console.log('SNAP IS', snap.exists())
-    // dispatch(setBoard(snap.val()))
-  })
+  // firebase.ref(`/${boardId}`).on('child_changed', snap => {
+  //   console.log('SNAP CHANGD IS', snap.exists())
+  //   // dispatch(setBoard(snap.val()))
+  // })
   return {}
 }
 

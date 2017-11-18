@@ -1,8 +1,8 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withRouter, Link } from 'react-router-dom';
-import  {auth, setInGame, setBoardName, setMaxPlayers, setBoardId, setBoard } from '../store'
+import { auth, setInGame, setBoardName, setMaxPlayers, setBoardId, setBoard } from '../store'
 import { HexGrid, Layout, Hexagon, Text, GridGenerator, HexUtils, Pattern } from 'react-hexgrid';
 import configs from '../configurations';
 import '../css/_auth-form.scss';
@@ -38,7 +38,7 @@ const mapDispatch = (dispatch, ownProps) => {
     handleSubmit(evt) {
       evt.preventDefault();
       const boardName = evt.target.boardName.value;
-      const maxPlayers = evt.target.maxPlayers.value;
+      const maxPlayers = evt.target.maxPlayers.value || 2;
 
       // send board to firebase
       const config = configs['rectangle'];
@@ -60,20 +60,18 @@ const mapDispatch = (dispatch, ownProps) => {
       });
 
       let state = {
-        currentPhase: {allotment: 0}, // or whatever default state
+        currentPhase: { allotment: 0 }, // or whatever default state
         currentPlayer: 1, // default 1st player
-        playerOrder: [1,2,3,4], // array of all players in order of turn
+        playerOrder: [1, 2, 3, 4], // array of all players in order of turn
         gameSettings: 'default', // array/obj of game settings TBD
         status: 'waiting'
       }
+
+      let board = { hexes, state, boardName, maxPlayers }
       firebase
         .ref()
-        .push({hexes, state, boardName, maxPlayers})
-        .then(snap => {
-          console.log('SNAP IN NEWGAME IS', snap)
-          dispatch(setBoard(snap))
-          ownProps.history.push(`/board/${snap.key}`)
-        })
+        .push(board)
+        .then(snap => ownProps.history.push(`/board/${snap.key}`))
     }
   }
 }
