@@ -1,0 +1,58 @@
+@import './_variables.scss';
+
+.form {
+  background: $neutral;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  h1 {
+    font-size: 3rem;
+    text-align: center;
+    font-family: $title;
+    color: $black;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: $black;
+
+    input {
+      font-size: 2rem;
+      color: $neutral;
+      background: $black;
+      padding: 1rem;
+      border: 1px solid $black-light;
+      outline: none;
+    }
+
+    button {
+      font-size: 2rem;
+      padding: 1rem;
+      background: $black;
+      color: $neutral;
+    }
+
+    button:hover {
+      background: $primary;
+    }
+  }
+
+  a {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: $black;
+    color: $neutral;
+  }
+
+  a:hover {
+    background: $primary;
+  }
+}
