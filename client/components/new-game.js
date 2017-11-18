@@ -1,9 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { withRouter, Link } from 'react-router-dom';
-import { auth, setInGame, setBoardName, setMaxPlayers, setBoardId, setBoard } from '../store'
-import { HexGrid, Layout, Hexagon, Text, GridGenerator, HexUtils, Pattern } from 'react-hexgrid';
+import { GridGenerator } from 'react-hexgrid';
 import configs from '../configurations';
 import '../css/_auth-form.scss';
 import firebase from '../firebase'
@@ -55,8 +52,6 @@ const mapDispatch = (dispatch, ownProps) => {
           unit2: 0,
           unit3: 0
         }
-        // if (!hex.owner) hex.owner = '';
-        // if (!hex.moves) hex.moves = 0;
       });
 
       let state = {
@@ -69,7 +64,7 @@ const mapDispatch = (dispatch, ownProps) => {
 
       let board = { hexes, state, boardName, maxPlayers }
       firebase
-        .ref()
+        .ref('boards')
         .push(board)
         .then(snap => ownProps.history.push(`/board/${snap.key}`))
     }
@@ -78,19 +73,3 @@ const mapDispatch = (dispatch, ownProps) => {
 
 const NewGameContainer = connect(null, mapDispatch)(NewGame)
 export default NewGameContainer
-
-// const mapState = (state) => {
-//   return {
-
-//   }
-// }
-
-
-// const mapDispatch = (dispatch, ownProps) => {
-//   return {
-//     handleSubmit (evt) {
-
-// }
-// const NewGameContainer = withRouter(connect(mapState, mapDispatch)(NewGame))
-
-// export default NewGameContainer
