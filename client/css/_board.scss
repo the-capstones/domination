@@ -26,6 +26,7 @@ svg {
 }
 
 svg g {
+  position: relative;
   fill: $neutral;
   fill-opacity: 0.8;
 }

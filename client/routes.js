@@ -4,7 +4,20 @@ import { Router } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import history from './history';
-import { Main, Login, Signup, UserHome, Sidebar, Board, Settings, CombatRisk, CombatCustom , ChannelList, NewGame} from './components';
+import {
+  Main,
+  Login,
+  Signup,
+  UserHome,
+  Sidebar,
+  Board,
+  Settings,
+  CombatRisk,
+  CombatCustom,
+  ChannelList,
+  AllotmentGUI,
+  NewGame
+} from './components';
 import { me } from './store';
 
 // COMPONENT
@@ -36,6 +49,7 @@ class Routes extends Component {
                 <Route path="/settings" component={Settings} />
             <Route exact path="/combat-risk" component={CombatRisk} />
             <Route exact path="/combat-custom" component={CombatCustom} />
+            <Route exact path="/allotment" component={AllotmentGUI} />
               </Switch>
             }
             <Route exact path="/login" component={Login} />
