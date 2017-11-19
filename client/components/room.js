@@ -12,9 +12,7 @@ export function Room(props) {
   const status = board.state ? board.state.status : 'loading'
   return (
     <div className="room-wrapper">
-      {board.state &&
-        ( <div><h1>Now in room: {board.boardName}</h1></div> )
-      }
+
       {status === 'waiting' &&
         (
           <WaitingRoom />

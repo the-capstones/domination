@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { GridGenerator } from 'react-hexgrid';
-import configs from '../configurations';
+import { hexagons } from './gridGenerator'
 import '../css/_auth-form.scss';
 import firebase from '../firebase'
 
@@ -39,11 +38,6 @@ const mapDispatch = (dispatch, ownProps) => {
       evt.preventDefault();
       const boardName = evt.target.boardName.value;
       const maxPlayers = evt.target.maxPlayers.value || 2;
-
-      // send board to firebase
-      const config = configs['rectangle'];
-      const generator = GridGenerator.getGenerator(config.map);
-      const hexagons = generator.apply(this, config.mapProps);
       let hexes = {}
 
       hexagons.forEach(hex => {
