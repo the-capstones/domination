@@ -1,0 +1,51 @@
+@import './_variables.scss';
+
+.room-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: $black;
+  flex-direction: column;
+  z-index: 0;
+
+}
+
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  font-family: $title;
+}
+
+p, .text {
+  font-size: 3rem;
+  text-align: center;
+  font-family: $title;
+}
+
+.center {
+  text-align: center;
+}
+
+div > button {
+  font-size: 2rem;
+  padding: 1rem;
+  background: $black;
+  color: $neutral;
+}
+
+button:hover {
+  background: $primary;
+}
+
+
+#waiting-room {
+  width: 75vw;
+  height: 75vh;
+  background: $neutral;
+  color: $black;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}

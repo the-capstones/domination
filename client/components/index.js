@@ -7,6 +7,7 @@ export { default as Main } from './main';
 export { default as UserHome } from './user-home';
 export { Login, Signup } from './auth-form';
 export { default as Board } from './board';
+export { default as Room } from './room';
 export { default as NewGame } from './new-game';
 export { default as Sidebar } from './sidebar';
 export { default as Settings } from './settings';
