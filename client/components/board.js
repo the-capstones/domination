@@ -68,7 +68,7 @@ const mapDispatch = (dispatch, ownProps) => {
   // const boardId = ownProps.match.params.boardId
   return {
     renderAllotmentGUI(phase, id, selectedHexId) {
-      if (phase.hasOwnProperty('allotment')) {
+      if (phase === 'allotment') {
         const selectedHex = document.getElementById(`${selectedHexId}-algui`);
         selectedHexId && selectedHex.classList.remove('show');
         const gui = document.getElementById(`${id}-algui`);
