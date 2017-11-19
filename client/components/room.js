@@ -19,7 +19,6 @@ export function Room(props) {
         (
           <WaitingRoom />
         )
-
       }
       {status === 'playing' &&
         (
