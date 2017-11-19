@@ -881,8 +881,11 @@ const battleMatrix = {
   }
 };
 
-console.log(
-  'The chance to win a fight with 2 attackers against 1 defender is ',
-  (battleMatrix[2][1].ChanceToWin * 100).toFixed(2),
-  '%'
-);
+// console.log(
+//   'The chance to win a fight with 2 attackers against 1 defender is ',
+//   (battleMatrix[2][1].ChanceToWin * 100).toFixed(2),
+//   '%'
+// );
+
+module.exports = battleMatrix
+
