@@ -19,3 +19,10 @@ $player-orange: #c7723d;
 $player-yellow: #d5a149;
 $player-green: #83ada0;
 $player-blue: #6f9bc4;
+
+@mixin transition($transition...) {
+  -moz-transition:    $transition;
+  -o-transition:      $transition;
+  -webkit-transition: $transition;
+  transition:         $transition;
+}

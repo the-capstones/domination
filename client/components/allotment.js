@@ -1,52 +1,55 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import store, { updateHex, setAllotmentLeft } from '../store';
 
+import '../css/_allotment-gui.scss';
 
-export class AllotmentGUI extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      //visibility will be 'show' or 'hide' (for styling later)?
-      visibility: show,
-      remaining: 3
+const AllotmentGUI = (props) => {
+  const { allotmentLeft, hexId, addUnit, hexagons } = props;
+
+  return (
+    <div className="allotment-gui-wrapper">
+
+      <div className='allotment'>
+        <button onClick={() => addUnit(hexId, hexagons, allotmentLeft)}>
+          <i className="fa fa-plus" aria-hidden="true"></i>
+        </button>
+        <span className='muted'>{allotmentLeft}</span><span> unit left</span>
+      </div>
+    </div>
+  )
+}
+
+/**
+ * CONTAINER
+ */
+const mapState = (state) => {
+  return {
+    allotmentLeft: state.board.state.allotmentLeft,
+    hexagons: state.board.hexagons,
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    addUnit(id, hexagons, allotmentLeft) {
+      if (allotmentLeft > 0) {
+        const newAllotmentPoints = allotmentLeft > 0 ? allotmentLeft - 1 : 0;
+        const hexagon = hexagons.filter(hex => hex.id === id)[0];
+        const units = hexagon.units + 1;
+        store.dispatch(updateHex(id, { units }));
+        store.dispatch(setAllotmentLeft(newAllotmentPoints));
+      }
     }
   }
-
-
-  render() {
-    return (
-      <div id='allotment-gui-container' className={this.state.visibility}>
-
-        <div id='allotment-amount'>
-          <span className='muted'>{this.state.remaining}</span><span>remaining units</span>
-        </div>
-
-        <div id='allotment-control'>
-
-          <div id='allotment-totals-container'>
-              <div id='total-spaces-owned'>
-                <p>#</p>
-              </div>
-              <div id='total-units-owned'>
-                <p>#</p>
-              </div>
-          </div>
-
-          <div id='allotment-unit-container'>
-            <div id='unit-allotment-container'>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    )
-  }
 }
 
-const mapState = state => {
-  return {
-    player: state.players.currentPlayer
-  }
-}
+export default connect(mapState, mapDispatch)(AllotmentGUI);
 
-const AllotmentGUIContainer = connect(mapState)(AllotmentGUI)
+/**
+ * PROP TYPES
+ */
+AllotmentGUI.propTypes = {
+
+}

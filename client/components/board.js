@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import store, { setConfig, setHexagons, initializeBoard } from '../store';
+import { AllotmentGUI } from './';
+import store, { setConfig, setHexagons, setSelectedHex, initializeBoard } from '../store';
 import { HexGrid, Layout, Hexagon, Text, GridGenerator, HexUtils, Pattern } from 'react-hexgrid';
 import configs from '../configurations';
 import firebase from '../firebase';
@@ -19,6 +20,7 @@ class Board extends Component {
       hex.id = `${hex.q},${hex.r},${hex.s}`;
       if (!hex.owner) hex.owner = '';
       if (!hex.moves) hex.moves = 0;
+      if (!hex.units) hex.units = 0;
     });
     this.state = { hexagons, config };
   }
@@ -107,6 +109,7 @@ class Board extends Component {
 
   render() {
     const { hexagons, config } = this.state;
+    const { selectedHex, currentPhase, renderAllotmentGUI, selectHex } = this.props;
     const layout = config.layout;
     const size = { x: layout.width, y: layout.height };
 
@@ -115,17 +118,25 @@ class Board extends Component {
         <HexGrid width={config.width} height={config.height}>
           <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
             {
-              hexagons.map((hex, i) => (
-                <Hexagon
+              hexagons.map((hex, i) => {
+                const hexId = `${hex.q},${hex.r},${hex.s}`;
+                return (<Hexagon
                   key={i}
                   q={hex.q}
                   r={hex.r}
                   s={hex.s}
+                  onClick={() => {
+                    renderAllotmentGUI(currentPhase, hexId, selectedHex);
+                    selectHex(hexId);
+                  }}
                 >
-                  <div className="poly-id" id={`${hex.q},${hex.r},${hex.s}`}></div>
+                  <div className="poly-id" id={hexId}></div>
                   <Text>{HexUtils.getID(hex)}</Text>
-                </Hexagon>
-              ))
+                  <foreignObject id={`${hexId}-algui`}>
+                    <AllotmentGUI hexId={hexId} />
+                  </foreignObject>
+                </Hexagon>)
+              })
             }
           </Layout>
           {/*<Pattern id="img1" link="favicon.ico" />*/ /*fill="img1"*/}
@@ -142,7 +153,12 @@ const mapState = (state) => {
   return {
     hexagons: state.board.hexagons,
     config: state.board.config,
+<<<<<<< HEAD
     players: state.board.state.playerOrder,
+=======
+    currentPhase: state.board.state.currentPhase,
+    selectedHex: state.board.state.selectedHex,
+>>>>>>> master
     boardName: state.board.boardName,
     maxPlayers: state.board.maxPlayers
   }
@@ -152,11 +168,19 @@ const mapDispatch = (dispatch) => {
   //THIS IS WHERE YOU ADD EVENT LISTENERS FOR FIREBASE (CHILD_ADDED ETC)
   //EG watchGuestsAddedEvent(dispatch) [need dispatch]
   return {
-    handleClick() {
-      dispatch(logout())
-    },
     initializeBoard(hexagons, boardName, maxPlayers) {
       dispatch(initializeBoard(hexagons, boardName, maxPlayers))
+    },
+    renderAllotmentGUI(phase, id, selectedHexId) {
+      if (phase === 'allotment') {
+        const selectedHex = document.getElementById(`${selectedHexId}-algui`);
+        selectedHexId && selectedHex.classList.remove('show');
+        const gui = document.getElementById(`${id}-algui`);
+        gui.classList.add('show');
+      }
+    },
+    selectHex(id) {
+      dispatch(setSelectedHex(id));
     }
   }
 }
