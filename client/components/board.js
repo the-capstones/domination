@@ -9,6 +9,7 @@ import firebase from '../firebase';
 
 import '../css/_board.scss';
 
+
 class Board extends Component {
   constructor(props) {
     super(props);
@@ -38,6 +39,72 @@ class Board extends Component {
       poly.id = polyIdDiv.id;
       polyIdDiv.remove();
     });
+
+    this.divvySpaces()
+  }
+
+  divvySpaces() {
+    //MOCK PLAYERS - DELETE THIS WHEN WE SET PLAYERS ON THE STATE
+    this.props.players.push('Player1', 'Player2', 'Player3')
+    //THIS FUNCTION ALREADY GETS THE PLAYERS FROM THE STATE, BUT THERE AREN"T PLAYERS ON THE STATE YET
+
+    let numPlayerSpaces;
+    let numPlayers = this.props.players.length;
+    let numVoidSpaces = Math.floor(this.state.hexagons.length / 10) * 2;
+    let numAllotSpaces = this.state.hexagons.length - numVoidSpaces;
+
+    if (numPlayers >= 2) {
+      if (numAllotSpaces % numPlayers !== 0) {
+        let numExtra = numAllotSpaces % numPlayers;
+        numVoidSpaces += numExtra;
+        numAllotSpaces -= numExtra;
+      }
+
+      numPlayerSpaces = numAllotSpaces / numPlayers;
+
+      console.log('Spaces/Player', numPlayerSpaces)
+      console.log('VOID', numVoidSpaces)
+
+      let numRed = numPlayerSpaces;
+      let numOrange = numPlayerSpaces;
+      let numYellow = numPlayerSpaces;
+      let numGreen = numPlayerSpaces;
+      let numBlue = numPlayerSpaces;
+
+      let assignmentColors = [
+        {color: 'black', amount: numVoidSpaces},
+        {color: 'red', amount: numRed},
+        {color: 'orange', amount: numOrange},
+        {color: 'yellow', amount: numYellow},
+        {color: 'green', amount: numGreen},
+        {color: 'blue', amount: numBlue}]
+
+      this.state.hexagons.forEach(hex => {
+        hex = document.getElementById(hex.id)
+        while (!hex.classList[0]) {
+          let assign = Math.floor(Math.random() * (numPlayers + 1));
+          if (assignmentColors[assign].amount) {
+            assignmentColors[assign].amount--
+            switch (assignmentColors[assign].color) {
+              case 'black':
+                return hex.classList.add('hex-fill-black');
+              case 'red':
+                return hex.classList.add('hex-fill-red');
+              case 'orange':
+                return hex.classList.add('hex-fill-orange');
+              case 'yellow':
+                return hex.classList.add('hex-fill-yellow');
+              case 'green':
+                return hex.classList.add('hex-fill-green');
+              case 'blue':
+                return hex.classList.add('hex-fill-blue');
+              default:
+                break;
+            }
+          }
+        }
+      })
+    }
   }
 
   render() {
@@ -86,6 +153,7 @@ const mapState = (state) => {
   return {
     hexagons: state.board.hexagons,
     config: state.board.config,
+    players: state.board.state.playerOrder,
     currentPhase: state.board.state.currentPhase,
     selectedHex: state.board.state.selectedHex,
     boardName: state.board.boardName,
