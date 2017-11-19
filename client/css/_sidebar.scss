@@ -5,6 +5,7 @@
   margin: 0.5rem;
   height: calc(100vh - 1rem - 2px);
   background: $black;
+  z-index: 2;
 
   h1 {
     text-align: center;

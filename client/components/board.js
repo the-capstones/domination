@@ -29,20 +29,22 @@ export const Board = (props) => {
           {
             hexagons.map((hex, i) => {
               const hexId = `${hex.q},${hex.r},${hex.s}`;
+              console.log('MAPPING HEXES')
               return (<Hexagon
                 key={i}
                 q={hex.q}
                 r={hex.r}
                 s={hex.s}
-                onClick={() => {
-                  renderAllotmentGUI(currentPhase, hexId, selectedHex);
-                  selectHex(hexId);
-                }}
-              >
+                // onClick={() => {
+                //   props.renderAllotmentGUI(currentPhase, hexId, selectedHex);
+                //   props.selectHex(hexId);
+                // }}
+
+                >
                 <div className="poly-id" id={hexId} />
                 <Text>{HexUtils.getID(hex)}</Text>
                 <foreignObject id={`${hexId}-algui`}>
-                  <AllotmentGUI hexId={hexId} />
+
                 </foreignObject>
               </Hexagon>)
             })
@@ -74,12 +76,12 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     selectHex(id) {
-      firebase.ref(`/boards/${boardId}/state`).update({selectedHex: id})
+      firebase.ref(`/boards/${ownProps.boardId}/state`).update({selectedHex: id})
     }
   }
 }
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default withRouter(connect(mapState, mapDispatch)(Board));
+export default connect(mapState, mapDispatch)(Board);
 

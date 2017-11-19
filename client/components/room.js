@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { setBoard } from '../store';
 import firebase from '../firebase';
@@ -9,6 +10,7 @@ import '../css/_room.scss';
 
 export function Room(props) {
   const { board } = props
+  const boardId = props.match.params.boardId
   const status = board.state ? board.state.status : 'loading'
   return (
     <div className="room-wrapper">
@@ -20,7 +22,7 @@ export function Room(props) {
       }
       {status === 'playing' &&
         (
-          <Board />
+          <Board boardId={boardId} />
         )
       }
     </div>
@@ -37,6 +39,6 @@ const mapDispatch = (dispatch, ownProps) => {
   return {}
 }
 
-const RoomContainer = connect(mapState, mapDispatch)(Room)
+const RoomContainer = withRouter(connect(mapState, mapDispatch)(Room))
 
 export default RoomContainer
