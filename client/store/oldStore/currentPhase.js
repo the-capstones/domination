@@ -8,7 +8,7 @@ const SET_CURRENT_PHASE = 'SET_CURRENT_PHASE';
 /**
  * INITIAL STATE
  */
-const defaultCurrentPhase = '';
+const defaultCurrentPhase = 'allotment';
 
 /**
  * ACTION CREATORS

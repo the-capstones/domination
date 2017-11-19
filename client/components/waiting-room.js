@@ -40,6 +40,7 @@ const mapState = state => {
 const mapDispatch = (dispatch, ownProps) => {
   return {
     startGame(evt){
+      console.log('STARTING GAME')
       evt.preventDefault()
       const boardId = ownProps.match.params.boardId
       firebase.ref(`/boards/${boardId}/state`).update({status: 'playing'})

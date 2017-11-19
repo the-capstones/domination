@@ -62,7 +62,7 @@ const mapDispatch = (dispatch, ownProps) => {
       firebase
         .ref('boards')
         .push(board)
-        .then(snap => ownProps.history.push(`/board/${snap.key}`))
+        .then(snap => ownProps.history.push(`/boards/${snap.key}`))
     }
   }
 }

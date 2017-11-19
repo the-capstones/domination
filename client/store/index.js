@@ -33,12 +33,16 @@ export * from './setBoard';
 // import playerOrder from './playerOrder';
 // import currentPlayer from './currentPlayer';
 // import currentPhase from './currentPhase';
+// import selectedHex from './selectedHex';
+// import allotmentLeft from './allotmentLeft';
 
 // const state = combineReducers({
 //   gameSettings,
 //   playerOrder,
 //   currentPlayer,
 //   currentPhase,
+  // allotmentLeft,
+  // selectedHex,
 // });
 
 // const board = combineReducers({
@@ -50,8 +54,11 @@ export * from './setBoard';
 //   maxPlayers
 // });
 
+
 // export * from './maxPlayers';
 // export * from './boardHexagon';
 // export * from './boardConfig';
 // export * from './boardId';
 // export * from './boardName';
+// export * from './allotmentLeft';
+// export * from './selectedHex';
