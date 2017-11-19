@@ -8,11 +8,11 @@ import firebase from '../firebase'
 // COMPONENT
 
 const NewGame = (props) => {
-  console.log('PROPS ARE', props)
+  const { user } = props
   return (
     <div className="form">
       <h1>Start a New Game</h1>
-      <form onSubmit={props.handleSubmit}>
+      <form onSubmit={evt => props.handleSubmit(evt, user)}>
         <div>
           <label htmlFor="boardName"><small>Game Room Name</small></label>
           <input name="boardName" type="text" />
@@ -30,9 +30,12 @@ const NewGame = (props) => {
   )
 }
 
+const mapState = state => ({ user: state.user })
+
 const mapDispatch = (dispatch, ownProps) => {
   return {
-    handleSubmit(evt) {
+    handleSubmit(evt, user) {
+      console.log('HANDLESHUMIT')
       evt.preventDefault();
       const boardName = evt.target.boardName.value;
       const maxPlayers = evt.target.maxPlayers.value || 2;
@@ -56,8 +59,8 @@ const mapDispatch = (dispatch, ownProps) => {
 
       let state = {
         currentPhase: { allotment: 0 }, // or whatever default state
-        currentPlayer: 1, // default 1st player
-        playerOrder: [1, 2, 3, 4], // array of all players in order of turn
+        currentPlayer: user.id, // default 1st player
+        playerOrder: [user.id], // array of all players in order of turn
         gameSettings: 'default', // array/obj of game settings TBD
         status: 'waiting'
       }
@@ -71,5 +74,5 @@ const mapDispatch = (dispatch, ownProps) => {
   }
 }
 
-const NewGameContainer = connect(null, mapDispatch)(NewGame)
+const NewGameContainer = connect(mapState, mapDispatch)(NewGame)
 export default NewGameContainer

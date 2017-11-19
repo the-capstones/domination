@@ -1,0 +1,35 @@
+@import './_variables.scss';
+
+.room-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: $black;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  font-family: $title;
+}
+
+p {
+  font-size: 2rem;
+  text-align: center;
+  font-family: $title;
+}
+
+.center {
+  text-align: center;
+}
+
+
+#waiting-room {
+  width: 75vw;
+  height: 75vh;
+  background: $neutral;
+  color: $black;
+}
