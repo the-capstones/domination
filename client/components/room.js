@@ -33,7 +33,7 @@ const mapState = state => ({ board: state.board, user: state.user })
 
 const mapDispatch = (dispatch, ownProps) => {
   const boardId = ownProps.match.params.boardId
-  firebase.ref(`/boards/${boardId}`).once('value', snap => {
+  firebase.ref(`/boards/${boardId}`).on('value', snap => {
     dispatch(setBoard(snap.val()))
   })
   return {}

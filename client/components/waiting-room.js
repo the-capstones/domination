@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import firebase from '../firebase'
 
 import '../css/_room.scss';
 
@@ -15,7 +17,15 @@ const WaitingRoom = (props) => {
         <div><p>{currPlayers}/{maxPlayers} players in room</p></div>
         { user.id === board.state.currentPlayer &&
           (
-            <div className="center"><button className="text">Start Game</button></div>
+            <div className="center">
+              <button
+                className="text"
+                type="submit"
+                onClick={props.startGame}
+              >
+                Start Game
+              </button>
+              </div>
           )
         }
       </div>
@@ -27,7 +37,17 @@ const mapState = state => {
   return {board: state.board, user: state.user}
 }
 
-const WaitingRoomContainer = connect(mapState)(WaitingRoom)
+const mapDispatch = (dispatch, ownProps) => {
+  return {
+    startGame(evt){
+      console.log('STARTING GAME?')
+      evt.preventDefault()
+      const boardId = ownProps.match.params.boardId
+      firebase.ref(`/boards/${boardId}/state`).update({status: 'playing'})
+    }
+  }
+}
+const WaitingRoomContainer = withRouter(connect(mapState, mapDispatch)(WaitingRoom))
 
 export default WaitingRoomContainer
 
