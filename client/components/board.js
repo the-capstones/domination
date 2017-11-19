@@ -153,12 +153,9 @@ const mapState = (state) => {
   return {
     hexagons: state.board.hexagons,
     config: state.board.config,
-<<<<<<< HEAD
     players: state.board.state.playerOrder,
-=======
     currentPhase: state.board.state.currentPhase,
     selectedHex: state.board.state.selectedHex,
->>>>>>> master
     boardName: state.board.boardName,
     maxPlayers: state.board.maxPlayers
   }
