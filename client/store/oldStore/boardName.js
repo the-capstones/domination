@@ -1,6 +1,3 @@
-import axios from 'axios';
-import firebase from '../firebase'
-
 // ACTION TYPES
 
 const SET_BOARD_NAME = 'SET_BOARD_NAME';

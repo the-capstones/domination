@@ -10,7 +10,7 @@ import {
   Signup,
   UserHome,
   Sidebar,
-  Board,
+  Room,
   Settings,
   CombatRisk,
   CombatCustom,
@@ -36,7 +36,7 @@ class Routes extends Component {
         <Main>
           <Route path="/" component={Sidebar} />
           <Switch>
-            <Route path="/play" component={Board} />
+            <Route path="/boards/:boardId" component={Room} />
             <Route path="/newGame" component={NewGame} />
             <Route path="/channels" component={ChannelList} />
             <Route exact path="/" component={Login} />
@@ -52,7 +52,6 @@ class Routes extends Component {
             <Route exact path="/allotment" component={AllotmentGUI} />
               </Switch>
             }
-            <Route exact path="/login" component={Login} />
           </Switch>
         </Main>
       </Router>
@@ -64,8 +63,6 @@ class Routes extends Component {
 
 const mapState = (state) => {
   return {
-    // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
-    // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id
   }
 }
