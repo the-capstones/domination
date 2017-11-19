@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout, setInGame, setCurrentPhase, setCurrentPlayer } from '../store';
+import { logout, setInGame } from '../store';
 
 import '../css/_sidebar.scss';
 
@@ -53,7 +53,7 @@ const Sidebar = (props) => {
       {inGame
         && (<div>
           <div className="avatar">
-            <img src="assets/wizard-avatar.jpg" />
+            <img src="../assets/wizard-avatar.jpg" />
           </div>
 
           <div className="players">
@@ -91,8 +91,7 @@ const Sidebar = (props) => {
         </div>)
       }
 
-      {currentPlayer === user
-        && inGame
+      {inGame && currentPlayer === user
         && (
           <div>
             <button className="phase-btn" onClick={() => changePhase(currentPhase, currentPlayer, playerOrder)}>
@@ -112,12 +111,12 @@ const Sidebar = (props) => {
  */
 const mapState = (state) => {
   return {
-    user: state.user.email,
+    user: state.user.id,
     isLoggedIn: !!state.user.id,
     inGame: state.inGame,
-    currentPlayer: state.board.state.currentPlayer,
-    currentPhase: state.board.state.currentPhase,
-    playerOrder: state.board.state.playerOrder,
+    currentPlayer: Object.keys(state.board).length && state.board.state.currentPlayer || '',
+    currentPhase: Object.keys(state.board).length && state.board.state.currentPhase || '',
+    playerOrder: Object.keys(state.board).length && state.board.state.playerOrder || [],
   }
 }
 
@@ -141,9 +140,9 @@ const mapDispatch = (dispatch) => {
           nextIdx = currIdx + 1;
         }
 
-        const nextPlayer = playerOrder[nextIdx];
-        dispatch(setCurrentPlayer(nextPlayer));
-        dispatch(setCurrentPhase('allotment'));
+        // const nextPlayer = playerOrder[nextIdx];
+        // dispatch(setCurrentPlayer(nextPlayer));
+        // dispatch(setCurrentPhase('allotment'));
       }
     }
   }
