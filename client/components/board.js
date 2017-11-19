@@ -1,11 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import store, { setConfig, setHexagons, initializeBoard } from '../store';
-import { HexGrid, Layout, Hexagon, Text, GridGenerator, HexUtils, Pattern } from 'react-hexgrid';
-import configs from '../configurations';
+import React from 'react';
+import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { hexagons, config } from './gridGenerator'
-import firebase from '../firebase';
 
 import '../css/_board.scss';
 

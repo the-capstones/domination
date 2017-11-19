@@ -34,7 +34,6 @@ const mapState = state => ({ user: state.user })
 const mapDispatch = (dispatch, ownProps) => {
   return {
     handleSubmit(evt, user) {
-      console.log('HANDLESHUMIT')
       evt.preventDefault();
       const boardName = evt.target.boardName.value;
       const maxPlayers = evt.target.maxPlayers.value || 2;
