@@ -80,7 +80,7 @@ function unitStrengthDifference(allHexesObj, startingHex, artIntelplayerId){
     const adjacentHexResults = attackMatrixFunctions.adjacentHex(startingHex)
     const nearbyEnemyUnits = adjacentHexResults.map(hex => {
         if (allHexesObj[hex] && 
-            allHexesObj[hex].playerId !== null &&
+            allHexesObj[hex].playerId !== '' &&
             allHexesObj[hex].playerId !== artIntelplayerId) {
             return allHexesObj[hex].unit1
         } else {return 0}

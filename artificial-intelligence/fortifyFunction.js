@@ -1,5 +1,7 @@
 const attackMatrixFunctions = require('./attackMatrixCreator')
 
+
+// REFACTOR CLOSEST ENEMY FUNCTION TO CACHE THE ALREADY SEARCHED HEXES
 // This file is responsible for creating the fortify function
 
 // The fortify function runs after the nextAttack function has exhausted all worthwhile attacks.
@@ -88,7 +90,7 @@ function movableHexes(allHexesObj, artIntelplayerId){
     let movableHexArray = []
     adjacentHexResults.forEach(hex => {
         // if this hex exists, and is valid, and has less than 15 units, continue
-        if (allHexesObj[hex] && allHexesObj[hex].playerId !== null && allHexesObj[hex].unit1 < 15){
+        if (allHexesObj[hex] && allHexesObj[hex].playerId !== '' && allHexesObj[hex].unit1 < 15){
             // if there is an enemy adjacent to this hex, increment enemiesNear
             if (allHexesObj[hex].playerId !== artIntelplayerId){
             enemiesNear++}
@@ -140,7 +142,7 @@ function closestEnemy(allHexesObj, startingHex, artIntelplayerId){
     let hex = queue.shift()
     if (
         allHexesObj[hex] && 
-        allHexesObj[hex].playerId !== null &&
+        allHexesObj[hex].playerId !== '' &&
         allHexesObj[hex].playerId !== artIntelplayerId
     ){
         closestEnemyHex = hex
