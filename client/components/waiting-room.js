@@ -11,10 +11,17 @@ const WaitingRoom = (props) => {
   const numPlayers = board.state.playerOrder.length
   const players = board.state.playerOrder
 
+  // Object.keys(board.hexes).forEach(id => {
+  //   let hex = document.getElementById(id).previousSibling
+
+  //   console.log(hex.classList)
+  // })
+
   const divvySpaces = () => {
     let numPlayerSpaces;
-    let numVoidSpaces = Math.floor(this.state.hexagons.length / 10) * 2;
-    let numAllotSpaces = this.state.hexagons.length - numVoidSpaces;
+    let numSpaces = Object.keys(board.hexes).length
+    let numVoidSpaces = Math.floor(numSpaces / 10) * 2;
+    let numAllotSpaces = numSpaces - numVoidSpaces;
 
     if (numPlayers >= 2) {
       if (numAllotSpaces % numPlayers !== 0) {
@@ -42,12 +49,14 @@ const WaitingRoom = (props) => {
         {color: 'green', amount: numGreen},
         {color: 'blue', amount: numBlue}]
 
-      this.state.hexagons.forEach(hex => {
-        hex = document.getElementById(hex.id)
+      Object.keys(board.hexes).forEach(id => {
+        let hex = document.getElementById(id).previousSibling
+
         while (!hex.classList[0]) {
           let assign = Math.floor(Math.random() * (numPlayers + 1));
           if (assignmentColors[assign].amount) {
             assignmentColors[assign].amount--
+            board.hexes[id].playerId = players[assign]
             switch (assignmentColors[assign].color) {
               case 'black':
                 return hex.classList.add('hex-fill-black');

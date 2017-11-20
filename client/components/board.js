@@ -29,7 +29,6 @@ export const Board = (props) => {
           {
             hexagons.map((hex, i) => {
               const hexId = `${hex.q},${hex.r},${hex.s}`;
-              console.log('MAPPING HEXES')
               return (<Hexagon
                 key={i}
                 q={hex.q}
