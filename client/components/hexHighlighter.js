@@ -15,10 +15,15 @@ const getNeighbors = (id) => {
 }
 
 export const highlightNeighbors = (id) => {
-  const allNeighbors = getNeighbors(id);
+  const polygons = [];
+  const allNeighbors = getNeighbors(id)
+    .map(neighborId => polygons.push(document.getElementById(neighborId)));
 
-  allNeighbors.forEach(neighborId => {
-    const hex = document.getElementById(neighborId);
-    hex && hex.classList.add('highlight-attack');
-  });
+  polygons.forEach(hex => hex && hex.classList.add('highlight-attack'));
+
+  function removeHighlight() {
+    polygons.forEach(hex => hex && hex.classList.remove('highlight-attack'));
+  }
+
+  return removeHighlight;
 }

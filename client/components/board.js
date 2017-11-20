@@ -7,7 +7,6 @@ import { AllotmentGUI } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'
 
-
 export const Board = (props) => {
 
   const polyIdDivs = [...document.getElementsByClassName('poly-id')];
