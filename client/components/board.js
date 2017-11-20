@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -8,64 +8,101 @@ import '../css/_board.scss';
 import firebase from '../firebase'
 
 
-export const Board = (props) => {
+class Board extends Component {
+  constructor(props) {
+    super(props)
 
-  const polyIdDivs = [...document.getElementsByClassName('poly-id')];
-  polyIdDivs.forEach(polyIdDiv => {
-    const poly = polyIdDiv.parentNode.firstChild;
-    poly.id = polyIdDiv.id;
-    polyIdDiv.remove();
-  });
-
-  const layout = config.layout;
-  const size = { x: layout.width, y: layout.height };
-  const { selectedHex, currentPhase, renderAllotmentGUI, selectHex } = props;
-
-
-  return (
-    <div className="board">
-      <HexGrid width={config.width} height={config.height}>
-        <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
-          {
-            hexagons.map((hex, i) => {
-              const hexId = `${hex.q},${hex.r},${hex.s}`;
-              console.log('MAPPING HEXES')
-              return (<Hexagon
-                key={i}
-                q={hex.q}
-                r={hex.r}
-                s={hex.s}
-                onClick={() => {
-                  props.renderAllotmentGUI(currentPhase, hexId, selectedHex);
-                  props.selectHex(hexId);
-                }}
-
-                >
-                <div className="poly-id" id={hexId} />
-                <Text>{HexUtils.getID(hex)}</Text>
-                <foreignObject id={`${hexId}-algui`}>
-                  <AllotmentGUI hexId={hexId} />
-                </foreignObject>
-              </Hexagon>)
-            })
-          }
-        </Layout>
-        {/*<Pattern id="img1" link="favicon.ico" />*/ /*fill="img1"*/}
-      </HexGrid>
-    </div>
-  )
-}
-
-  const mapState = (state) => {
-    return {
-      currentPhase: state.board.state.currentPhase,
-      selectedHex: state.board.state.selectedHex
-    }
   }
 
+  componentDidMount() {
+    const polyIdDivs = [...document.getElementsByClassName('poly-id')];
+    polyIdDivs.forEach(polyIdDiv => {
+      const poly = polyIdDiv.parentNode.firstChild;
+      poly.id = polyIdDiv.id;
+      polyIdDiv.remove();
+    });
+
+    let players = ['null', ...this.props.playerOrder];
+
+    if (this.props.hexes) {
+      Object.keys(this.props.hexes).forEach(id => {
+        let hex = document.getElementById(id)
+
+        switch (this.props.hexes[id].playerId) {
+          case players[0]:
+            return hex.classList.add('hex-fill-black');
+          case players[1]:
+            return hex.classList.add('hex-fill-red');
+          case players[2]:
+            return hex.classList.add('hex-fill-orange');
+          case players[3]:
+            return hex.classList.add('hex-fill-yellow');
+          case players[4]:
+            return hex.classList.add('hex-fill-green');
+          case players[5]:
+            return hex.classList.add('hex-fill-blue');
+          default:
+            break;
+        }
+      })
+    }
+
+  }
+
+  render() {
+    const layout = config.layout;
+    const size = { x: layout.width, y: layout.height };
+    const { hexes, selectedHex, currentPhase, renderAllotmentGUI, selectHex } = this.props;
+
+    return (
+      <div className="board">
+        <HexGrid width={config.width} height={config.height}>
+          <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
+            {
+              hexagons.map((hex, i) => {
+                const hexId = `${hex.q},${hex.r},${hex.s}`;
+                const doesPlayerOwn = hexes[hexId].playerId !== 'null';
+                const hexUnits = hexes[hexId].unit1.toString();
+                return (<Hexagon
+                  key={i}
+                  q={hex.q}
+                  r={hex.r}
+                  s={hex.s}
+                  onClick={() => {
+                    this.props.renderAllotmentGUI(currentPhase, hexId, selectedHex);
+                    this.props.selectHex(hexId);
+                  }}
+
+                >
+                  <div className="poly-id" id={hexId} />
+                  <Text>
+                    {doesPlayerOwn ? hexUnits : ''}
+                  </Text>
+                  {/*<Text>{HexUtils.getID(hex)}</Text>*/}
+                  <foreignObject id={`${hexId}-algui`}>
+                    <AllotmentGUI hexId={hexId} />
+                  </foreignObject>
+                </Hexagon>)
+              })
+            }
+          </Layout>
+          {/*<Pattern id="img1" link="favicon.ico" />*/ /*fill="img1"*/}
+        </HexGrid>
+      </div>
+    )
+  }
+}
+
+const mapState = (state) => {
+  return {
+    currentPhase: state.board.state.currentPhase,
+    selectedHex: state.board.state.selectedHex,
+    hexes: state.board.hexes,
+    playerOrder: state.board.state.playerOrder
+  }
+}
+
 const mapDispatch = (dispatch, ownProps) => {
-  console.log('OWNPROPSARE', ownProps)
-  // const boardId = ownProps.match.params.boardId
   return {
     renderAllotmentGUI(phase, id, selectedHexId) {
       if (phase === 'allotment') {
@@ -76,7 +113,7 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     selectHex(id) {
-      firebase.ref(`/boards/${ownProps.boardId}/state`).update({selectedHex: id})
+      firebase.ref(`/boards/${ownProps.boardId}/state`).update({ selectedHex: id })
     }
   }
 }

@@ -38,14 +38,39 @@ svg g:hover {
 svg g polygon {
   stroke: $neutral-dark;
   stroke-width: 0.1;
+
 }
 
 svg g text {
   font-size: 0.18em;
-  fill: $black;
+  fill: white;
   fill-opacity: 1;
 }
 
+  //PLAYER CLASS COLORS
+.hex-fill-red {
+  fill: $player-red;
+}
+
+.hex-fill-orange {
+  fill: $player-orange;
+}
+
+.hex-fill-yellow {
+  fill: $player-yellow;
+}
+
+.hex-fill-green {
+  fill: $player-green;
+}
+
+.hex-fill-blue {
+  fill: $player-blue;
+}
+
+.hex-fill-black {
+  fill: $black;
+}
 
 // Don't know what this did
 // svg path {
@@ -57,3 +82,7 @@ svg g text {
 //   stroke-linejoin: round;
 // }
 
+.highlight-attack {
+  stroke: red;
+  stroke-width: 0.25;
+}

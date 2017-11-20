@@ -55,7 +55,7 @@ const mapDispatch = (dispatch, ownProps) => {
         currentPlayer: user.id, // default 1st player
         playerOrder: [user.id], // array of all players in order of turn
         allotmentPointsPerTurn: {}, //obj of points(val) per player(key) per turn
-        allotmentLeft: 0,
+        allotmentLeft: 3,
         gameSettings: 'default', // array/obj of game settings TBD
         status: 'waiting'
       }
