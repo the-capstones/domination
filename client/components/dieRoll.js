@@ -1,9 +1,9 @@
-export const Die = number => {
+export const dieRoll = number => {
   const resultArray = [];
 
-  let roll = Math.floor(Math.random() * 5) + 1;
-
   while (number) {
+    let roll = Math.floor(Math.random() * 6) + 1;
+
     resultArray.push(roll);
     number--;
   }
