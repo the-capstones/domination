@@ -28,7 +28,7 @@ class Board extends Component {
     Object.keys(this.props.hexes).forEach(id => {
       let hex = document.getElementById(id)
 
-      switch (this.props.hexes.playerId) {
+      switch (this.props.hexes[id].playerId) {
         case players[0]:
           return hex.classList.add('hex-fill-black');
         case players[1]:
