@@ -52,7 +52,7 @@ class Board extends Component {
   render () {
   const layout = config.layout;
   const size = { x: layout.width, y: layout.height };
-  const { selectedHex, currentPhase, renderAllotmentGUI, selectHex } = this.props;
+  const { hexes, selectedHex, currentPhase, renderAllotmentGUI, selectHex } = this.props;
 
   return (
     <div className="board">
@@ -73,7 +73,8 @@ class Board extends Component {
 
                 >
                 <div className="poly-id" id={hexId} />
-                <Text>{HexUtils.getID(hex)}</Text>
+                <Text>{hexes[hexId].unit1}</Text>
+                {/*<Text>{HexUtils.getID(hex)}</Text>*/}
                 <foreignObject id={`${hexId}-algui`}>
                   <AllotmentGUI hexId={hexId} />
                 </foreignObject>
