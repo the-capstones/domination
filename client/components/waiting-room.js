@@ -27,9 +27,6 @@ const WaitingRoom = (props) => {
 
       numPlayerSpaces = numAllotSpaces / numPlayers;
 
-      console.log('Spaces/Player', numPlayerSpaces)
-      console.log('VOID', numVoidSpaces)
-
       let numRed = numPlayerSpaces;
       let numOrange = numPlayerSpaces;
       let numYellow = numPlayerSpaces;
