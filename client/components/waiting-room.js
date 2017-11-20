@@ -9,15 +9,16 @@ const WaitingRoom = (props) => {
   const { board, user } = props
   const maxPlayers = board.maxPlayers
   const numPlayers = board.state.playerOrder.length
-  const players = board.state.playerOrder
+  const players = ['null', ...board.state.playerOrder]
 
-  const divvySpaces = () => {
+  const divvySpaces = (evnt) => {
+    evnt.preventDefault();
     let numPlayerSpaces;
     let numSpaces = Object.keys(board.hexes).length
     let numVoidSpaces = Math.floor(numSpaces / 10) * 2;
     let numAllotSpaces = numSpaces - numVoidSpaces;
 
-    if (numPlayers >= 2) {
+    if (numPlayers >= 1) {
       if (numAllotSpaces % numPlayers !== 0) {
         let numExtra = numAllotSpaces % numPlayers;
         numVoidSpaces += numExtra;
@@ -44,32 +45,39 @@ const WaitingRoom = (props) => {
         {color: 'blue', amount: numBlue}]
 
       Object.keys(board.hexes).forEach(id => {
-        let hex = document.getElementById(id).previousSibling
-
-        while (!hex.classList[0]) {
+        while (board.hexes[id].playerId === '') {
           let assign = Math.floor(Math.random() * (numPlayers + 1));
           if (assignmentColors[assign].amount) {
             assignmentColors[assign].amount--
             board.hexes[id].playerId = players[assign]
-
-            switch (assignmentColors[assign].color) {
-              case 'black':
-                return hex.classList.add('hex-fill-black');
-              case 'red':
-                return hex.classList.add('hex-fill-red');
-              case 'orange':
-                return hex.classList.add('hex-fill-orange');
-              case 'yellow':
-                return hex.classList.add('hex-fill-yellow');
-              case 'green':
-                return hex.classList.add('hex-fill-green');
-              case 'blue':
-                return hex.classList.add('hex-fill-blue');
-              default:
-                break;
-            }
+            firebase.ref(`/boards/${props.match.params.boardId}/hexes/${id}`).update({playerId: players[assign]})
           }
         }
+
+        // while (!hex.classList[0]) {
+        //   let assign = Math.floor(Math.random() * (numPlayers + 1));
+        //   if (assignmentColors[assign].amount) {
+        //     assignmentColors[assign].amount--
+        //     board.hexes[id].playerId = players[assign]
+
+        //     switch (assignmentColors[assign].color) {
+        //       case 'black':
+        //         return hex.classList.add('hex-fill-black');
+        //       case 'red':
+        //         return hex.classList.add('hex-fill-red');
+        //       case 'orange':
+        //         return hex.classList.add('hex-fill-orange');
+        //       case 'yellow':
+        //         return hex.classList.add('hex-fill-yellow');
+        //       case 'green':
+        //         return hex.classList.add('hex-fill-green');
+        //       case 'blue':
+        //         return hex.classList.add('hex-fill-blue');
+        //       default:
+        //         break;
+        //     }
+        //   }
+        // }
       })
     }
 
@@ -88,7 +96,6 @@ const WaitingRoom = (props) => {
               <button
                 className="text"
                 type="submit"
-                // onClick={props.startGame}
                 onClick={divvySpaces}
               >
                 Start Game
@@ -107,8 +114,7 @@ const mapState = state => {
 
 const mapDispatch = (dispatch, ownProps) => {
   return {
-    startGame(evt){
-      evt.preventDefault()
+    startGame(){
       const boardId = ownProps.match.params.boardId
       firebase.ref(`/boards/${boardId}/state`).update({status: 'playing'})
     }
