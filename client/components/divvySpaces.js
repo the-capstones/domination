@@ -39,6 +39,7 @@ export const divvySpaces = (playerOrder, hexes, boardId) => {
           assignmentColors[assign].amount--
           hexes[id].playerId = players[assign]
           firebase.ref(`/boards/${boardId}/hexes/${id}`).update({playerId: players[assign]})
+          firebase.ref(`/boards/${boardId}/hexes/${id}`).update({unit1: 1})
         }
       }
     })
