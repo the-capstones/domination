@@ -8,7 +8,7 @@ const SET_CURRENT_PLAYER = 'SET_CURRENT_PLAYER';
 /**
  * INITIAL STATE
  */
-const defaultCurrentPlayer = '';
+const defaultCurrentPlayer = 'zeke@zeke.zeke';
 
 /**
  * ACTION CREATORS

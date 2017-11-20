@@ -261,6 +261,6 @@ expectedBattleOutcome(fullBattleObject);
 console.log("Below, you'll see a battle probability matrix object.",
 'The first key in the object is the number of units the attacker has.',
 'The second key represents the number of units the defender has.',
-"In the last section, you'll see the expected chance of the attacker winning that engagement and the expected number of units he would have if he went through with the attack.")
+"In the last section, you'll see the expected chance of the attacker winning that engagement and the expected number of units they would have if they went through with the attack.")
 console.log('----------------');
 console.log(util.inspect(fullBattleObject, false, null));
