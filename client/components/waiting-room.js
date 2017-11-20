@@ -50,31 +50,6 @@ const WaitingRoom = (props) => {
             firebase.ref(`/boards/${props.match.params.boardId}/hexes/${id}`).update({playerId: players[assign]})
           }
         }
-
-        // while (!hex.classList[0]) {
-        //   let assign = Math.floor(Math.random() * (numPlayers + 1));
-        //   if (assignmentColors[assign].amount) {
-        //     assignmentColors[assign].amount--
-        //     board.hexes[id].playerId = players[assign]
-
-        //     switch (assignmentColors[assign].color) {
-        //       case 'black':
-        //         return hex.classList.add('hex-fill-black');
-        //       case 'red':
-        //         return hex.classList.add('hex-fill-red');
-        //       case 'orange':
-        //         return hex.classList.add('hex-fill-orange');
-        //       case 'yellow':
-        //         return hex.classList.add('hex-fill-yellow');
-        //       case 'green':
-        //         return hex.classList.add('hex-fill-green');
-        //       case 'blue':
-        //         return hex.classList.add('hex-fill-blue');
-        //       default:
-        //         break;
-        //     }
-        //   }
-        // }
       })
     }
 
