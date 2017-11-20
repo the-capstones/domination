@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import store, { updateHex, setAllotmentLeft } from '../store';
+import { withRouter } from 'react-router-dom';
+import firebase from '../firebase'
 
 import '../css/_allotment-gui.scss';
 
@@ -15,7 +16,8 @@ const AllotmentGUI = (props) => {
         <button onClick={() => addUnit(hexId, hexagons, allotmentLeft)}>
           <i className="fa fa-plus" aria-hidden="true"></i>
         </button>
-        <span className='muted'>{allotmentLeft}</span><span> unit left</span>
+        <span className='muted'>{allotmentLeft}</span>
+        <span> {allotmentLeft > 1 || allotmentLeft === 0 ? 'units left' : 'unit left'}</span>
       </div>
     </div>
   )
@@ -27,25 +29,31 @@ const AllotmentGUI = (props) => {
 const mapState = (state) => {
   return {
     allotmentLeft: state.board.state.allotmentLeft,
-    hexagons: state.board.hexagons,
+    hexagons: state.board.hexes,
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = (dispatch, ownProps) => {
+  const boardId = ownProps.match.params.boardId;
   return {
     addUnit(id, hexagons, allotmentLeft) {
       if (allotmentLeft > 0) {
-        const newAllotmentPoints = allotmentLeft > 0 ? allotmentLeft - 1 : 0;
-        const hexagon = hexagons.filter(hex => hex.id === id)[0];
-        const units = hexagon.units + 1;
-        store.dispatch(updateHex(id, { units }));
-        store.dispatch(setAllotmentLeft(newAllotmentPoints));
+        allotmentLeft -= 1;
+        const updatedHexArr = Object.entries(hexagons).filter(hex => hex[0] === id );
+        const hexId = updatedHexArr[0][0];
+        const hexStats = updatedHexArr[0][1];
+        const updatedHexObj = {
+          [hexId]: Object.assign({}, hexStats),
+        };
+        updatedHexObj[hexId].unit1 += 1;
+        firebase.ref(`/boards/${boardId}/hexes`).update(updatedHexObj);
+        firebase.ref(`/boards/${boardId}/state`).update({ allotmentLeft });
       }
     }
   }
 }
 
-export default connect(mapState, mapDispatch)(AllotmentGUI);
+export default withRouter(connect(mapState, mapDispatch)(AllotmentGUI));
 
 /**
  * PROP TYPES

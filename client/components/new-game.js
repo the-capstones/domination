@@ -51,9 +51,11 @@ const mapDispatch = (dispatch, ownProps) => {
       });
 
       let state = {
-        currentPhase: { allotment: 0 }, // or whatever default state
+        currentPhase: 'allotment', // or whatever default state 'start' should be default for distribution
         currentPlayer: user.id, // default 1st player
         playerOrder: [user.id], // array of all players in order of turn
+        allotmentPointsPerTurn: {}, //obj of points(val) per player(key) per turn
+        allotmentLeft: 0,
         gameSettings: 'default', // array/obj of game settings TBD
         status: 'waiting'
       }

@@ -1,14 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { logout, setInGame } from '../store';
+import firebase from '../firebase'
+
 
 import '../css/_sidebar.scss';
 
 const Sidebar = (props) => {
 
-const { isLoggedIn, handleClick, inGame } = props;
+  const {
+    isLoggedIn,
+    handleClick,
+    inGame,
+    user,
+    currentPhase,
+    currentPlayer,
+    changePhase,
+    playerOrder,
+  } = props;
 
   return (
     <div className="sidebar-wrapper">
@@ -44,7 +55,7 @@ const { isLoggedIn, handleClick, inGame } = props;
       {inGame
         && (<div>
           <div className="avatar">
-            <img src="assets/wizard-avatar.jpg" />
+            <img src="../assets/wizard-avatar.jpg" />
           </div>
 
           <div className="players">
@@ -82,6 +93,17 @@ const { isLoggedIn, handleClick, inGame } = props;
         </div>)
       }
 
+      {inGame && currentPlayer === user
+        && (
+          <div>
+            <button className="phase-btn" onClick={() => changePhase(currentPhase, currentPlayer, playerOrder)}>
+              {
+                currentPhase === 'allotment' ? 'Start Attack Phase' : 'End Turn'
+              }
+            </button>
+          </div>
+        )
+      }
     </div>
   )
 }
@@ -91,20 +113,45 @@ const { isLoggedIn, handleClick, inGame } = props;
  */
 const mapState = (state) => {
   return {
+    user: state.user.id,
     isLoggedIn: !!state.user.id,
     inGame: state.inGame,
+    currentPlayer: Object.keys(state.board).length && state.board.state.currentPlayer || '',
+    currentPhase: Object.keys(state.board).length && state.board.state.currentPhase || '',
+    playerOrder: Object.keys(state.board).length && state.board.state.playerOrder || [],
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = (dispatch, ownProps) => {
+  const boardId = ownProps.match.params.boardId;
+
   return {
     handleClick() {
       dispatch(logout())
+    },
+    changePhase(currentPhase, currentPlayer, playerOrder) {
+      if (currentPhase === 'allotment') {
+        firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'attack' });
+      }
+      else {
+        const currIdx = playerOrder.indexOf(currentPlayer);
+        let nextIdx;
+
+        if (currIdx === playerOrder.length - 1) {
+          nextIdx = 0;
+        }
+        else {
+          nextIdx = currIdx + 1;
+        }
+        const nextPlayer = playerOrder[nextIdx];
+        firebase.ref(`/boards/${boardId}/state`).update({ currentPlayer: nextPlayer });
+        firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'allotment' });
+      }
     }
   }
 }
 
-export default connect(mapState, mapDispatch)(Sidebar);
+export default withRouter(connect(mapState, mapDispatch)(Sidebar));
 
 /**
  * PROP TYPES

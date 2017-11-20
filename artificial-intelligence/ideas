@@ -1,0 +1,43 @@
+This is me talking to myself, please ignore.
+
+so like. 
+you built the battle probability matrix. --done
+it lets you rank match-ups of units.
+
+you figured out which territories are yours and which ones actually CAN move. --done
+
+Now you need to connect the two of them. --done
+
+For a given hex ('q,r,s'),
+
+what hexes are adjacent? --done
+('q-1,r,s')
+('q+1,r,s')
+('q,r-1,s')
+('q,r+1,s')
+('q,r,s-1')
+('q,r,s+1')
+which of those can I attack? -- done
+For each hex, hex exists
+For each hex, playerId != myPlayerId
+
+what is the probability of winning an attack? (probability 60% or higher) --done
+For each hex combo (my hex to their hex),
+battleMatrix[myHex.unit1][theirHex.unit1].ChanceToWin
+
+which is the best attack? --done
+Does it make sense to do that attack? Is it over some threshold? --done
+
+What if there's no good attacks to make? Do you want to move? --Move or Do Nothing function
+If you want to move, where should you move? 
+--Where is the closest enemy? --Pathfinding function
+--If there are multiple enemies at the same distance, which has the least units? --best enemy hex function
+--Which hex should I move to in order to get closer to the enemy? --nextMove function
+--from slack: 
+'Moving units: If there are no good attacks to be made, the AI should move units closer to the nearest enemy hex with the least number of units
+Step 1:  How many units can move?
+Step 2: where are the closest enemy hexes?
+Step 3: which of them have the least number of units?
+Step 4: where do I move my units to get closer for the next battle?'
+
+

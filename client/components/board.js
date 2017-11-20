@@ -3,7 +3,7 @@ import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { hexagons, config } from './gridGenerator';
-import { AllotmentGUI } from './allotment';
+import { AllotmentGUI } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'
 
@@ -34,16 +34,16 @@ export const Board = (props) => {
                 q={hex.q}
                 r={hex.r}
                 s={hex.s}
-                // onClick={() => {
-                //   props.renderAllotmentGUI(currentPhase, hexId, selectedHex);
-                //   props.selectHex(hexId);
-                // }}
+                onClick={() => {
+                  props.renderAllotmentGUI(currentPhase, hexId, selectedHex);
+                  props.selectHex(hexId);
+                }}
 
                 >
                 <div className="poly-id" id={hexId} />
                 <Text>{HexUtils.getID(hex)}</Text>
                 <foreignObject id={`${hexId}-algui`}>
-
+                  <AllotmentGUI hexId={hexId} />
                 </foreignObject>
               </Hexagon>)
             })
@@ -67,7 +67,7 @@ const mapDispatch = (dispatch, ownProps) => {
   // const boardId = ownProps.match.params.boardId
   return {
     renderAllotmentGUI(phase, id, selectedHexId) {
-      if (phase.hasOwnProperty('allotment')) {
+      if (phase === 'allotment') {
         const selectedHex = document.getElementById(`${selectedHexId}-algui`);
         selectedHexId && selectedHex.classList.remove('show');
         const gui = document.getElementById(`${id}-algui`);

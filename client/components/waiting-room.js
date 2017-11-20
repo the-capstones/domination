@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import firebase from '../firebase'
+import { setInGame } from '../store';
 
 import '../css/_room.scss';
 
@@ -113,6 +114,7 @@ const mapDispatch = (dispatch, ownProps) => {
       evt.preventDefault()
       const boardId = ownProps.match.params.boardId
       firebase.ref(`/boards/${boardId}/state`).update({status: 'playing'})
+      dispatch(setInGame(true))
     }
   }
 }
