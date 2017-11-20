@@ -46,7 +46,8 @@ const Sidebar = (props) => {
 
       {!inGame && isLoggedIn && (<div>
         <div className="home-menu">
-          <Link to="/newGame">Start Game</Link>
+          <Link to="/newGame">New Game</Link>
+          <Link to="/channels">Join Game</Link>
           <Link to="/settings">Settings</Link>
         </div>
       </div>)
