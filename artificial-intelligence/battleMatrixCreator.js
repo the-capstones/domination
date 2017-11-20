@@ -1,6 +1,20 @@
 const util = require('util');
 
 // This file is responsible for creating the battle matrix
+
+// The battle matrix is an object that calculates the probability of winning
+// a territory with a given number of attacking units and defending units.
+
+
+// Outline:
+// Step 1: Build a function that creates an array of all
+// possible combinations of a given number of dice rolls.
+// Step 2: Find the highest number in each array combination of dice rolls.
+// Step 3: Create an expected probability Object for a given frequency analysis of max dice roll.
+// Step 4: Define the probability objects for attacker dice and defender dice for easy reference.
+// Step 5: Calculate the probability that an attacker will win in a 1 on 1 battle
+// Step 6: Create the battle matrix for a variable number of attackers and defenders
+
 // You can change the game logic for this by manipulating the variables below
 
 // Define the game logic:
@@ -34,8 +48,8 @@ console.log('----------------');
 
 // Dice Combinatorics
 
-// Step 1) Build a function that creates an array of all
-// possible combinations of a given number of dice
+// Step 1: Build a function that creates an array of all
+// possible combinations of a given number of dice rolls.
 
 function diceCombinations(numDice) {
   counter = numDice - 1;
@@ -60,7 +74,7 @@ function diceCombinations(numDice) {
 
 // Example usage: diceCombinations(2) will return all combinations of two dice rolls
 
-// Step 2) Find the highest number in each array combination of dice rolls
+// Step 2: Find the highest number in each array combination of dice rolls.
 
 const defendersDiceRolls = diceCombinations(defendDice).map(arr =>
   Math.max(...arr)
@@ -69,7 +83,7 @@ const attackersDiceRolls = diceCombinations(attackDice).map(arr =>
   Math.max(...arr)
 );
 
-// Step 3) Create an expected probability Object for a given frequency analysis of max dice roll.
+// Step 3: Create an expected probability Object for a given frequency analysis of max dice roll.
 
 function expectedProbability(arr) {
   const totalCombinations = arr.length;
@@ -86,7 +100,7 @@ function expectedProbability(arr) {
   );
   return probabilityObject;
 }
-// Step 4) Define the probability objects for two dice and three dice for easy reference
+// Step 4: Define the probability objects for attacker dice and defender dice for easy reference.
 const attackObj = expectedProbability(attackersDiceRolls);
 const defendObj = expectedProbability(defendersDiceRolls);
 console.log(
@@ -99,7 +113,7 @@ console.log(
 );
 console.log(defendObj);
 console.log('----------------');
-// Step 5) Calculate the probability that an attacker will win in a 1 on 1 battle
+// Step 5: Calculate the probability that an attacker will win in a 1 on 1 battle
 function calculateAttackerWinPercentage(arr, attackObj, defendObj) {
   let attackerWinPercentage = 0;
   arr.forEach(diceCombo => {
@@ -125,6 +139,8 @@ console.log(
   '% of the time.'
 );
 console.log('----------------');
+
+// Step 6: Create the battle matrix for a variable number of attackers and defenders
 
 function bestDamnedBattleMatrix(
   originalA,
@@ -244,6 +260,6 @@ expectedBattleOutcome(fullBattleObject);
 console.log("Below, you'll see a battle probability matrix object.",
 'The first key in the object is the number of units the attacker has.',
 'The second key represents the number of units the defender has.',
-"In the last section, you'll see the expected chance of the attacker winning that engagement and the expected number of units he would have if he went through with the attack.")
+"In the last section, you'll see the expected chance of the attacker winning that engagement and the expected number of units they would have if they went through with the attack.")
 console.log('----------------');
 console.log(util.inspect(fullBattleObject, false, null));
