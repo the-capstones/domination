@@ -21,7 +21,6 @@ export const Board = (props) => {
   const size = { x: layout.width, y: layout.height };
   const { selectedHex, currentPhase, renderAllotmentGUI, selectHex } = props;
 
-
   return (
     <div className="board">
       <HexGrid width={config.width} height={config.height}>
