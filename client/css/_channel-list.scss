@@ -14,6 +14,7 @@
   height: 80%;
   background: $black;
   padding: 2.5rem;
+  overflow: scroll;
 
 }
 
@@ -29,6 +30,10 @@
     padding: 0.5rem 1rem;
     background: $neutral;
     color: $black;
+  }
+
+  p {
+    min-width: 10rem;
   }
 }
 

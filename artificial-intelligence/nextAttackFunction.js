@@ -1,5 +1,5 @@
 const battleMatrix = require('./battleMatrix')
-const attackMatrix = require('./attackMatrixCreator')
+const attackMatrixFunctions = require('./attackMatrixCreator')
 
 // This file is responsible for creating the nextAttack function
 
@@ -29,7 +29,7 @@ const hexesStep1 = {
         playerId: 1,
         unit1: 6,
     },
-    '0,0,1': {
+    '-1,0,1': {
         movesLeft: 0,
         playerId: 2,
         unit1: 3,
@@ -38,7 +38,7 @@ const hexesStep1 = {
 // this is our hex that we will be attacking from
 const attackStartHex = '0,0,0'
 // this is the enemy hex that we will be attacking
-const attackEndHex = '0,0,1'
+const attackEndHex = '-1,0,1'
 
 function winProbability(allHexesObj, battleMatrix, myHex, enemyHex){
     const attackerUnits = allHexesObj[myHex].unit1
@@ -48,7 +48,7 @@ function winProbability(allHexesObj, battleMatrix, myHex, enemyHex){
 }
 
 // test the function winProbability with the console.log statements below
-// console.log(battleMatrix[6][3].ChanceToWin)
+// console.log(battleMatrix[6][3].ChanceToWin, 'chance to win 6 vs 3')
 // console.log(winProbability(hexesStep1, battleMatrix, attackStartHex, attackEndHex))
 
 // Step 2: Create a function that returns the best possible attack out of all possible attacks.
@@ -74,63 +74,63 @@ const hexesStep2 = {
         unit1: 6,
     },
     // we want to filter out this hex because the hex isn't valid
-    '-1,0,0': {
+    '-1,0,1': {
         movesLeft: 0,
         playerId: null,
         unit1: 0,
     },
     // we want to return these 4 hexes
-    '0,-1,0': {
+    '-1,1,0': {
         movesLeft: 0,
         playerId: 2,
         unit1: 7,
     },
-    '0,1,0': {
+    '0,-1,1': {
         movesLeft: 0,
         playerId: 2,
         unit1: 8,
     },
-    '0,0,-1': {
+    '0,1,-1': {
         movesLeft: 0,
         playerId: 2,
         unit1: 9,
     },
     // this is the attack hex we want our function to return
-    '0,0,1': {
+    '1,0,-1': {
         movesLeft: 0,
         playerId: 2,
         unit1: 1,
     },
     // we want to filter out this hex because the hex isn't valid for the second of our territories
-    '4,5,5': {
+    '4,5,6': {
         movesLeft: 0,
         playerId: null,
         unit1: 6,
     },
     // we want to filter out this hex because the hex doesn't have enough units
-    '6,5,5': {
+    '4,6,5': {
         movesLeft: 2,
         playerId: 1,
         unit1: 1,
     },
     // we want to filter out this hex because the hex doesn't have enough moves
-    '5,4,5': {
+    '5,4,6': {
         movesLeft: 0,
         playerId: 1,
         unit1: 6,
     },
     // the following three territories are attackable, but not the best attacks
-    '5,6,5': {
+    '5,6,4': {
         movesLeft: 0,
         playerId: 2,
         unit1: 10,
     },
-    '5,5,4': {
+    '6,5,4': {
         movesLeft: 0,
         playerId: 2,
         unit1: 10,
     },
-    '5,5,6': {
+    '6,4,5': {
         movesLeft: 0,
         playerId: 2,
         unit1: 10,
@@ -140,7 +140,7 @@ const hexesStep2 = {
 // attackMatrix requires hexesObj, artIntelplayerId
 // winProbability requires allHexesObj, battleMatrix, myHex, enemyHex
 function bestAttack(allHexesObj, artIntelplayerId, battleMatrix, minThresholdToAttack){
-  const currentAttackMatrix = attackMatrix(allHexesObj, artIntelplayerId)
+  const currentAttackMatrix = attackMatrixFunctions.attackMatrix(allHexesObj, artIntelplayerId)
   let bestWinProbability = minThresholdToAttack
   let nextAttack = []
   for (const myHex in currentAttackMatrix){

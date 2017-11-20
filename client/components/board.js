@@ -54,7 +54,6 @@ class Board extends Component {
   const size = { x: layout.width, y: layout.height };
   const { selectedHex, currentPhase, renderAllotmentGUI, selectHex } = this.props;
 
-
   return (
     <div className="board">
       <HexGrid width={config.width} height={config.height}>
