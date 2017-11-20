@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { logout, setInGame } from '../store';
+import firebase from '../firebase'
+
 
 import '../css/_sidebar.scss';
 
@@ -120,14 +122,16 @@ const mapState = (state) => {
   }
 }
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = (dispatch, ownProps) => {
+  const boardId = ownProps.match.params.boardId;
+
   return {
     handleClick() {
       dispatch(logout())
     },
     changePhase(currentPhase, currentPlayer, playerOrder) {
       if (currentPhase === 'allotment') {
-        dispatch(setCurrentPhase('attack'));
+        firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'attack' });
       }
       else {
         const currIdx = playerOrder.indexOf(currentPlayer);
@@ -139,16 +143,15 @@ const mapDispatch = (dispatch) => {
         else {
           nextIdx = currIdx + 1;
         }
-
-        // const nextPlayer = playerOrder[nextIdx];
-        // dispatch(setCurrentPlayer(nextPlayer));
-        // dispatch(setCurrentPhase('allotment'));
+        const nextPlayer = playerOrder[nextIdx];
+        firebase.ref(`/boards/${boardId}/state`).update({ currentPlayer: nextPlayer });
+        firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'allotment' });
       }
     }
   }
 }
 
-export default connect(mapState, mapDispatch)(Sidebar);
+export default withRouter(connect(mapState, mapDispatch)(Sidebar));
 
 /**
  * PROP TYPES
