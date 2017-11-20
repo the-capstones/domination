@@ -1,7 +1,7 @@
 import firebase from '../firebase';
 
 export const divvySpaces = (playerOrder, hexes, boardId) => {
-  const players = ['null', ...playerOrder];
+  const players = ['', ...playerOrder];
   const numPlayers = playerOrder.length;
   let numPlayerSpaces;
   let numSpaces = Object.keys(hexes).length;
@@ -32,13 +32,18 @@ export const divvySpaces = (playerOrder, hexes, boardId) => {
       {color: 'green', amount: numGreen},
       {color: 'blue', amount: numBlue}]
 
+    let playerAssigned = false;
+
     Object.keys(hexes).forEach(id => {
-      while (hexes[id].playerId === '') {
+      playerAssigned = false;
+      while (!playerAssigned) {
+        console.log(playerAssigned)
         let assign = Math.floor(Math.random() * (numPlayers + 1));
         if (assignmentColors[assign].amount) {
           assignmentColors[assign].amount--
           hexes[id].playerId = players[assign]
           firebase.ref(`/boards/${boardId}/hexes/${id}`).update({playerId: players[assign]})
+          playerAssigned = true;
         }
       }
     })

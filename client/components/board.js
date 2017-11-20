@@ -22,7 +22,7 @@ class Board extends Component {
       polyIdDiv.remove();
     });
 
-    let players = ['null', ...this.props.playerOrder];
+    let players = ['', ...this.props.playerOrder];
 
     if (this.props.hexes) {
     Object.keys(this.props.hexes).forEach(id => {
