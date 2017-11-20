@@ -1,20 +1,17 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
-import { withRouter, Link } from 'react-router-dom';
-import  {auth, setInGame, setBoardName, setMaxPlayers, setBoardId } from '../store'
-
+import { connect } from 'react-redux'
+import { hexagons } from './gridGenerator'
 import '../css/_auth-form.scss';
+import firebase from '../firebase'
 
 // COMPONENT
 
 const NewGame = (props) => {
-  const { handleSubmit } = props
-
+  const { user } = props
   return (
     <div className="form">
       <h1>Start a New Game</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={evt => props.handleSubmit(evt, user)}>
         <div>
           <label htmlFor="boardName"><small>Game Room Name</small></label>
           <input name="boardName" type="text" />
@@ -32,27 +29,45 @@ const NewGame = (props) => {
   )
 }
 
-
-const mapState = (state) => {
-  return {
-
-  }
-}
-
+const mapState = state => ({ user: state.user })
 
 const mapDispatch = (dispatch, ownProps) => {
   return {
-    handleSubmit (evt) {
+    handleSubmit(evt, user) {
       evt.preventDefault();
       const boardName = evt.target.boardName.value;
-      const maxPlayers = evt.target.maxPlayers.value;
-      dispatch(setBoardName(boardName));
-      dispatch(setMaxPlayers(maxPlayers));
-      dispatch(setInGame(true))
-      ownProps.history.push('/play')
+      const maxPlayers = evt.target.maxPlayers.value || 2;
+      let hexes = {}
+
+      hexagons.forEach(hex => {
+        hex.id = `${hex.q},${hex.r},${hex.s}`;
+        hexes[hex.id] = {
+          movesLeft: 2,
+          playerId: '',
+          unit1: 0,
+          unit2: 0,
+          unit3: 0
+        }
+      });
+
+      let state = {
+        currentPhase: 'allotment', // or whatever default state 'start' should be default for distribution
+        currentPlayer: user.id, // default 1st player
+        playerOrder: [user.id], // array of all players in order of turn
+        allotmentPointsPerTurn: {}, //obj of points(val) per player(key) per turn
+        allotmentLeft: 0,
+        gameSettings: 'default', // array/obj of game settings TBD
+        status: 'waiting'
+      }
+
+      let board = { hexes, state, boardName, maxPlayers }
+      firebase
+        .ref('boards')
+        .push(board)
+        .then(snap => ownProps.history.push(`/boards/${snap.key}`))
     }
   }
 }
-const NewGameContainer = withRouter(connect(mapState, mapDispatch)(NewGame))
 
+const NewGameContainer = connect(mapState, mapDispatch)(NewGame)
 export default NewGameContainer

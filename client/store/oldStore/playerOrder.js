@@ -8,7 +8,7 @@ const SET_PLAYER_ORDER = 'SET_PLAYER_ORDER';
 /**
  * INITIAL STATE
  */
-const defaultPlayerOrder = [];
+const defaultPlayerOrder = ['zeke@zeke.zeke'];
 
 /**
  * ACTION CREATORS
