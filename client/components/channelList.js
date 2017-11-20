@@ -7,8 +7,8 @@ import firebase from '../firebase'
 import '../css/_channel-list.scss';
 
 const ChannelList = (props) => {
-  const { allBoards, joinGame } = props;
-  console.log(allBoards);
+  const { allBoards, joinGame, user } = props;
+
   return (
     <div className="channel-list-wrapper">
       <div className="channel-list">
@@ -26,7 +26,7 @@ const ChannelList = (props) => {
                 <p>{boardId}</p>
                 <p>{boardName}</p>
                 <p>players {amountOfCurrentPlayers}/{maxPlayers}</p>
-                <button onClick={() => joinGame(boardId)}>Join Game</button>
+                <button onClick={() => joinGame(boardId, user)}>Join Game</button>
               </div>
             )
           })
@@ -47,14 +47,27 @@ const mapState = (state) => {
   });
 
   return {
+    user: state.user,
     allBoards: boards,
   }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
   return {
-    joinGame(boardId) {
-      ownProps.history.push(`/boards/${boardId}`)
+    joinGame(boardId, user) {
+      const { id } = user;
+      let board;
+      firebase.ref(`/boards/${boardId}`).on('value', snap => {
+        board = snap.val();
+      });
+
+      const playerOrder = board.state.playerOrder.slice();
+      const alreadyInGame = playerOrder.includes(id);
+      if (!alreadyInGame && board.maxPlayers > playerOrder.length) {
+        playerOrder.push(id)
+        firebase.ref(`/boards/${boardId}/state`).update({ playerOrder });
+        ownProps.history.push(`/boards/${boardId}`)
+      }
     },
   }
 }
