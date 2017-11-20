@@ -1,8 +1,8 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withRouter, Link } from 'react-router-dom';
-import {auth} from '../store'
+import { auth } from '../store'
 
 import '../css/_auth-form.scss';
 
@@ -10,12 +10,18 @@ import '../css/_auth-form.scss';
  * COMPONENT
  */
 const AuthForm = (props) => {
-  const {name, displayName, handleSubmit, error} = props
+  const { name, displayName, handleSubmit, error } = props
 
   return (
     <div className="form">
       <h1>{displayName}</h1>
       <form onSubmit={handleSubmit} name={name}>
+        {displayName === 'Sign Up' &&
+          <div>
+            <label htmlFor="username"><small>Username</small></label>
+            <input name="username" type="text" />
+          </div>
+        }
         <div>
           <label htmlFor="email"><small>Email</small></label>
           <input name="email" type="text" />
@@ -59,12 +65,13 @@ const mapSignup = (state) => {
 
 const mapDispatch = (dispatch, ownProps) => {
   return {
-    handleSubmit (evt) {
+    handleSubmit(evt) {
       evt.preventDefault()
       const formName = evt.target.name
+      const username = evt.target.username.value
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      dispatch(auth(username, email, password, formName))
       ownProps.history.push('/')
     }
   }

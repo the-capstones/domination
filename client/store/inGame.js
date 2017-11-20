@@ -6,7 +6,7 @@ const SET_IN_GAME = 'SET_IN_GAME';
 
 // INITIAL STATE
 
-const defaultInGame = false;
+const defaultInGame = true;
 
 // ACTION CREATORS
 

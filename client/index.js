@@ -17,7 +17,7 @@ ReactDOM.render(
 )
 
 
-// the code below resets the database but keeps the model structure example (for clearing out tests)
+// // the code below resets the database but keeps the model structure example (for clearing out tests)
 // firebase.ref().set({
 //   boards: {
 //     boardId: {

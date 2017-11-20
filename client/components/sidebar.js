@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, setInGame } from '../store';
+import { calcAllotmentPoints, getCurrentPoints } from './calculateAllotmentPoints';
 import firebase from '../firebase'
 
 
@@ -14,11 +15,13 @@ const Sidebar = (props) => {
     isLoggedIn,
     handleClick,
     inGame,
+    hexagons,
     user,
     currentPhase,
     currentPlayer,
     changePhase,
     playerOrder,
+    allotmentPointsPerTurn,
   } = props;
 
   return (
@@ -97,7 +100,7 @@ const Sidebar = (props) => {
       {inGame && currentPlayer === user
         && (
           <div>
-            <button className="phase-btn" onClick={() => changePhase(currentPhase, currentPlayer, playerOrder)}>
+            <button className="phase-btn" onClick={() => changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons)}>
               {
                 currentPhase === 'allotment' ? 'Start Attack Phase' : 'End Turn'
               }
@@ -114,12 +117,14 @@ const Sidebar = (props) => {
  */
 const mapState = (state) => {
   return {
-    user: state.user.id,
+    user: state.user.username,
     isLoggedIn: !!state.user.id,
     inGame: state.inGame,
+    hexagons: state.board.hexes,
     currentPlayer: Object.keys(state.board).length && state.board.state.currentPlayer || '',
     currentPhase: Object.keys(state.board).length && state.board.state.currentPhase || '',
     playerOrder: Object.keys(state.board).length && state.board.state.playerOrder || [],
+    allotmentPointsPerTurn: Object.keys(state.board).length && state.board.state.allotmentPointsPerTurn,
   }
 }
 
@@ -130,11 +135,17 @@ const mapDispatch = (dispatch, ownProps) => {
     handleClick() {
       dispatch(logout())
     },
-    changePhase(currentPhase, currentPlayer, playerOrder) {
+    changePhase(
+      currentPhase,
+      currentPlayer,
+      playerOrder,
+      allotmentPointsPerTurn,
+      hexagons
+    ) {
       if (currentPhase === 'allotment') {
         firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'attack' });
       }
-      else {
+      else if (currentPhase === 'fortification' || currentPhase === 'attack') {
         const currIdx = playerOrder.indexOf(currentPlayer);
         let nextIdx;
 
@@ -145,7 +156,10 @@ const mapDispatch = (dispatch, ownProps) => {
           nextIdx = currIdx + 1;
         }
         const nextPlayer = playerOrder[nextIdx];
+        calcAllotmentPoints(boardId, hexagons);
+        const currentAllotment = getCurrentPoints(allotmentPointsPerTurn, nextPlayer);
         firebase.ref(`/boards/${boardId}/state`).update({ currentPlayer: nextPlayer });
+        firebase.ref(`/boards/${boardId}/state`).update({ allotmentLeft: currentAllotment });
         firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'allotment' });
       }
     }
