@@ -7,7 +7,6 @@ import { AllotmentGUI } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'
 
-
 export const Board = (props) => {
 
   const polyIdDivs = [...document.getElementsByClassName('poly-id')];
@@ -20,7 +19,6 @@ export const Board = (props) => {
   const layout = config.layout;
   const size = { x: layout.width, y: layout.height };
   const { selectedHex, currentPhase, renderAllotmentGUI, selectHex } = props;
-
 
   return (
     <div className="board">
