@@ -7,19 +7,52 @@ const CombatRisk = () => {
   const handleRoll = evnt => {
     evnt.preventDefault();
 
-    let dieContainers = document.getElementsByClassName('die-container')
+    const playerRolls = [];
+    let dieContainers = document.getElementsByClassName('die-container');
     Array.prototype.filter.call(dieContainers, function(container){
-      let label = container.getElementsByTagName('label')
-      let roll = dieRoll(1)
-      label[0].innerHTML = roll
+      let label = container.getElementsByTagName('label');
+      let roll = dieRoll(1);
+      label[0].innerHTML = roll;
+      playerRolls.push(roll);
     })
 
-    let enemyDieContainers = document.getElementsByClassName('enemy-die-container')
+    const enemyRolls = [];
+    let enemyDieContainers = document.getElementsByClassName('enemy-die-container');
     Array.prototype.filter.call(enemyDieContainers, function(container){
-      let label = container.getElementsByTagName('label')
-      let roll = dieRoll(1)
-      label[0].innerHTML = roll
+      let label = container.getElementsByTagName('label');
+      let roll = dieRoll(1);
+      label[0].innerHTML = roll;
+      enemyRolls.push(roll);
     })
+
+    evaluate(playerRolls, enemyRolls);
+  }
+
+  const evaluate = (playerDice, enemyDice) => {
+    let oneBigPlayer = 0;
+    let twoBigPlayer = 0;
+    let oneBigEnemy;
+    let twoBigEnemy;
+
+    if (enemyDice[0] > enemyDice[1]) {
+      oneBigEnemy = enemyDice[0];
+      twoBigEnemy = enemyDice[1];
+    } else {
+      oneBigEnemy = enemyDice[1];
+      twoBigEnemy = enemyDice[0];
+    }
+
+    playerDice.forEach(die => {
+      console.log('1 out ', oneBigPlayer)
+      console.log('2 out ', twoBigPlayer)
+      if (die >= oneBigPlayer) {
+        twoBigPlayer = oneBigPlayer;
+        oneBigPlayer = die;
+      } else if (die > twoBigPlayer) {
+        twoBigPlayer = die;
+      }
+    });
+
   }
 
   return (
