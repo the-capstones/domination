@@ -34,7 +34,10 @@ class Routes extends Component {
     return (
       <Router history={history}>
         <Main>
-          <Route path="/" component={Sidebar} />
+          <Switch>
+            <Route path="/boards/:boardId" component={Sidebar} />
+            <Route path="/" component={Sidebar} />
+          </Switch>
           <Switch>
             <Route path="/boards/:boardId" component={Room} />
             <Route path="/newGame" component={NewGame} />
@@ -47,9 +50,9 @@ class Routes extends Component {
               <Switch>
                 <Route path="/home" component={UserHome} />
                 <Route path="/settings" component={Settings} />
-            <Route exact path="/combat-risk" component={CombatRisk} />
-            <Route exact path="/combat-custom" component={CombatCustom} />
-            <Route exact path="/allotment" component={AllotmentGUI} />
+                <Route exact path="/combat-risk" component={CombatRisk} />
+                <Route exact path="/combat-custom" component={CombatCustom} />
+                <Route exact path="/allotment" component={AllotmentGUI} />
               </Switch>
             }
           </Switch>
