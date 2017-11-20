@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import firebase from '../firebase'
-import { setInGame } from '../store';
 
 import '../css/_room.scss';
 
@@ -11,12 +10,6 @@ const WaitingRoom = (props) => {
   const maxPlayers = board.maxPlayers
   const numPlayers = board.state.playerOrder.length
   const players = board.state.playerOrder
-
-  // Object.keys(board.hexes).forEach(id => {
-  //   let hex = document.getElementById(id).previousSibling
-
-  //   console.log(hex.classList)
-  // })
 
   const divvySpaces = () => {
     let numPlayerSpaces;
@@ -58,6 +51,7 @@ const WaitingRoom = (props) => {
           if (assignmentColors[assign].amount) {
             assignmentColors[assign].amount--
             board.hexes[id].playerId = players[assign]
+
             switch (assignmentColors[assign].color) {
               case 'black':
                 return hex.classList.add('hex-fill-black');
@@ -78,6 +72,8 @@ const WaitingRoom = (props) => {
         }
       })
     }
+
+    props.startGame()
   }
 
   return (
@@ -92,7 +88,8 @@ const WaitingRoom = (props) => {
               <button
                 className="text"
                 type="submit"
-                onClick={props.startGame}
+                // onClick={props.startGame}
+                onClick={divvySpaces}
               >
                 Start Game
               </button>
@@ -114,7 +111,6 @@ const mapDispatch = (dispatch, ownProps) => {
       evt.preventDefault()
       const boardId = ownProps.match.params.boardId
       firebase.ref(`/boards/${boardId}/state`).update({status: 'playing'})
-      dispatch(setInGame(true))
     }
   }
 }
