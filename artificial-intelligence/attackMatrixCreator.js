@@ -114,34 +114,34 @@ const hexesStep2 = {
         unit1: 6,
     },
     // we want to filter out this hex because the hex isn't valid
-    '-1,0,0': {
+    '-1,0,1': {
         movesLeft: 0,
         playerId: null,
         unit1: 6,
     },
     // we want to filter out this hex because it belongs to the AI
-    '1,0,0': {
+    '-1,1,0': {
         movesLeft: 2,
         playerId: 1,
         unit1: 1,
     },
     // we want to return these 4 hexes
-    '0,-1,0': {
+    '1,-1,0': {
         movesLeft: 2,
         playerId: 2,
         unit1: 6,
     },
-    '0,1,0': {
+    '1,0,-1': {
         movesLeft: 2,
         playerId: 2,
         unit1: 6,
     },
-    '0,0,-1': {
+    '0,1,-1': {
         movesLeft: 2,
         playerId: 2,
         unit1: 6,
     },
-    '0,0,1': {
+    '0,-1,1': {
         movesLeft: 2,
         playerId: 2,
         unit1: 6,
@@ -151,12 +151,12 @@ const hexesStep2 = {
 function adjacentHex(startingHexString){
     const startingHexArray = [startingHexString.split(',').map(numString => +numString)]
     const nestedResults = startingHexArray.map(starting => (
-        [[starting[0] - 1, starting[1], starting[2]],
-        [starting[0] + 1, starting[1], starting[2]],
-        [starting[0], starting[1] - 1, starting[2]],
-        [starting[0], starting[1] + 1, starting[2]],
-        [starting[0], starting[1], starting[2] - 1],
-        [starting[0], starting[1], starting[2] + 1]]
+        [[starting[0] - 1, starting[1] + 1, starting[2]],
+        [starting[0] - 1, starting[1], starting[2] + 1],
+        [starting[0], starting[1] - 1, starting[2] + 1],
+        [starting[0], starting[1] + 1, starting[2] - 1],
+        [starting[0] + 1, starting[1], starting[2] - 1],
+        [starting[0] + 1, starting[1] - 1, starting[2]]]
     ))
     const adjacentHexes = nestedResults[0].map(hex => hex.join(','))
     return adjacentHexes
@@ -214,62 +214,62 @@ const hexesStep3 = {
         unit1: 6,
     },
     // we want to filter out this hex because the hex isn't valid
-    '-1,0,0': {
+    '-1,1,0': {
         movesLeft: 0,
         playerId: null,
         unit1: 6,
     },
     // we want to return these 4 hexes for the first of our territories
-    '0,-1,0': {
+    '-1,0,1': {
         movesLeft: 0,
         playerId: 2,
         unit1: 6,
     },
-    '0,1,0': {
+    '0,-1,1': {
         movesLeft: 0,
         playerId: 2,
         unit1: 6,
     },
-    '0,0,-1': {
+    '0,1,-1': {
         movesLeft: 0,
         playerId: 2,
         unit1: 6,
     },
-    '0,0,1': {
+    '1,0,-1': {
         movesLeft: 0,
         playerId: 2,
         unit1: 6,
     },
     // we want to filter out this hex because the hex isn't valid for the second of our territories
-    '4,5,5': {
+    '4,5,6': {
         movesLeft: 0,
         playerId: null,
         unit1: 6,
     },
     // we want to filter out this hex because the hex doesn't have enough units
-    '6,5,5': {
+    '4,6,5': {
         movesLeft: 2,
         playerId: 1,
         unit1: 1,
     },
     // we want to filter out this hex because the hex doesn't have enough moves
-    '5,4,5': {
+    '5,4,6': {
         movesLeft: 0,
         playerId: 1,
         unit1: 6,
     },
     // we want to return the follow 3 territories for our second hex
-    '5,6,5': {
+    '5,6,4': {
         movesLeft: 0,
         playerId: 2,
         unit1: 6,
     },
-    '5,5,4': {
+    '6,5,4': {
         movesLeft: 0,
         playerId: 2,
         unit1: 6,
     },
-    '5,5,6': {
+    '6,4,5': {
         movesLeft: 0,
         playerId: 2,
         unit1: 6,
@@ -297,4 +297,9 @@ function attackMatrix(hexesObj, artIntelplayerId){
 // console.log('starting playerId for the artificial intelligence', myPlayerId)
 // console.log(attackMatrix(hexesStep3, myPlayerId))
 
-module.exports = attackMatrix
+module.exports = {
+    attackMatrix,
+    myHexes,
+    enoughUnits,
+    adjacentHex
+}

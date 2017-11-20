@@ -67,6 +67,7 @@ function diceCombinations(numDice) {
       );
     });
     results = newResults;
+    newResults = []
     counter--;
   }
   return results;
