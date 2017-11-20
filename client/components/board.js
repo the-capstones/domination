@@ -52,7 +52,7 @@ class Board extends Component {
   render() {
     const layout = config.layout;
     const size = { x: layout.width, y: layout.height };
-    const { hexes, selectedHex, currentPhase, renderAllotmentGUI, selectHex, hexes, userId } = this.props;
+    const { hexes, selectedHex, currentPhase, renderAllotmentGUI, selectHex, userId } = this.props;
 
     return (
       <div className="board">
@@ -69,8 +69,8 @@ class Board extends Component {
                   r={hex.r}
                   s={hex.s}
                   onClick={() => {
-                    this.props.renderAllotmentGUI(currentPhase, hexId, selectedHex, hexes, userId);
                     this.props.selectHex(hexId);
+                    this.props.renderAllotmentGUI(currentPhase, hexId, selectedHex, hexes, userId);
                   }}
 
                 >
@@ -108,7 +108,7 @@ const mapDispatch = (dispatch, ownProps) => {
   return {
     renderAllotmentGUI(phase, id, selectedHexId, hexes, user) {
       if (phase === 'allotment') {
-        if (hexes[selectedHexId].playerId === user) {
+        if (hexes[id].playerId === user) {
           const selectedHex = document.getElementById(`${selectedHexId}-algui`);
           selectedHexId && selectedHex.classList.remove('show');
           const gui = document.getElementById(`${id}-algui`);
