@@ -2,51 +2,18 @@ import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { hexagons, config } from '../functions';
+import { hexagons, config, addColors, addIdToHexes } from '../functions';
 import { AllotmentGUI } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'
 
 
 class Board extends Component {
-  constructor(props) {
-    super(props)
-
-  }
 
   componentDidMount() {
-    const polyIdDivs = [...document.getElementsByClassName('poly-id')];
-    polyIdDivs.forEach(polyIdDiv => {
-      const poly = polyIdDiv.parentNode.firstChild;
-      poly.id = polyIdDiv.id;
-      polyIdDiv.remove();
-    });
-
-    let players = ['', ...this.props.playerOrder];
-
-    if (this.props.hexes) {
-      Object.keys(this.props.hexes).forEach(id => {
-        let hex = document.getElementById(id)
-
-        switch (this.props.hexes[id].playerId) {
-          case players[0]:
-            return hex.classList.add('hex-fill-black');
-          case players[1]:
-            return hex.classList.add('hex-fill-red');
-          case players[2]:
-            return hex.classList.add('hex-fill-orange');
-          case players[3]:
-            return hex.classList.add('hex-fill-yellow');
-          case players[4]:
-            return hex.classList.add('hex-fill-green');
-          case players[5]:
-            return hex.classList.add('hex-fill-blue');
-          default:
-            break;
-        }
-      })
-    }
-
+    const { playerOrder, hexes } = this.props;
+    addIdToHexes();
+    addColors(playerOrder, hexes);
   }
 
   render() {

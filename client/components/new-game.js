@@ -45,7 +45,7 @@ const mapDispatch = (dispatch, ownProps) => {
         hexes[hex.id] = {
           movesLeft: 2,
           playerId: '',
-          unit1: 0,
+          unit1: 1,
           unit2: 0,
           unit3: 0
         }

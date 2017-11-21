@@ -55,16 +55,16 @@ const mapState = (state) => {
 const mapDispatch = (dispatch, ownProps) => {
   return {
     joinGame(boardId, user) {
-      const { id } = user;
+      const { username } = user;
       let board;
       firebase.ref(`/boards/${boardId}`).on('value', snap => {
         board = snap.val();
       });
 
       const playerOrder = board.state.playerOrder.slice();
-      const alreadyInGame = playerOrder.includes(id);
+      const alreadyInGame = playerOrder.includes(username);
       if (!alreadyInGame && board.maxPlayers > playerOrder.length) {
-        playerOrder.push(id)
+        playerOrder.push(username)
         firebase.ref(`/boards/${boardId}/state`).update({ playerOrder });
         ownProps.history.push(`/boards/${boardId}`)
       }

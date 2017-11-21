@@ -27,9 +27,9 @@ export const divvySpaces = (playerOrder, hexes, boardId) => {
       { color: 'black', amount: numVoidSpaces },
       { color: 'red', amount: spacesPerPlayer },
       { color: 'blue', amount: spacesPerPlayer },
+      { color: 'yellow', amount: spacesPerPlayer },
       { color: 'green', amount: spacesPerPlayer },
       { color: 'orange', amount: spacesPerPlayer },
-      { color: 'yellow', amount: spacesPerPlayer },
     ]
 
     // used for validBoardCheck
@@ -50,7 +50,7 @@ export const divvySpaces = (playerOrder, hexes, boardId) => {
           hex.playerId = player;
           successfulAssign = true;
         }
-        if (!initialValidHex) initialValidHex = id;
+        if (!initialValidHex && hexesCopy[id].playerId !== '') initialValidHex = id;
       }
     });
 
@@ -59,4 +59,18 @@ export const divvySpaces = (playerOrder, hexes, boardId) => {
       firebase.ref(`/boards/${boardId}`).update({ hexes: hexesCopy })
     }
   } //while !validBoard
+}
+
+export const addColors = (playerOrder, hexes) => {
+  const players = ['', ...playerOrder];
+  const colors = ['black', 'red', 'blue', 'yellow', 'green', 'orange'];
+
+  if (hexes) {
+    Object.keys(hexes).forEach(id => {
+      const hex = document.getElementById(id)
+      const username = hexes[id].playerId;
+      const playerId = players.indexOf(username);
+      hex.classList.add(`hex-fill-${colors[playerId]}`);
+    })
+  }
 }
