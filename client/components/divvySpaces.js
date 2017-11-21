@@ -37,7 +37,6 @@ export const divvySpaces = (playerOrder, hexes, boardId) => {
     Object.keys(hexes).forEach(id => {
       playerAssigned = false;
       while (!playerAssigned) {
-        console.log(playerAssigned)
         let assign = Math.floor(Math.random() * (numPlayers + 1));
         if (assignmentColors[assign].amount) {
           assignmentColors[assign].amount--

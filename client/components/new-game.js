@@ -58,7 +58,9 @@ const mapDispatch = (dispatch, ownProps) => {
         allotmentPointsPerTurn: { [user.username]: 3 }, //obj of points(val) per player(key) per turn
         allotmentLeft: 3,
         gameSettings: 'default', // array/obj of game settings TBD
-        status: 'waiting'
+        status: 'waiting',
+        selectedHex: '',
+        prevSelectedHex: ''
       }
 
       let board = { hexes, state, boardName, maxPlayers }

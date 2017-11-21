@@ -3,7 +3,7 @@ import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { hexagons, config } from './gridGenerator';
-import { AllotmentGUI } from './';
+import { AllotmentGUI, CombatRisk } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'
 
@@ -52,7 +52,7 @@ class Board extends Component {
   render() {
     const layout = config.layout;
     const size = { x: layout.width, y: layout.height };
-    const { hexes, selectedHex, currentPhase, renderAllotmentGUI, selectHex } = this.props;
+    const { hexes, selectedHex, prevSelectedHex, currentPhase, renderAllotmentGUI, renderCombatGUI, selectHex } = this.props;
 
     return (
       <div className="board">
@@ -69,8 +69,9 @@ class Board extends Component {
                   r={hex.r}
                   s={hex.s}
                   onClick={() => {
+                    this.props.renderCombatGUI(currentPhase, hexId, selectedHex, prevSelectedHex);
                     this.props.renderAllotmentGUI(currentPhase, hexId, selectedHex);
-                    this.props.selectHex(hexId);
+                    this.props.selectHex(hexId, selectedHex, currentPhase);
                   }}
 
                 >
@@ -97,6 +98,7 @@ const mapState = (state) => {
   return {
     currentPhase: state.board.state.currentPhase,
     selectedHex: state.board.state.selectedHex,
+    prevSelectedHex: state.board.state.prevSelectedHex,
     hexes: state.board.hexes,
     playerOrder: state.board.state.playerOrder
   }
@@ -112,8 +114,13 @@ const mapDispatch = (dispatch, ownProps) => {
         gui.classList.add('show');
       }
     },
-    selectHex(id) {
-      firebase.ref(`/boards/${ownProps.boardId}/state`).update({ selectedHex: id })
+    renderCombatGUI(phase, id, selectedHexId, prevSelectedHex) {
+      // if (phase === 'attack' && selectedHexId && prevSelectedHex) {
+      // }
+    },
+    selectHex(newHexId, oldHexId, phase) {
+      firebase.ref(`/boards/${ownProps.boardId}/state`).update({ prevSelectedHex: oldHexId })
+      firebase.ref(`/boards/${ownProps.boardId}/state`).update({ selectedHex: newHexId })
     }
   }
 }
