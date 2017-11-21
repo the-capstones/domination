@@ -1,52 +1,62 @@
 import firebase from '../firebase';
+import { validBoardCheck } from './';
+
+const PERCENT_DISABLED = .20;
 
 export const divvySpaces = (playerOrder, hexes, boardId) => {
-  const players = ['', ...playerOrder];
-  const numPlayers = playerOrder.length;
-  let numPlayerSpaces;
-  let numSpaces = Object.keys(hexes).length;
-  let numVoidSpaces = Math.floor(numSpaces / 10) * 2;
-  let numAllotSpaces = numSpaces - numVoidSpaces;
+  let validBoard = false;
 
+  while (!validBoard) {
+    const players = ['', ...playerOrder];
+    const numPlayers = playerOrder.length;
+    let numSpaces = Object.keys(hexes).length;
+    let numVoidSpaces = Math.floor(numSpaces * PERCENT_DISABLED);
+    let numAllotSpaces = numSpaces - numVoidSpaces;
 
-  if (numPlayers >= 1) {
+    // distributes spaces evenly to players
     if (numAllotSpaces % numPlayers !== 0) {
       let numExtra = numAllotSpaces % numPlayers;
       numVoidSpaces += numExtra;
       numAllotSpaces -= numExtra;
     }
 
-    numPlayerSpaces = numAllotSpaces / numPlayers;
+    const spacesPerPlayer = numAllotSpaces / numPlayers;
 
-    let numRed = numPlayerSpaces;
-    let numOrange = numPlayerSpaces;
-    let numYellow = numPlayerSpaces;
-    let numGreen = numPlayerSpaces;
-    let numBlue = numPlayerSpaces;
-
+    // maps to players order 0: disabled, 1: player1 ...
     let assignmentColors = [
-      {color: 'black', amount: numVoidSpaces},
-      {color: 'red', amount: numRed},
-      {color: 'orange', amount: numOrange},
-      {color: 'yellow', amount: numYellow},
-      {color: 'green', amount: numGreen},
-      {color: 'blue', amount: numBlue}]
+      { color: 'black', amount: numVoidSpaces },
+      { color: 'red', amount: spacesPerPlayer },
+      { color: 'blue', amount: spacesPerPlayer },
+      { color: 'green', amount: spacesPerPlayer },
+      { color: 'orange', amount: spacesPerPlayer },
+      { color: 'yellow', amount: spacesPerPlayer },
+    ]
 
-    let playerAssigned = false;
+    // used for validBoardCheck
+    let initialValidHex;
 
-    Object.keys(hexes).forEach(id => {
-      playerAssigned = false;
-      while (!playerAssigned) {
-        console.log(playerAssigned)
-        let assign = Math.floor(Math.random() * (numPlayers + 1));
-        if (assignmentColors[assign].amount) {
-          assignmentColors[assign].amount--
-          hexes[id].playerId = players[assign]
-          firebase.ref(`/boards/${boardId}/hexes/${id}`).update({playerId: players[assign]})
-          firebase.ref(`/boards/${boardId}/hexes/${id}`).update({unit1: 1})
-          playerAssigned = true;
+    const hexesCopy = Object.assign({}, hexes);
+
+    Object.keys(hexesCopy).forEach(id => {
+      let successfulAssign = false;
+      while (!successfulAssign) {
+        const assign = Math.floor(Math.random() * (numPlayers + 1));
+        const assignment = assignmentColors[assign];
+        const player = players[assign];
+        const hex = hexesCopy[id];
+
+        if (assignment.amount > 0) {
+          assignment.amount--;
+          hex.playerId = player;
+          successfulAssign = true;
         }
+        if (!initialValidHex) initialValidHex = id;
       }
-    })
-  }
+    });
+
+    if (validBoardCheck(initialValidHex, hexesCopy)) {
+      validBoard = true;
+      firebase.ref(`/boards/${boardId}`).update({ hexes: hexesCopy })
+    }
+  } //while !validBoard
 }
