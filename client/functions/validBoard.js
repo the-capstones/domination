@@ -11,12 +11,14 @@ const filterValidHexes = (mightBeNeighbors, cache, hexes) => {
 };
 
 export const validBoardCheck = (initialHex, hexes) => {
-  let mightBeNeighbors;;
+  let mightBeNeighbors;
   const queue = [];
   const cache = {};
   let index = -1;
   while (index < queue.length) {
-    mightBeNeighbors = mightBeNeighbors === undefined ? getNeighbors(initialHex) : getNeighbors(queue[index]);
+    mightBeNeighbors = mightBeNeighbors === undefined
+      ? getNeighbors(initialHex)
+      : getNeighbors(queue[index]);
     queue.push(...filterValidHexes(mightBeNeighbors, cache, hexes));
     index++;
   }

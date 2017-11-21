@@ -76,9 +76,9 @@ class Board extends Component {
                 >
                   <div className="poly-id" id={hexId} />
                   <Text>
-                    {/*doesPlayerOwn ? hexUnits : ''*/}
+                    {doesPlayerOwn ? hexUnits : ''}
                   </Text>
-                  {<Text>{HexUtils.getID(hex)}</Text>}
+                  {/*<Text>{HexUtils.getID(hex)}</Text>*/}
                   <foreignObject id={`${hexId}-algui`}>
                     <AllotmentGUI hexId={hexId} />
                   </foreignObject>
