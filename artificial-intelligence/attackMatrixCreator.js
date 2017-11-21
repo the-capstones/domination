@@ -116,7 +116,7 @@ const hexesStep2 = {
     // we want to filter out this hex because the hex isn't valid
     '-1,0,1': {
         movesLeft: 0,
-        playerId: null,
+        playerId: '',
         unit1: 6,
     },
     // we want to filter out this hex because it belongs to the AI
@@ -167,7 +167,7 @@ const adjacentHexResults = adjacentHex(startingHex)
 function isAHexNotMyHex(allHexesObj, adjacentHexArray, artIntelplayerId){
   let results = []
   adjacentHexArray.forEach(hex => {
-    if (allHexesObj[hex] && allHexesObj[hex].playerId !== null && allHexesObj[hex].playerId !== artIntelplayerId){
+    if (allHexesObj[hex] && allHexesObj[hex].playerId !== '' && allHexesObj[hex].playerId !== artIntelplayerId){
         results.push(hex)
     }
   })
@@ -216,7 +216,7 @@ const hexesStep3 = {
     // we want to filter out this hex because the hex isn't valid
     '-1,1,0': {
         movesLeft: 0,
-        playerId: null,
+        playerId: '',
         unit1: 6,
     },
     // we want to return these 4 hexes for the first of our territories
@@ -243,7 +243,7 @@ const hexesStep3 = {
     // we want to filter out this hex because the hex isn't valid for the second of our territories
     '4,5,6': {
         movesLeft: 0,
-        playerId: null,
+        playerId: '',
         unit1: 6,
     },
     // we want to filter out this hex because the hex doesn't have enough units
