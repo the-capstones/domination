@@ -123,8 +123,10 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     selectHex(newHexId, oldHexId, phase) {
-      firebase.ref(`/boards/${ownProps.boardId}/state`).update({ prevSelectedHex: oldHexId })
-      firebase.ref(`/boards/${ownProps.boardId}/state`).update({ selectedHex: newHexId })
+      if (newHexId !== oldHexId) {
+        firebase.ref(`/boards/${ownProps.boardId}/state`).update({ prevSelectedHex: oldHexId })
+        firebase.ref(`/boards/${ownProps.boardId}/state`).update({ selectedHex: newHexId })
+      }
     }
   }
 }

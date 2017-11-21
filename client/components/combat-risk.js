@@ -8,9 +8,16 @@ import '../css/_combat-risk.scss';
 class CombatRisk extends Component {
   constructor(props){
     super(props)
+    this.attackingUnits = 0;
+    this.defendingUnits = 0;
   }
 
-  handleRoll = (evnt, attackingUnits, defendingUnits) => {
+  componentWillReceiveProps() {
+    console.log('attack', this.attackingUnits)
+    console.log('defend', this.defendingUnits)
+  }
+
+  handleRoll = (evnt) => {
     evnt.preventDefault();
 
     const playerRolls = [];
@@ -31,10 +38,10 @@ class CombatRisk extends Component {
       enemyRolls.push(roll);
     })
 
-    this.evaluate(playerRolls, enemyRolls, attackingUnits, defendingUnits);
+    this.evaluate(playerRolls, enemyRolls);
   }
 
-  evaluate = (playerDice, enemyDice, attackingUnits, defendingUnits) => {
+  evaluate = (playerDice, enemyDice) => {
     let enemyLargerRoll;
     let enemySmallerRoll;
     let playerLargerRoll = 0;
@@ -58,22 +65,19 @@ class CombatRisk extends Component {
     });
 
     if (playerLargerRoll > enemyLargerRoll) {
-      defendingUnits -= 1;
-      this.props.updateUnits(this.props.defendingHexId, defendingUnits);
+      this.props.updateUnits(this.props.defendingHexId, this.defendingUnits - 1);
     } else {
-      attackingUnits -= 1;
-      this.props.updateUnits(this.props.attackingHexId, attackingUnits);
+      this.props.updateUnits(this.props.attackingHexId, this.attackingUnits - 1);
     }
   }
 
   render() {
-    let attackingUnits = 0;
-    let defendingUnits = 0;
+
     if (this.props.attackingHexId) {
-      attackingUnits = this.props.hexes[this.props.attackingHexId].unit1;
+      this.attackingUnits = this.props.hexes[this.props.attackingHexId].unit1;
     }
     if (this.props.defendingHexId) {
-      defendingUnits = this.props.hexes[this.props.defendingHexId].unit1;
+      this.defendingUnits = this.props.hexes[this.props.defendingHexId].unit1;
     }
 
     return (
@@ -83,13 +87,13 @@ class CombatRisk extends Component {
 
             <div className="option-container">
               <label>PLAYER</label>
-              <button onClick={(evnt) => this.handleRoll(evnt, attackingUnits, defendingUnits)}>ROLL</button>
+              <button onClick={this.handleRoll}>ROLL</button>
               <button>END COMBAT</button>
             </div>
 
             <div className="unit-container">
               <h2>
-                {attackingUnits}
+                {this.attackingUnits}
               </h2>
               <label>UNITS</label>
               <label>REMAINING</label>
@@ -115,7 +119,7 @@ class CombatRisk extends Component {
           </div>
 
           <div className="result">
-            <label>RESULT</label>
+            <h3>RESULT</h3>
           </div>
 
           <div className="enemy-container">
@@ -126,7 +130,7 @@ class CombatRisk extends Component {
 
             <div className="enemy-unit-container">
               <h2>
-                {defendingUnits}
+                {this.defendingUnits}
               </h2>
               <label>UNITS</label>
               <label>REMAINING</label>
@@ -155,7 +159,7 @@ class CombatRisk extends Component {
 
 const mapState = (state) => {
   return {
-    defendingHexId: state.board.state.SelectedHex,
+    defendingHexId: state.board.state.selectedHex,
     attackingHexId: state.board.state.prevSelectedHex,
     hexes: state.board.hexes
   }
