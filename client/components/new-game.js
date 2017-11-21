@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { hexagons } from './gridGenerator'
+import { hexagons } from '../functions'
 import '../css/_auth-form.scss';
 import firebase from '../firebase'
 
@@ -45,7 +45,7 @@ const mapDispatch = (dispatch, ownProps) => {
         hexes[hex.id] = {
           movesLeft: 2,
           playerId: '',
-          unit1: 0,
+          unit1: 1,
           unit2: 0,
           unit3: 0
         }
