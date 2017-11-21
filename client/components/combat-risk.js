@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { dieRoll } from './dieRoll';
 import '../css/_combat-risk.scss';
 
-const CombatRisk = () => {
+const CombatRisk = (props) => {
+  let playerUnits = 10;
+  let enemyUnits = 10;
 
   const handleRoll = evnt => {
     evnt.preventDefault();
@@ -29,29 +32,44 @@ const CombatRisk = () => {
   }
 
   const evaluate = (playerDice, enemyDice) => {
-    let oneBigPlayer = 0;
-    let twoBigPlayer = 0;
-    let oneBigEnemy;
-    let twoBigEnemy;
+    let enemyLargerRoll;
+    let enemySmallerRoll;
+    let playerLargerRoll = 0;
+    let playerSmallerRoll = 0;
+    // let enemyRoll = enemyDice[0];
 
     if (enemyDice[0] > enemyDice[1]) {
-      oneBigEnemy = enemyDice[0];
-      twoBigEnemy = enemyDice[1];
+      enemyLargerRoll = enemyDice[0];
+      enemySmallerRoll = enemyDice[1];
     } else {
-      oneBigEnemy = enemyDice[1];
-      twoBigEnemy = enemyDice[0];
+      enemyLargerRoll = enemyDice[1];
+      enemySmallerRoll = enemyDice[0];
     }
 
     playerDice.forEach(die => {
-      console.log('1 out ', oneBigPlayer)
-      console.log('2 out ', twoBigPlayer)
-      if (die >= oneBigPlayer) {
-        twoBigPlayer = oneBigPlayer;
-        oneBigPlayer = die;
-      } else if (die > twoBigPlayer) {
-        twoBigPlayer = die;
+      if (die >= playerLargerRoll) {
+        playerSmallerRoll = playerLargerRoll;
+        playerLargerRoll = die;
+      } else if (die > playerSmallerRoll) {
+        playerSmallerRoll = die;
       }
     });
+
+    // if (playerDice[0] > playerDice[1]) {
+    //   playerLargerRoll = playerDice[0];
+    //   playerSmallerRoll = playerDice[1];
+    // } else {
+    //   playerLargerRoll = playerDice[1];
+    //   playerSmallerRoll = playerDice[0];
+    // }
+
+    if (playerLargerRoll > enemyLargerRoll) {
+      enemyUnits -= 1;
+      console.log(enemyUnits)
+    } else {
+      playerUnits -= 1;
+      console.log(playerUnits)
+    }
 
   }
 
@@ -66,7 +84,7 @@ const CombatRisk = () => {
         </div>
 
         <div className="unit-container">
-          <h2>10</h2>
+          <h2 id="player-units">{playerUnits}</h2>
           <label>UNITS</label>
           <label>REMAINING</label>
         </div>
@@ -103,8 +121,8 @@ const CombatRisk = () => {
           <label>ENEMY</label>
         </div>
 
-        <div className="unit-container">
-          <h2>10</h2>
+        <div className="enemy-unit-container">
+          <h2 id="enemy-units">{enemyUnits}</h2>
           <label>UNITS</label>
           <label>REMAINING</label>
         </div>
@@ -128,4 +146,29 @@ const CombatRisk = () => {
   )
 }
 
-export default CombatRisk;
+const mapState = (state) => {
+  return {
+    currentPhase: state.board.state.currentPhase,
+    selectedHex: state.board.state.selectedHex,
+    hexes: state.board.hexes,
+    playerOrder: state.board.state.playerOrder
+  }
+}
+
+const mapDispatch = (dispatch, ownProps) => {
+  return {
+    renderAllotmentGUI(phase, id, selectedHexId) {
+      if (phase === 'allotment') {
+        const selectedHex = document.getElementById(`${selectedHexId}-algui`);
+        selectedHexId && selectedHex.classList.remove('show');
+        const gui = document.getElementById(`${id}-algui`);
+        gui.classList.add('show');
+      }
+    },
+    selectHex(id) {
+      firebase.ref(`/boards/${ownProps.boardId}/state`).update({ selectedHex: id })
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(CombatRisk);
