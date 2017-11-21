@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { dieRoll } from './dieRoll';
 import firebase from '../firebase';
 import '../css/_combat-risk.scss';
 
-const CombatRisk = (props) => {
-  const { defendingHex, attackingHex } = props;
-  if (defendingHex && attackingHex) {
-    let defendingUnits = defendingHex.unit1;
-    let attackingUnits = attackingHex.unit1;
+class CombatRisk extends Component {
+  constructor(props){
+    super(props)
   }
 
-  const handleRoll = evnt => {
+  handleRoll = (evnt, attackingUnits, defendingUnits) => {
     evnt.preventDefault();
 
     const playerRolls = [];
@@ -32,10 +31,10 @@ const CombatRisk = (props) => {
       enemyRolls.push(roll);
     })
 
-    evaluate(playerRolls, enemyRolls);
+    this.evaluate(playerRolls, enemyRolls, attackingUnits, defendingUnits);
   }
 
-  const evaluate = (playerDice, enemyDice) => {
+  evaluate = (playerDice, enemyDice, attackingUnits, defendingUnits) => {
     let enemyLargerRoll;
     let enemySmallerRoll;
     let playerLargerRoll = 0;
@@ -59,95 +58,106 @@ const CombatRisk = (props) => {
     });
 
     if (playerLargerRoll > enemyLargerRoll) {
-      defendingUnits--;
-      this.props.updateUnits(this.props.defendingHex, defendingUnits);
+      defendingUnits -= 1;
+      this.props.updateUnits(this.props.defendingHexId, defendingUnits);
     } else {
-      attackingUnits--;
-      this.props.updateUnits(this.props.attackingHex, attackingUnits);
+      attackingUnits -= 1;
+      this.props.updateUnits(this.props.attackingHexId, attackingUnits);
     }
-
   }
 
-  return (
-    <div id="combat-wrapper" className="hidden">
-      <div className="combat">
-        <div className="player-container">
+  render() {
+    let attackingUnits = 0;
+    let defendingUnits = 0;
+    if (this.props.attackingHexId) {
+      attackingUnits = this.props.hexes[this.props.attackingHexId].unit1;
+    }
+    if (this.props.defendingHexId) {
+      defendingUnits = this.props.hexes[this.props.defendingHexId].unit1;
+    }
 
-          <div className="option-container">
-            <label>PLAYER</label>
-            <button onClick={handleRoll}>ROLL</button>
-            <button>END COMBAT</button>
+    return (
+      <div id="combat-wrapper" className="hidden">
+        <div className="combat">
+          <div className="player-container">
+
+            <div className="option-container">
+              <label>PLAYER</label>
+              <button onClick={(evnt) => this.handleRoll(evnt, attackingUnits, defendingUnits)}>ROLL</button>
+              <button>END COMBAT</button>
+            </div>
+
+            <div className="unit-container">
+              <h2>
+                {attackingUnits}
+              </h2>
+              <label>UNITS</label>
+              <label>REMAINING</label>
+            </div>
+
+            <div className="roll-container">
+              <div className="die-container">
+                <img src="assets/wizard-avatar.jpg" />
+                <label>-</label>
+              </div>
+
+              <div className="die-container">
+                <img src="assets/wizard-avatar.jpg" />
+                <label>-</label>
+              </div>
+
+              <div className="die-container">
+                <img src="assets/wizard-avatar.jpg" />
+                <label>-</label>
+              </div>
+            </div>
+
           </div>
 
-          <div className="unit-container">
-            <h2>
-              {props.attackingHex.unit1}
-            </h2>
-            <label>UNITS</label>
-            <label>REMAINING</label>
+          <div className="result">
+            <label>RESULT</label>
           </div>
 
-          <div className="roll-container">
-            <div className="die-container">
-              <img src="assets/wizard-avatar.jpg" />
-              <label>-</label>
+          <div className="enemy-container">
+
+            <div className="option-container">
+              <label>ENEMY</label>
             </div>
 
-            <div className="die-container">
-              <img src="assets/wizard-avatar.jpg" />
-              <label>-</label>
+            <div className="enemy-unit-container">
+              <h2>
+                {defendingUnits}
+              </h2>
+              <label>UNITS</label>
+              <label>REMAINING</label>
             </div>
 
-            <div className="die-container">
-              <img src="assets/wizard-avatar.jpg" />
-              <label>-</label>
+
+            <div className="roll-container">
+              <div className="enemy-die-container">
+                <img src="assets/wizard-avatar.jpg" />
+                <label>-</label>
+              </div>
+
+              <div className="enemy-die-container">
+                <img src="assets/wizard-avatar.jpg" />
+                <label>-</label>
+              </div>
             </div>
+
           </div>
 
         </div>
-
-        <div className="result">
-          <label>RESULT</label>
-        </div>
-
-        <div className="enemy-container">
-
-          <div className="option-container">
-            <label>ENEMY</label>
-          </div>
-
-          <div className="enemy-unit-container">
-            <h2>
-              {props.defendingHex.unit1}
-            </h2>
-            <label>UNITS</label>
-            <label>REMAINING</label>
-          </div>
-
-
-          <div className="roll-container">
-            <div className="enemy-die-container">
-              <img src="assets/wizard-avatar.jpg" />
-              <label>-</label>
-            </div>
-
-            <div className="enemy-die-container">
-              <img src="assets/wizard-avatar.jpg" />
-              <label>-</label>
-            </div>
-          </div>
-
-        </div>
-
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 const mapState = (state) => {
   return {
-    defendingHex: state.board.state.SelectedHex,
-    attackingHex: state.board.state.prevSelectedHex,
+    defendingHexId: state.board.state.SelectedHex,
+    attackingHexId: state.board.state.prevSelectedHex,
+    hexes: state.board.hexes
   }
 }
 
@@ -159,4 +169,4 @@ const mapDispatch = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(CombatRisk);
+export default withRouter(connect(mapState, mapDispatch)(CombatRisk));
