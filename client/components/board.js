@@ -56,6 +56,7 @@ class Board extends Component {
 
     return (
       <div className="board">
+        <CombatRisk />
         <HexGrid width={config.width} height={config.height}>
           <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
             {
@@ -100,7 +101,8 @@ const mapState = (state) => {
     selectedHex: state.board.state.selectedHex,
     prevSelectedHex: state.board.state.prevSelectedHex,
     hexes: state.board.hexes,
-    playerOrder: state.board.state.playerOrder
+    playerOrder: state.board.state.playerOrder,
+    currentPlayer: state.board.state.currentPlayer
   }
 }
 
@@ -115,8 +117,10 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     renderCombatGUI(phase, id, selectedHexId, prevSelectedHex) {
-      // if (phase === 'attack' && selectedHexId && prevSelectedHex) {
-      // }
+      if (phase === 'attack' && selectedHexId && prevSelectedHex) {
+        const combatGui = document.getElementById('combat-wrapper');
+        combatGui.classList.remove('hidden');
+      }
     },
     selectHex(newHexId, oldHexId, phase) {
       firebase.ref(`/boards/${ownProps.boardId}/state`).update({ prevSelectedHex: oldHexId })

@@ -1,11 +1,7 @@
 @import './_variables.scss';
 
-.show-combat {
-
-}
-
-.combat-gui-wrapper {
-
+.hidden {
+  display: none;
 }
 
 .combat {
@@ -14,6 +10,9 @@
   margin: 0.5rem;
   // width: calc(100vw - 1rem - 2px);
   background: $black;
+  position: absolute;
+  top: 30%;
+  left: 23%;
 }
 
 .player-container {

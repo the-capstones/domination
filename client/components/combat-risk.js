@@ -5,9 +5,11 @@ import firebase from '../firebase';
 import '../css/_combat-risk.scss';
 
 const CombatRisk = (props) => {
-  // const { defendingHex, attackingHex } = props;
-  // const defendingUnits = defendingHex.unit1;
-  // const attackingUnits = attackingHex.unit1;
+  const { defendingHex, attackingHex } = props;
+  if (defendingHex && attackingHex) {
+    let defendingUnits = defendingHex.unit1;
+    let attackingUnits = attackingHex.unit1;
+  }
 
   const handleRoll = evnt => {
     evnt.preventDefault();
@@ -57,16 +59,17 @@ const CombatRisk = (props) => {
     });
 
     if (playerLargerRoll > enemyLargerRoll) {
-      // defendingUnits--;
-      // this.props.updateUnits(this.props.defendingHex, defendingUnits);
+      defendingUnits--;
+      this.props.updateUnits(this.props.defendingHex, defendingUnits);
     } else {
-      // attackingUnits--;
-      // this.props.updateUnits(this.props.attackingHex, attackingUnits);
+      attackingUnits--;
+      this.props.updateUnits(this.props.attackingHex, attackingUnits);
     }
 
   }
 
   return (
+    <div id="combat-wrapper" className="hidden">
       <div className="combat">
         <div className="player-container">
 
@@ -78,7 +81,7 @@ const CombatRisk = (props) => {
 
           <div className="unit-container">
             <h2>
-              {/* this.props.attackingHex.unit1 */}
+              {props.attackingHex.unit1}
             </h2>
             <label>UNITS</label>
             <label>REMAINING</label>
@@ -115,7 +118,7 @@ const CombatRisk = (props) => {
 
           <div className="enemy-unit-container">
             <h2>
-              {/* this.props.defendingHex.unit1 */}
+              {props.defendingHex.unit1}
             </h2>
             <label>UNITS</label>
             <label>REMAINING</label>
@@ -137,13 +140,14 @@ const CombatRisk = (props) => {
         </div>
 
       </div>
+    </div>
   )
 }
 
 const mapState = (state) => {
   return {
-    // defendingHex: state.board.state.SelectedHex,
-    // attackingHex: state.board.state.prevSelectedHex,
+    defendingHex: state.board.state.SelectedHex,
+    attackingHex: state.board.state.prevSelectedHex,
   }
 }
 
