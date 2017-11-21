@@ -4,8 +4,8 @@
   position: fixed;
   border-radius: 5px;
   padding: 1rem;
-  width: 10rem;
-  height: 2rem;
+  width: 15rem;
+  min-height: 3.2rem;
   top: 0;
   left: 0;
   background: $black;
@@ -15,7 +15,7 @@
     text-align: center;
     background: none;
     border: none;
-    padding: 0 1rem;
+    padding: 0.5rem;
   }
 }
 

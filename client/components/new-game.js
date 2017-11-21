@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { hexagons } from './gridGenerator'
+import { hexagons } from '../functions'
 import '../css/_auth-form.scss';
 import firebase from '../firebase'
 

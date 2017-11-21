@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { setInGame } from '../store';
 import firebase from '../firebase'
+import { divvySpaces } from '../functions';
 
 import '../css/_room.scss';
-import { divvySpaces } from './divvySpaces';
 
 const WaitingRoom = (props) => {
   const { board, user } = props
