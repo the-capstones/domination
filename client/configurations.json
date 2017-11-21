@@ -1,11 +1,11 @@
 {
   "hexagon": {
-    "width": 2000,
-    "height": 1600,
-    "layout": { "width": 3, "height": 3, "flat": false, "spacing": 1.02 },
+    "width": 800,
+    "height": 600,
+    "layout": { "width": 7, "height": 7, "flat": false, "spacing": 1.02 },
     "origin": { "x": 0, "y": 0 },
     "map": "hexagon",
-    "mapProps": [ 8 ]
+    "mapProps": [ 3 ]
   },
   "triangle": {
     "width": 1000,

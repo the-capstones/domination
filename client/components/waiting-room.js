@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { setInGame } from '../store';
 import firebase from '../firebase'
 
 import '../css/_room.scss';
@@ -17,7 +18,7 @@ const WaitingRoom = (props) => {
         <div><p>Waiting for game to start</p></div>
         <div className="center"><i className="fa fa-cog fa-spin fa-5x fa-fw" /></div>
         <div><p>{numPlayers}/{maxPlayers} players in room</p></div>
-        { user.id === board.state.currentPlayer &&
+        { user.username === board.state.currentPlayer &&
           (
             <div className="center">
               <button
@@ -45,6 +46,7 @@ const mapDispatch = (dispatch, ownProps) => {
       evnt.preventDefault();
       const boardId = ownProps.match.params.boardId;
       divvySpaces(playerOrder, hexes, boardId);
+      dispatch(setInGame(true));
       firebase.ref(`/boards/${boardId}/state`).update({status: 'playing'});
     }
   }
