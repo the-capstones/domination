@@ -17,7 +17,7 @@ export const calcAllotmentPoints = (boardId, hexes) => {
   const PER_HEX_POINTS = 0.0833; // 1/15 || 1 per 15 owned
 
   for (let player in hexesOwned) {
-    if (player !== 'null') {
+    if (!!player) {
       allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * PER_HEX_POINTS);
     }
   }
