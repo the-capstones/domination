@@ -1,4 +1,4 @@
-
+const trueskill = require('trueskill')
 // setup()
 //  # Step 1: The populating
 //    # Create an empty populationation (an array or ArrayList)
@@ -19,6 +19,7 @@ function AIgenome() {
       Math.round(Math.random())
         ? 'differenceInUnits'
         : 'ratioOfUnits'
+    this.trueSkill = [25, 25/3]
   }
 
   function generateStartingGenomes() {
@@ -34,23 +35,26 @@ function AIgenome() {
   // console.log(genomes)
 
   /* genomes: array of AI players with random genetic material
-  have these players play eachother
+  have these players play eachother (groups of 4)
 
   something like:
-    for(let i=0; i<20; i+=2) {
-      play(genomes[i], genomes[i+1])
+    for(let i=0; i<20; i+=4) {
+      play(genomes[i], genomes[i+1], genomes[i+2], genomes[i+3])
     }
 
   (`play` function still has to be defined)
   (consider re-writing all AI functions as methods?)
 
-  after gameplay, assign win property
+  after gameplay, assign fitness property
+
 
   something like:
-    function play(player1, player2) {
+    function play(player1, player2, player3, player4) {
+      let gameRank = arguments.length; //# of players
       ...
-      if (${other player} has no units left) {
-        player.won = true
+      if (${player} has no units left) {
+        player.gameRank = gameRank;
+        gameRank--
       }
     }
   */

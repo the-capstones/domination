@@ -2629,6 +2629,10 @@ forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
 
+free-gaussian@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/free-gaussian/-/free-gaussian-0.1.0.tgz#b5152abe0dbdddf36080ded0b4d4ba6f8ace17fc"
+
 fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
@@ -4404,10 +4408,6 @@ pgpass@1.*:
   dependencies:
     split "^1.0.0"
 
-phaser-ce@^2.9.2:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/phaser-ce/-/phaser-ce-2.9.2.tgz#06c4af99022a22c983a370b3de2ae7d868d3b04a"
-
 pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
@@ -5838,6 +5838,12 @@ trim-newlines@^1.0.0:
 trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
+
+"trueskill@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/trueskill/-/trueskill-0.0.2.tgz#f6c7ef634c2debac0d57ffbb5d4c8f26eb4eda75"
+  dependencies:
+    free-gaussian "0.1.0"
 
 tryit@^1.0.1:
   version "1.0.3"
