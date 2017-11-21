@@ -22,7 +22,7 @@ class Board extends Component {
       polyIdDiv.remove();
     });
 
-    let players = ['null', ...this.props.playerOrder];
+    let players = ['', ...this.props.playerOrder];
 
     if (this.props.hexes) {
       Object.keys(this.props.hexes).forEach(id => {
@@ -61,7 +61,7 @@ class Board extends Component {
             {
               hexagons.map((hex, i) => {
                 const hexId = `${hex.q},${hex.r},${hex.s}`;
-                const doesPlayerOwn = hexes[hexId].playerId !== 'null';
+                const doesPlayerOwn = !!hexes[hexId].playerId.length;
                 const hexUnits = hexes[hexId].unit1.toString();
                 return (<Hexagon
                   key={i}
