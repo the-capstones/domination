@@ -24,6 +24,9 @@ const Sidebar = (props) => {
     allotmentPointsPerTurn,
   } = props;
 
+  const colors = ['#b3482e', '#6f9bc4', '#d5a149', '#83ada0', '#c7723d']
+  const numOfPlayers = playerOrder.length;
+
   return (
     <div className="sidebar-wrapper">
       <h1>DOMINATION</h1>
@@ -70,27 +73,14 @@ const Sidebar = (props) => {
                   </th>
                   <th>Username</th>
                 </tr>
-                <tr>
-                  <td style={{ background: '#b3482e' }}><i className="fa fa-arrow-right" aria-hidden="true"></i>
-                  </td>
-                  <td>Smith</td>
-                </tr>
-                <tr>
-                  <td style={{ background: '#c7723d' }}></td>
-                  <td>Jackson</td>
-                </tr>
-                <tr>
-                  <td style={{ background: '#d5a149' }}></td>
-                  <td>Johnson</td>
-                </tr>
-                <tr>
-                  <td style={{ background: '#83ada0' }}></td>
-                  <td>Simpson</td>
-                </tr>
-                <tr>
-                  <td style={{ background: '#6f9bc4' }}></td>
-                  <td>Friedmen</td>
-                </tr>
+                { /*<i className="fa fa-arrow-right" aria-hidden="true"></i>*/
+                  playerOrder.map((player, i) => (
+                    <tr key={i}>
+                      <td className="playerColorSidebar" style={{ background: colors[i] }}></td>
+                      <td>{player}</td>
+                    </tr>
+                  ))
+                }
               </tbody>
             </table>
           </div>
