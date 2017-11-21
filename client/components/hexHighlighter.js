@@ -6,7 +6,7 @@ const getNeighbor = (id, [q, r, s]) => {
   return sepId.join(',');
 }
 
-export const getNeighbors = (id) => {
+const getNeighbors = (id) => {
   const directions = [
     [1, 0, -1], [1, -1, 0], [0, -1, 1],
     [-1, 0, 1], [-1, 1, 0], [0, 1, -1]

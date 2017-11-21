@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+<<<<<<< HEAD
 import { hexagons, config, addColors, addIdToHexes } from '../functions';
+=======
+import { hexagons, config } from './gridGenerator';
+>>>>>>> master
 import { AllotmentGUI } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'

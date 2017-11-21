@@ -5,7 +5,7 @@ import { setInGame } from '../store';
 import firebase from '../firebase'
 
 import '../css/_room.scss';
-import { divvySpaces } from '../functions';
+import { divvySpaces } from './divvySpaces';
 
 const WaitingRoom = (props) => {
   const { board, user } = props

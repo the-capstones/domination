@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, setInGame } from '../store';
-import { calcAllotmentPoints, getCurrentPoints } from '../functions';
+import { calcAllotmentPoints, getCurrentPoints } from './calculateAllotmentPoints';
 import firebase from '../firebase'
 
 
