@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { hexagons, config } from './gridGenerator';
+import { hexagons, config } from '../functions';
 import { AllotmentGUI } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'
@@ -76,9 +76,9 @@ class Board extends Component {
                 >
                   <div className="poly-id" id={hexId} />
                   <Text>
-                    {doesPlayerOwn ? hexUnits : ''}
+                    {/*doesPlayerOwn ? hexUnits : ''*/}
                   </Text>
-                  {/*<Text>{HexUtils.getID(hex)}</Text>*/}
+                  {<Text>{HexUtils.getID(hex)}</Text>}
                   <foreignObject id={`${hexId}-algui`}>
                     <AllotmentGUI hexId={hexId} />
                   </foreignObject>
