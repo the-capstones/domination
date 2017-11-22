@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
-import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints } from '../functions';
+import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors } from '../functions';
+import { withRouter } from 'react-router-dom';
 import { AllotmentGUI } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'
@@ -16,6 +17,11 @@ class Board extends Component {
     calcAllotmentPoints(boardId, hexes);
   }
 
+  componentWillReceiveProps() {
+    const { playerOrder, hexes } = this.props;
+    addColors(playerOrder, hexes);
+  }
+
   render() {
     const layout = config.layout;
     const size = { x: layout.width, y: layout.height };
@@ -25,7 +31,10 @@ class Board extends Component {
       currentPhase,
       currentPlayer,
       renderAllotmentGUI,
+      renderCombatGUI,
       selectHex,
+      selectedHex,
+      prevSelectedHex,
     } = this.props;
 
     return (
@@ -43,8 +52,9 @@ class Board extends Component {
                   r={hex.r}
                   s={hex.s}
                   onClick={() => {
-                    selectHex(hexId);
+                    selectHex(user, currentPlayer, hexId, selectedHex, currentPhase);
                     renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
+                    renderCombatGUI(user, currentPlayer, hexes, currentPhase, hexId, selectedHex);
                   }}
 
                 >
@@ -71,13 +81,17 @@ const mapState = (state) => {
   return {
     user: state.user,
     currentPhase: state.board.state.currentPhase,
+    selectedHex: state.board.state.selectedHex,
+    prevSelectedHex: state.board.state.prevSelectedHex,
     hexes: state.board.hexes,
     playerOrder: state.board.state.playerOrder,
-    currentPlayer: state.board.state.currentPlayer,
+    currentPlayer: state.board.state.currentPlayer
   }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
+  const { boardId } = ownProps;
+
   return {
     renderAllotmentGUI(phase, selectedHexId, hexes, user, currentPlayer) {
       const allGuis = document.getElementsByClassName('allotment-guis');
@@ -91,13 +105,29 @@ const mapDispatch = (dispatch, ownProps) => {
         gui.classList.add('show');
       }
     },
-    selectHex(id) {
-      firebase.ref(`/boards/${ownProps.boardId}/state`).update({ selectedHex: id })
+    renderCombatGUI(user, currentPlayer, hexes, phase, defenderHexId, attackerHexId) {
+      const attackerNeighbors = getNeighbors(attackerHexId);
+      const isValidMove = attackerNeighbors.includes(defenderHexId);
+      const isAttacker = user.username === currentPlayer;
+      const isAttacking = attackerHexId && hexes[attackerHexId].playerId === currentPlayer && hexes[defenderHexId].playerId !== currentPlayer;
+
+      if (phase === 'attack' && isValidMove && isAttacker && isAttacking) {
+        ownProps.history.push(`/boards/${boardId}/battle`);
+      }
+    },
+    selectHex(user, currentPlayer, newHexId, oldHexId, phase) {
+      const isCurrentPlayer = user.username === currentPlayer;
+      const isNewHex = newHexId !== oldHexId;
+
+      if (isCurrentPlayer && isNewHex) {
+        firebase.ref(`/boards/${boardId}/state`).update({ prevSelectedHex: oldHexId })
+        firebase.ref(`/boards/${boardId}/state`).update({ selectedHex: newHexId })
+      }
     }
   }
 }
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default connect(mapState, mapDispatch)(Board);
+export default withRouter(connect(mapState, mapDispatch)(Board));
 
