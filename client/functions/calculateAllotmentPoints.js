@@ -32,3 +32,24 @@ export const getCurrentPoints = (allotmentPointsPerTurn, username) => {
   points = Math.max(points, 3);
   return points;
 }
+
+export const addUnit = (boardId, id, hexagons, allotmentLeft) => {
+  if (allotmentLeft > 0) {
+    allotmentLeft -= 1;
+    const updatedHexArr = Object.entries(hexagons).filter(hex => hex[0] === id );
+    const hexId = updatedHexArr[0][0];
+    const hexStats = updatedHexArr[0][1];
+    const updatedHexObj = {
+      [hexId]: Object.assign({}, hexStats),
+    };
+    updatedHexObj[hexId].unit1 += 1;
+    firebase.ref(`/boards/${boardId}/hexes`).update(updatedHexObj);
+    firebase.ref(`/boards/${boardId}/state`).update({ allotmentLeft });
+    if (allotmentLeft === 0) {
+      firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'attack' });
+    }
+  }
+  else {
+    firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'attack' });
+  }
+}

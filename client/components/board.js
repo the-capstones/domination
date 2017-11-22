@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
-import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors } from '../functions';
+import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors, addUnit } from '../functions';
 import { withRouter } from 'react-router-dom';
 import { AllotmentGUI } from './';
 import '../css/_board.scss';
@@ -30,6 +30,7 @@ class Board extends Component {
       hexes,
       currentPhase,
       currentPlayer,
+      allotmentLeft,
       renderAllotmentGUI,
       renderCombatGUI,
       selectHex,
@@ -52,8 +53,7 @@ class Board extends Component {
                   r={hex.r}
                   s={hex.s}
                   onClick={() => {
-                    selectHex(user, hexes, currentPlayer, hexId, selectedHex, currentPhase);
-                    renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
+                    selectHex(user, hexes, currentPlayer, hexId, selectedHex, currentPhase, allotmentLeft);
                     renderCombatGUI(user, currentPlayer, hexes, currentPhase, hexId, selectedHex);
                   }}
 
@@ -85,7 +85,8 @@ const mapState = (state) => {
     prevSelectedHex: state.board.state.prevSelectedHex,
     hexes: state.board.hexes,
     playerOrder: state.board.state.playerOrder,
-    currentPlayer: state.board.state.currentPlayer
+    currentPlayer: state.board.state.currentPlayer,
+    allotmentLeft: state.board.state.allotmentLeft,
   }
 }
 
@@ -117,23 +118,28 @@ const mapDispatch = (dispatch, ownProps) => {
         ownProps.history.push(`/boards/${boardId}/battle`);
       }
     },
-    selectHex(user, hexes, currentPlayer, newHexId, oldHexId, phase) {
+    selectHex(user, hexes, currentPlayer, newHexId, oldHexId, phase, allotmentLeft) {
       const isCurrentPlayer = user.username === currentPlayer;
       const isNewHex = newHexId !== oldHexId;
 
-      if (isCurrentPlayer && isNewHex) {
-        const hexElement = document.getElementById(newHexId);
-        oldHexId && document.getElementById(oldHexId).classList.remove('highlight-select');
-        hexElement.classList.add('highlight-select');
+      if (phase === 'allotment') {
+        addUnit(boardId, newHexId, hexes, allotmentLeft);
+      }
+      else {
+        if (isCurrentPlayer && isNewHex) {
+          const hexElement = document.getElementById(newHexId);
+          const highlightedHexes = [...document.getElementsByClassName('highlight-select')];
+          highlightedHexes.forEach(hex => hex.classList.remove('highlight-select')); hexElement.classList.add('highlight-select');
 
-        if (phase === 'attack') {
-          const highlightedEnemies = [...document.getElementsByClassName('highlight-attack')];
-          highlightedEnemies.forEach(hex => hex.classList.remove('highlight-attack'));
-          highlightNeighbors(newHexId, currentPlayer, hexes);
+          if (phase === 'attack') {
+            const highlightedEnemies = [...document.getElementsByClassName('highlight-attack')];
+            highlightedEnemies.forEach(hex => hex.classList.remove('highlight-attack'));
+            highlightNeighbors(newHexId, currentPlayer, hexes);
+          }
+
+          firebase.ref(`/boards/${boardId}/state`).update({ prevSelectedHex: oldHexId })
+          firebase.ref(`/boards/${boardId}/state`).update({ selectedHex: newHexId })
         }
-
-        firebase.ref(`/boards/${boardId}/state`).update({ prevSelectedHex: oldHexId })
-        firebase.ref(`/boards/${boardId}/state`).update({ selectedHex: newHexId })
       }
     }
   }
