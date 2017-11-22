@@ -25,6 +25,7 @@ const Sidebar = (props) => {
     allotmentPointsPerTurn,
     leaveGame,
   } = props;
+  const boardId = props.match.params.boardId;
 
   const colors = ['#b3482e', '#6f9bc4', '#d5a149', '#83ada0', '#c7723d']
   const numOfPlayers = playerOrder.length;
@@ -52,7 +53,7 @@ const Sidebar = (props) => {
         </div>
       </nav>
 
-      {!inGame && isLoggedIn && (<div>
+      {!boardId && isLoggedIn && (<div>
         <div className="home-menu">
           <Link to="/newGame">New Game</Link>
           <Link to="/channels">Join Game</Link>
@@ -61,7 +62,9 @@ const Sidebar = (props) => {
       </div>)
       }
 
-      {inGame
+      {boardId && !playerOrder.includes(user) &&
+        (<h1>SPECTATOR MODE</h1>)}
+      {boardId
         && (<div>
           <div className="avatar">
             <img src="../assets/wizard-avatar.jpg" />
@@ -89,7 +92,7 @@ const Sidebar = (props) => {
         </div>)
       }
 
-      {inGame && status !== 'waiting' && currentPlayer === user
+      {boardId && status !== 'waiting' && currentPlayer === user
         && (
           <div>
             <button className="phase-btn" onClick={() => changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons)}>
@@ -101,7 +104,7 @@ const Sidebar = (props) => {
         )
       }
 
-      {inGame && status !== 'waiting' && currentPlayer === user
+      {boardId && status !== 'waiting' && currentPlayer === user
         && (
           <div className="leave-game-container">
             <button onClick={leaveGame}>Leave Game</button>

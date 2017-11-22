@@ -66,11 +66,11 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
   if (attackerHighestRoll > defenderHighestRoll) {
     updateUnits(boardId, defendingHexId, defendingUnits - 1);
 
-    const defenderLost = defendingUnits === 0;
+    const defenderLost = defendingUnits <= 1;
     defenderLost
-    && takeOverSpace(boardId, hexes, attackingHexId, defendingHexId, attackingUnits)
+    && takeOverSpace(boardId, hexes, attackingHexId, defendingHexId, attackingUnits - 1)
     && updateUnits(boardId, attackingHexId, 1)
-    && endCombat(attackingHexId);
+    && endCombat(attackingHexId)
   } else {
     updateUnits(boardId, attackingHexId, attackingUnits - 1);
 
