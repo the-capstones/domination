@@ -111,8 +111,9 @@ const mapDispatch = (dispatch, ownProps) => {
       const isAttacker = user.username === currentPlayer;
       const isAttacking = attackerHexId && hexes[attackerHexId].playerId === currentPlayer && hexes[defenderHexId].playerId !== currentPlayer;
       const enoughUnits = hexes[attackerHexId].unit1 > 1;
+      const enoughMoves = hexes[attackerHexId].movesLeft > 0;
 
-      if (phase === 'attack' && enoughUnits && isValidMove && isAttacker && isAttacking) {
+      if (phase === 'attack' && enoughMoves && enoughUnits && isValidMove && isAttacker && isAttacking) {
         ownProps.history.push(`/boards/${boardId}/battle`);
       }
     },

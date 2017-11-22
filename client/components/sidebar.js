@@ -96,9 +96,7 @@ const Sidebar = (props) => {
         && (
           <div>
             <button className="phase-btn" onClick={() => changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons)}>
-              {
-                currentPhase === 'allotment' ? 'Start Attack Phase' : 'End Turn'
-              }
+              End Turn
             </button>
           </div>
         )
@@ -145,17 +143,8 @@ const mapDispatch = (dispatch, ownProps) => {
       dispatch(setInGame(false));
       ownProps.history.push('/');
     },
-    changePhase(
-      currentPhase,
-      currentPlayer,
-      playerOrder,
-      allotmentPointsPerTurn,
-      hexagons
-    ) {
-      if (currentPhase === 'allotment') {
-        firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'attack' });
-      }
-      else if (currentPhase === 'fortification' || currentPhase === 'attack') {
+    changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons) {
+      if (currentPhase === 'fortification' || currentPhase === 'attack') {
         const currIdx = playerOrder.indexOf(currentPlayer);
         let nextIdx;
 
