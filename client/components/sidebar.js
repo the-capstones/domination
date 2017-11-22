@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, setInGame } from '../store';
-import { calcAllotmentPoints, getCurrentPoints } from './calculateAllotmentPoints';
+import { calcAllotmentPoints, getCurrentPoints } from '../functions';
 import firebase from '../firebase'
 
 
@@ -15,6 +15,7 @@ const Sidebar = (props) => {
     isLoggedIn,
     handleClick,
     inGame,
+    status,
     hexagons,
     user,
     currentPhase,
@@ -22,7 +23,11 @@ const Sidebar = (props) => {
     changePhase,
     playerOrder,
     allotmentPointsPerTurn,
+    leaveGame,
   } = props;
+
+  const colors = ['#b3482e', '#6f9bc4', '#d5a149', '#83ada0', '#c7723d']
+  const numOfPlayers = playerOrder.length;
 
   return (
     <div className="sidebar-wrapper">
@@ -34,7 +39,7 @@ const Sidebar = (props) => {
           {
             isLoggedIn
               ? <div>
-                <Link to="/home">Home</Link>
+                <Link to="/">Home</Link>
                 <a href="#" onClick={handleClick}>Logout</a>
                 <Link to="/rules">Rules</Link>
               </div>
@@ -70,34 +75,21 @@ const Sidebar = (props) => {
                   </th>
                   <th>Username</th>
                 </tr>
-                <tr>
-                  <td style={{ background: '#b3482e' }}><i className="fa fa-arrow-right" aria-hidden="true"></i>
-                  </td>
-                  <td>Smith</td>
-                </tr>
-                <tr>
-                  <td style={{ background: '#c7723d' }}></td>
-                  <td>Jackson</td>
-                </tr>
-                <tr>
-                  <td style={{ background: '#d5a149' }}></td>
-                  <td>Johnson</td>
-                </tr>
-                <tr>
-                  <td style={{ background: '#83ada0' }}></td>
-                  <td>Simpson</td>
-                </tr>
-                <tr>
-                  <td style={{ background: '#6f9bc4' }}></td>
-                  <td>Friedmen</td>
-                </tr>
+                { /*<i className="fa fa-arrow-right" aria-hidden="true"></i>*/
+                  playerOrder.map((player, i) => (
+                    <tr key={i}>
+                      <td className="playerColorSidebar" style={{ background: colors[i] }}></td>
+                      <td>{player}</td>
+                    </tr>
+                  ))
+                }
               </tbody>
             </table>
           </div>
         </div>)
       }
 
-      {inGame && currentPlayer === user
+      {inGame && status !== 'waiting' && currentPlayer === user
         && (
           <div>
             <button className="phase-btn" onClick={() => changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons)}>
@@ -105,6 +97,14 @@ const Sidebar = (props) => {
                 currentPhase === 'allotment' ? 'Start Attack Phase' : 'End Turn'
               }
             </button>
+          </div>
+        )
+      }
+
+      {inGame && status !== 'waiting' && currentPlayer === user
+        && (
+          <div className="leave-game-container">
+            <button onClick={leaveGame}>Leave Game</button>
           </div>
         )
       }
@@ -116,15 +116,18 @@ const Sidebar = (props) => {
  * CONTAINER
  */
 const mapState = (state) => {
+  const isBoardLoaded = Object.keys(state.board).length > 0;
+
   return {
     user: state.user.username,
     isLoggedIn: !!state.user.id,
-    inGame: state.inGame,
     hexagons: state.board.hexes,
-    currentPlayer: Object.keys(state.board).length && state.board.state.currentPlayer || '',
-    currentPhase: Object.keys(state.board).length && state.board.state.currentPhase || '',
-    playerOrder: Object.keys(state.board).length && state.board.state.playerOrder || [],
-    allotmentPointsPerTurn: Object.keys(state.board).length && state.board.state.allotmentPointsPerTurn,
+    inGame: state.inGame,
+    status: isBoardLoaded && state.board.state.status,
+    currentPlayer: isBoardLoaded && state.board.state.currentPlayer || '',
+    currentPhase: isBoardLoaded && state.board.state.currentPhase || '',
+    playerOrder: isBoardLoaded && state.board.state.playerOrder || [],
+    allotmentPointsPerTurn: isBoardLoaded && state.board.state.allotmentPointsPerTurn,
   }
 }
 
@@ -134,6 +137,10 @@ const mapDispatch = (dispatch, ownProps) => {
   return {
     handleClick() {
       dispatch(logout())
+    },
+    leaveGame() {
+      dispatch(setInGame(false));
+      ownProps.history.push('/');
     },
     changePhase(
       currentPhase,

@@ -6,7 +6,7 @@ const calcHexesOwned = (hexes) => {
     const hexValue = hexes[key];
     const playerId = hexValue.playerId;
     if (!players[playerId]) players[playerId] = 0;
-    players[playerId] += hexValue.unit1;
+    players[playerId] += 1;
   }
   return players;
 }
