@@ -19,7 +19,15 @@ class Board extends Component {
   render() {
     const layout = config.layout;
     const size = { x: layout.width, y: layout.height };
-    const { hexes, selectedHex, currentPhase, renderAllotmentGUI, selectHex } = this.props;
+    const {
+      user,
+      hexes,
+      currentPhase,
+      currentPlayer,
+      renderAllotmentGUI,
+      selectHex,
+      selectedHex,
+    } = this.props;
 
     return (
       <div className="board">
@@ -36,8 +44,8 @@ class Board extends Component {
                   r={hex.r}
                   s={hex.s}
                   onClick={() => {
-                    this.props.renderAllotmentGUI(currentPhase, hexId, selectedHex);
-                    this.props.selectHex(hexId);
+                    selectHex(hexId);
+                    renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
                   }}
 
                 >
@@ -46,7 +54,7 @@ class Board extends Component {
                     {doesPlayerOwn ? hexUnits : ''}
                   </Text>
                   {/*<Text>{HexUtils.getID(hex)}</Text>*/}
-                  <foreignObject id={`${hexId}-algui`}>
+                  <foreignObject className="allotment-guis" id={`${hexId}-algui`}>
                     <AllotmentGUI hexId={hexId} />
                   </foreignObject>
                 </Hexagon>)
@@ -62,20 +70,26 @@ class Board extends Component {
 
 const mapState = (state) => {
   return {
+    user: state.user,
     currentPhase: state.board.state.currentPhase,
-    selectedHex: state.board.state.selectedHex,
     hexes: state.board.hexes,
-    playerOrder: state.board.state.playerOrder
+    playerOrder: state.board.state.playerOrder,
+    currentPlayer: state.board.state.currentPlayer,
+    selectedHex: state.board.state.selectedHex,
   }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
   return {
-    renderAllotmentGUI(phase, id, selectedHexId) {
-      if (phase === 'allotment') {
+    renderAllotmentGUI(phase, selectedHexId, hexes, user, currentPlayer) {
+      const allGuis = document.getElementsByClassName('allotment-guis');
+      [...allGuis].forEach(gui => gui.classList.remove('show'));
+      const isOwner = hexes[selectedHexId].playerId === user.username;
+      const isCurrentPlayer = user.username === currentPlayer;
+      if (phase === 'allotment' && isOwner && isCurrentPlayer) {
         const selectedHex = document.getElementById(`${selectedHexId}-algui`);
         selectedHexId && selectedHex.classList.remove('show');
-        const gui = document.getElementById(`${id}-algui`);
+        const gui = document.getElementById(`${selectedHexId}-algui`);
         gui.classList.add('show');
       }
     },
