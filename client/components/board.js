@@ -49,7 +49,7 @@ class Board extends Component {
                   onClick={() => {
                     selectHex(user, currentPlayer, hexId, selectedHex, currentPhase);
                     renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
-                    renderCombatGUI(user, currentPlayer, hexes, currentPhase, selectedHex, prevSelectedHex);
+                    renderCombatGUI(user, currentPlayer, hexes, currentPhase, hexId, selectedHex);
                   }}
 
                 >
@@ -102,8 +102,7 @@ const mapDispatch = (dispatch, ownProps) => {
     },
     renderCombatGUI(user, currentPlayer, hexes, phase, selectedHexId, prevSelectedHexId) {
       const isAttacker = user.username === currentPlayer;
-      const isAttacking = prevSelectedHexId && hexes[prevSelectedHexId].playerId === currentPlayer
-        && hexes[selectedHexId].playerId !== currentPlayer;
+      const isAttacking = prevSelectedHexId && hexes[prevSelectedHexId].playerId === currentPlayer && hexes[selectedHexId].playerId !== currentPlayer;
 
       if (phase === 'attack' && isAttacker && isAttacking) {
         ownProps.history.push(`/boards/${boardId}/battle`);

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { handleRoll } from '../functions';
-import firebase from '../firebase';
+
 import '../css/_combat-risk.scss';
 
 const CombatRisk = props => {
@@ -21,7 +21,7 @@ const CombatRisk = props => {
 
           <div className="unit-container">
             <h2>
-              {attackingUnits}
+              {attackingUnits - 1}
             </h2>
             <label>UNITS</label>
             <label>REMAINING</label>
@@ -84,12 +84,14 @@ const CombatRisk = props => {
   )
 }
 
-const mapState = (state) => {
+const mapState = (state, ownProps) => {
   const hexes = state.board.hexes;
   const attackingHexId = state.board.state.prevSelectedHex;
   const defendingHexId = state.board.state.selectedHex;
+  const boardId = ownProps.match.params.boardId;
 
   return {
+    boardId,
     hexes,
     defendingHexId,
     attackingHexId,
@@ -102,11 +104,9 @@ const mapDispatch = (dispatch, ownProps) => {
   const boardId = ownProps.match.params.boardId;
 
   return {
-    updateUnits(hexId, units) {
-      firebase.ref(`/boards/${boardId}/hexes/${hexId}`).update({ unit1: units })
-    },
     endCombat() {
       ownProps.history.push(`/boards/${boardId}`);
+      return true;
     }
   }
 }
