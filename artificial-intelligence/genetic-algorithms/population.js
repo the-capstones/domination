@@ -39,7 +39,9 @@ have these players play eachother (groups of 4)
 
 something like:
   for(let i=0; i<20; i+=4) {
-    play(genomes[i], genomes[i+1], genomes[i+2], genomes[i+3])
+    for(let j=1; j<=3; j++) {
+      play(genomes[i], genomes[i+1], genomes[i+2], genomes[i+3])
+    }
   }
 
 (`play` function still has to be defined)
@@ -66,8 +68,8 @@ something like:
 */
 
 function shufflePlayerOrder(playerArray) {
-  for (let i=0; i<playerArray.length; i++) {
-    let j=Math.floor(Math.random() * (playerArray.length))
+  for (let i = 0; i < playerArray.length; i++) {
+    let j = Math.floor(Math.random() * (playerArray.length))
     let temp = playerArray[i]
     playerArray[i] = playerArray[j]
     playerArray[j] = temp
@@ -77,10 +79,10 @@ function shufflePlayerOrder(playerArray) {
 
 function play(player1, player2, player3, player4) {
   let players = [...arguments]
+  players = shufflePlayerOrder(players)
   let gameRank = players.length;
-  shufflePlayerOrder(players)
 
-  while (gameRank > 1) {
+  while (gameRank > 0) {
     players.forEach(player, function takeTurn(player) {
       //allotment logic
       //battle logic
@@ -93,6 +95,7 @@ function play(player1, player2, player3, player4) {
   }
 }
 
-function getFitness(genome) {
-  return genome.skill /
-  }
+function getFitness(genomes) {
+  //true skill default skill setting is 25, so sum of all genomes's skill will be 25*genomes.length
+  return genomes.map(genome => (genome.skill) / (genomes.length*25))
+}
