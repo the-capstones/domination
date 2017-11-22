@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { setInGame } from '../store';
+import { setInGame, getBoards } from '../store';
 import firebase from '../firebase'
 
 import '../css/_channel-list.scss';
@@ -44,18 +44,18 @@ const ChannelList = (props) => {
  * CONTAINER
  */
 const mapState = (state) => {
-  let boards;
-  firebase.ref(`/boards`).on('value', snap => {
-    boards = snap.val();
-  });
+
 
   return {
     user: state.user,
-    allBoards: boards,
+    allBoards: state.boardsList,
   }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
+  firebase.ref(`/boards`).on('value', snap => {
+    dispatch(getBoards(snap.val()))
+  });
   return {
     joinGame(boardId, user) {
       const { username } = user;
