@@ -1,3 +1,4 @@
+/* eslint "guard-for-in": 0 */
 const attackMatrixFunctions = require('./attackMatrixCreator')
 
 
@@ -10,7 +11,7 @@ const attackMatrixFunctions = require('./attackMatrixCreator')
 // at the end of your turn. This function chooses the best move for fortification.
 
 // Outline:
-// Step 1: Figure out what territories belong to the player, which of those can move, 
+// Step 1: Figure out what territories belong to the player, which of those can move,
 // and to what hexes they can move to.
 // Step 2: For a given player territory, identify where the closest enemy is.
 // Step 3: Calculate the product of the units in a territory that can move times
@@ -80,26 +81,28 @@ const hexesStep1 = {
     },
 }
 
-function movableHexes(allHexesObj, artIntelplayerId){
+function movableHexes(allHexesObj, artIntelplayerId) {
     let movableHexObj = {}
     const myHexesResults = attackMatrixFunctions.myHexes(allHexesObj, artIntelplayerId)
     const enoughUnitsResults = attackMatrixFunctions.enoughUnits(myHexesResults)
-    for (hexString in enoughUnitsResults){
-    const adjacentHexResults = attackMatrixFunctions.adjacentHex(hexString)
-    let enemiesNear = 0
-    let movableHexArray = []
-    adjacentHexResults.forEach(hex => {
-        // if this hex exists, and is valid, and has less than 15 units, continue
-        if (allHexesObj[hex] && allHexesObj[hex].playerId !== '' && allHexesObj[hex].unit1 < 15){
-            // if there is an enemy adjacent to this hex, increment enemiesNear
-            if (allHexesObj[hex].playerId !== artIntelplayerId){
-            enemiesNear++}
-        // if there aren't any enemies adjacent to this hex, add it to the list of movable Hexes
-        if (enemiesNear === 0){movableHexArray.push(hex)}}
-    })
-    if (movableHexArray.length > 0) movableHexObj[hexString] = movableHexArray
+    for (hexString in enoughUnitsResults) {
+        const adjacentHexResults = attackMatrixFunctions.adjacentHex(hexString)
+        let enemiesNear = 0
+        let movableHexArray = []
+        adjacentHexResults.forEach(hex => {
+            // if this hex exists, and is valid, and has less than 15 units, continue
+            if (allHexesObj[hex] && allHexesObj[hex].playerId !== '' && allHexesObj[hex].unit1 < 15) {
+                // if there is an enemy adjacent to this hex, increment enemiesNear
+                if (allHexesObj[hex].playerId !== artIntelplayerId) {
+                    enemiesNear++
+                }
+                // if there aren't any enemies adjacent to this hex, add it to the list of movable Hexes
+                if (enemiesNear === 0) { movableHexArray.push(hex) }
+            }
+        })
+        if (movableHexArray.length > 0) movableHexObj[hexString] = movableHexArray
     }
-    if (Object.keys(movableHexObj).length === 0) {return null}
+    if (Object.keys(movableHexObj).length === 0) { return null }
     return movableHexObj
 }
 
@@ -134,21 +137,21 @@ const hexesStep2 = {
     }
 }
 
-function closestEnemy(allHexesObj, startingHex, artIntelplayerId){
+function closestEnemy(allHexesObj, startingHex, artIntelplayerId) {
     let queue = attackMatrixFunctions.adjacentHex(startingHex)
     let closestEnemyHex = ''
-    while (queue.length > 0 && closestEnemyHex.length === 0){
-    if (queue.length > 1000000000) {return null}
-    let hex = queue.shift()
-    if (
-        allHexesObj[hex] && 
-        allHexesObj[hex].playerId !== '' &&
-        allHexesObj[hex].playerId !== artIntelplayerId
-    ){
-        closestEnemyHex = hex
-    } else {
-        queue = queue.concat(attackMatrixFunctions.adjacentHex(hex))
-    }
+    while (queue.length > 0 && closestEnemyHex.length === 0) {
+        if (queue.length > 1000000000) { return null }
+        let hex = queue.shift()
+        if (
+            allHexesObj[hex] &&
+            allHexesObj[hex].playerId !== '' &&
+            allHexesObj[hex].playerId !== artIntelplayerId
+        ) {
+            closestEnemyHex = hex
+        } else {
+            queue = queue.concat(attackMatrixFunctions.adjacentHex(hex))
+        }
     }
     return closestEnemyHex
 }
@@ -176,12 +179,12 @@ const hexesStep3 = {
     },
 }
 
-function hexDistance(startingHex, endingHex){
+function hexDistance(startingHex, endingHex) {
     const startingHexArray = startingHex.split(',').map(numString => +numString)
     const endingHexArray = endingHex.split(',').map(numString => +numString)
-    const qDiff = Math.abs(startingHexArray[0]-endingHexArray[0])
-    const rDiff = Math.abs(startingHexArray[1]-endingHexArray[1])
-    const sDiff = Math.abs(startingHexArray[2]-endingHexArray[2])
+    const qDiff = Math.abs(startingHexArray[0] - endingHexArray[0])
+    const rDiff = Math.abs(startingHexArray[1] - endingHexArray[1])
+    const sDiff = Math.abs(startingHexArray[2] - endingHexArray[2])
     return Math.max(qDiff, rDiff, sDiff)
 }
 // test the function hexDistance with the console.log statement below
@@ -191,9 +194,9 @@ function hexDistance(startingHex, endingHex){
 
 // closestEnemy requires allHexesObj, startingHex, artIntelplayerId
 // hexDistance requires startingHex, endingHex
-function unitUselessnessProduct(allHexesObj, startingHex, artIntelplayerId){
+function unitUselessnessProduct(allHexesObj, startingHex, artIntelplayerId) {
     const closestEnemyResult = closestEnemy(allHexesObj, startingHex, artIntelplayerId)
-    if (closestEnemyResult === null) {return null}
+    if (closestEnemyResult === null) { return null }
     const hexDistanceResult = hexDistance(startingHex, closestEnemyResult)
     const unitsWhoCanMove = allHexesObj[startingHex].unit1 - 1
     return unitsWhoCanMove * hexDistanceResult
@@ -236,45 +239,45 @@ const hexesStep4 = {
 }
 
 const hexToMove = '5,5,5'
-const hexesToMoveTo = [ '5,6,4', '6,4,5' ]
+const hexesToMoveTo = ['5,6,4', '6,4,5']
 
 // unitUselessnessProduct requires allHexesObj, startingHex, artIntelplayerId
 // hexDistance requires startingHex, endingHex
-function biggestChangeInProduct(allHexesObj, startingHex, moveArray, artIntelplayerId){
-  const startingProduct = unitUselessnessProduct(allHexesObj, startingHex, artIntelplayerId)
-  if (startingProduct === null) {return null}
-  let changeInProduct = 0
-  let bestHexToMoveTo = ''
-  moveArray.forEach(endHex => {
-    const maxUnitsToFit = 15 - allHexesObj[endHex].unit1
-    const maxUnitsToMoveStart = allHexesObj[startingHex].unit1 - 1
-    if (maxUnitsToMoveStart < maxUnitsToFit) {
-        const closestEnemyResult = closestEnemy(allHexesObj, endHex, artIntelplayerId)
-        const hexDistanceResult = hexDistance(endHex, closestEnemyResult)
-        const unitsWhoCanMove = maxUnitsToMoveStart
-        newProduct = unitsWhoCanMove * hexDistanceResult
-        newChangeInProduct = startingProduct - newProduct
-        if (newChangeInProduct > changeInProduct) {
-          changeInProduct = newChangeInProduct
-          bestHexToMoveTo = endHex
+function biggestChangeInProduct(allHexesObj, startingHex, moveArray, artIntelplayerId) {
+    const startingProduct = unitUselessnessProduct(allHexesObj, startingHex, artIntelplayerId)
+    if (startingProduct === null) { return null }
+    let changeInProduct = 0
+    let bestHexToMoveTo = ''
+    moveArray.forEach(endHex => {
+        const maxUnitsToFit = 15 - allHexesObj[endHex].unit1
+        const maxUnitsToMoveStart = allHexesObj[startingHex].unit1 - 1
+        if (maxUnitsToMoveStart < maxUnitsToFit) {
+            const closestEnemyResult = closestEnemy(allHexesObj, endHex, artIntelplayerId)
+            const hexDistanceResult = hexDistance(endHex, closestEnemyResult)
+            const unitsWhoCanMove = maxUnitsToMoveStart
+            newProduct = unitsWhoCanMove * hexDistanceResult
+            newChangeInProduct = startingProduct - newProduct
+            if (newChangeInProduct > changeInProduct) {
+                changeInProduct = newChangeInProduct
+                bestHexToMoveTo = endHex
+            }
+        }
+        if (maxUnitsToMoveStart > maxUnitsToFit) {
+            const closestEnemyResult1 = closestEnemy(allHexesObj, endHex, artIntelplayerId)
+            const hexDistanceResult1 = hexDistance(endHex, closestEnemyResult1)
+            const closestEnemyResult2 = closestEnemy(allHexesObj, endHex, artIntelplayerId)
+            const hexDistanceResult2 = hexDistance(endHex, closestEnemyResult2)
+            const unitsWhoCanMove = maxUnitsToFit
+            newProduct = unitsWhoCanMove * hexDistanceResult1 + (maxUnitsToMoveStart - maxUnitsToFit) * hexDistanceResult2
+            newChangeInProduct = startingProduct - newProduct
+            if (newChangeInProduct > changeInProduct) {
+                changeInProduct = newChangeInProduct
+                bestHexToMoveTo = endHex
+            }
         }
     }
-    if (maxUnitsToMoveStart > maxUnitsToFit) {
-        const closestEnemyResult1 = closestEnemy(allHexesObj, endHex, artIntelplayerId)
-        const hexDistanceResult1 = hexDistance(endHex, closestEnemyResult1)
-        const closestEnemyResult2 = closestEnemy(allHexesObj, endHex, artIntelplayerId)
-        const hexDistanceResult2 = hexDistance(endHex, closestEnemyResult2)
-        const unitsWhoCanMove = maxUnitsToFit
-        newProduct = unitsWhoCanMove * hexDistanceResult1 + (maxUnitsToMoveStart - maxUnitsToFit) * hexDistanceResult2
-        newChangeInProduct = startingProduct - newProduct
-        if (newChangeInProduct > changeInProduct) {
-          changeInProduct = newChangeInProduct
-          bestHexToMoveTo = endHex
-        }
-    }
-    }
-)
-  return [bestHexToMoveTo, changeInProduct]
+    )
+    return [bestHexToMoveTo, changeInProduct]
 }
 
 // test the function biggestChangeInProduct with the console.log statement below
@@ -312,18 +315,18 @@ const hexesStep5 = {
     },
 }
 
-function bestMove(allHexesObj, artIntelplayerId){
+function bestMove(allHexesObj, artIntelplayerId) {
     const movableHexesResults = movableHexes(allHexesObj, artIntelplayerId)
-    if (movableHexesResults === null) {return null}
+    if (movableHexesResults === null) { return null }
     let currentBestMove = ['', '', 0]
-    for (const startHex in movableHexesResults){
-      const bestMoveForThisHex = biggestChangeInProduct(allHexesObj, startHex, movableHexesResults[startHex], artIntelplayerId)
-      if (bestMoveForThisHex === null) {continue}
-      if (bestMoveForThisHex[1] > currentBestMove[2]){
-          currentBestMove = [ startHex, ...bestMoveForThisHex]
-      }
+    for (const startHex in movableHexesResults) {
+        const bestMoveForThisHex = biggestChangeInProduct(allHexesObj, startHex, movableHexesResults[startHex], artIntelplayerId)
+        if (bestMoveForThisHex === null) { continue }
+        if (bestMoveForThisHex[1] > currentBestMove[2]) {
+            currentBestMove = [startHex, ...bestMoveForThisHex]
+        }
     }
-    if (currentBestMove[2] === 0) {return null}
+    if (currentBestMove[2] === 0) { return null }
     return currentBestMove
 }
 
