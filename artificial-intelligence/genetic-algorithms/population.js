@@ -82,6 +82,8 @@ function play(player1, player2, player3, player4) {
   players = shufflePlayerOrder(players)
   let gameRank = players.length;
 
+  //need to keep track of players in game - while player
+
   while (gameRank > 0) {
     players.forEach(player, function takeTurn(player) {
       //allotment logic
