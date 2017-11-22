@@ -107,7 +107,7 @@ const mapDispatch = (dispatch, ownProps) => {
     },
     renderCombatGUI(user, currentPlayer, hexes, phase, defenderHexId, attackerHexId) {
       const attackerNeighbors = getNeighbors(attackerHexId);
-      const isValidMove = attackerNeighbors.includes(defenderHexId);
+      const isValidMove = attackerNeighbors.includes(defenderHexId) && hexes[defenderHexId].playerId;
       const isAttacker = user.username === currentPlayer;
       const isAttacking = attackerHexId && hexes[attackerHexId].playerId === currentPlayer && hexes[defenderHexId].playerId !== currentPlayer;
       const enoughUnits = hexes[attackerHexId].unit1 > 1;
