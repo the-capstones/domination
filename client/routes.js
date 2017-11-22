@@ -16,7 +16,8 @@ import {
   CombatCustom,
   ChannelList,
   AllotmentGUI,
-  NewGame
+  NewGame,
+  Score
 } from './components';
 import { me } from './store';
 
@@ -35,6 +36,7 @@ class Routes extends Component {
       <Router history={history}>
         <Main>
           <Switch>
+            <Route exact path="/boards/:boardId/score" component={Score} />
             <Route path="/boards/:boardId" component={Sidebar} />
             <Route path="/" component={Sidebar} />
           </Switch>

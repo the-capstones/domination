@@ -15,3 +15,4 @@ export { default as AllotmentGUI } from './allotment';
 export { default as CombatRisk } from './combat-risk';
 export { default as CombatCustom } from './combat-custom';
 export { default as ChannelList } from './channelList';
+export { default as Score } from './score';
