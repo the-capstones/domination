@@ -70,7 +70,7 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
     defenderLost
     && takeOverSpace(boardId, hexes, attackingHexId, defendingHexId, attackingUnits)
     && updateUnits(boardId, attackingHexId, 1)
-    && endCombat(attackingHexId);
+    && endCombat(attackingHexId)
   } else {
     updateUnits(boardId, attackingHexId, attackingUnits - 1);
 
