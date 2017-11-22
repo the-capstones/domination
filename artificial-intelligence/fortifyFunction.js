@@ -123,7 +123,7 @@ const hexesStep2 = {
     // we want to filter out this hex because it is an invalid hex
     '0,1,-1': {
         movesLeft: 0,
-        playerId: null,
+        playerId: '',
         unit1: 6,
     },
     // we want to return this hex
@@ -137,15 +137,19 @@ const hexesStep2 = {
 function closestEnemy(allHexesObj, startingHex, artIntelplayerId){
     let queue = attackMatrixFunctions.adjacentHex(startingHex)
     let closestEnemyHex = ''
+    let searchedHexes = {}
     while (queue.length > 0 && closestEnemyHex.length === 0){
     if (queue.length > 1000000000) {return null}
     let hex = queue.shift()
+
     if (
+        !searchedHexes.hasOwnProperty(hex) &&
         allHexesObj[hex] && 
         allHexesObj[hex].playerId !== '' &&
         allHexesObj[hex].playerId !== artIntelplayerId
     ){
         closestEnemyHex = hex
+        searchedHexes[hex] = hex
     } else {
         queue = queue.concat(attackMatrixFunctions.adjacentHex(hex))
     }
@@ -155,7 +159,7 @@ function closestEnemy(allHexesObj, startingHex, artIntelplayerId){
 
 // test the function closestEnemy with the console.log statement below
 // it should return '0,2,-2'
-// console.log(closestEnemy(hexesStep2, '0,0,0', myPlayerId))
+console.log(closestEnemy(hexesStep2, '0,0,0', myPlayerId))
 
 // Step 3: Calculate the product of the units in a territory that can move times
 // the distance to the closest enemy.
