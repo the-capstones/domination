@@ -17,6 +17,11 @@ class Board extends Component {
     calcAllotmentPoints(boardId, hexes);
   }
 
+  componentWillReceiveProps() {
+    const { playerOrder, hexes } = this.props;
+    addColors(playerOrder, hexes);
+  }
+
   render() {
     const layout = config.layout;
     const size = { x: layout.width, y: layout.height };
