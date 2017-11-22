@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
-import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints } from '../functions';
+import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors } from '../functions';
 import { withRouter } from 'react-router-dom';
 import { AllotmentGUI } from './';
 import '../css/_board.scss';
@@ -100,11 +100,13 @@ const mapDispatch = (dispatch, ownProps) => {
         gui.classList.add('show');
       }
     },
-    renderCombatGUI(user, currentPlayer, hexes, phase, selectedHexId, prevSelectedHexId) {
+    renderCombatGUI(user, currentPlayer, hexes, phase, defenderHexId, attackerHexId) {
+      const attackerNeighbors = getNeighbors(attackerHexId);
+      const isValidMove = attackerNeighbors.includes(defenderHexId);
       const isAttacker = user.username === currentPlayer;
-      const isAttacking = prevSelectedHexId && hexes[prevSelectedHexId].playerId === currentPlayer && hexes[selectedHexId].playerId !== currentPlayer;
+      const isAttacking = attackerHexId && hexes[attackerHexId].playerId === currentPlayer && hexes[defenderHexId].playerId !== currentPlayer;
 
-      if (phase === 'attack' && isAttacker && isAttacking) {
+      if (phase === 'attack' && isValidMove && isAttacker && isAttacking) {
         ownProps.history.push(`/boards/${boardId}/battle`);
       }
     },

@@ -1,4 +1,5 @@
 import firebase from '../firebase';
+import { getNeighbors } from './';
 
 export const dieRoll = number => {
   const resultArray = [];
@@ -21,9 +22,10 @@ const updateUnits = (boardId, hexId, units) => {
 const takeOverSpace = (boardId, hexes, attackingHexId, defendingHexId, attackingUnits) => {
   const defeatedHex = hexes[defendingHexId];
   const attackerUsername = hexes[attackingHexId].playerId;
-  const conqueredHex = Object.assign({}, hexes[defendingHexId], {
+  const conqueredHex = Object.assign({}, defeatedHex, {
     playerId: attackerUsername,
-    unit1: attackingUnits
+    unit1: attackingUnits,
+    movesLeft: 0,
   });
 
   firebase.ref(`/boards/${boardId}/hexes/${defendingHexId}`).update(conqueredHex);
@@ -31,6 +33,13 @@ const takeOverSpace = (boardId, hexes, attackingHexId, defendingHexId, attacking
 }
 
 export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendingHexId, attackingUnits, defendingUnits }) => {
+
+  const attackerNeighbors = getNeighbors(attackingHexId);
+  const isValidMove = attackerNeighbors.includes(defendingHexId);
+  if (!isValidMove) return;
+
+  hexes[attackingHexId].movesLeft > 0
+    && firebase.ref(`/boards/${boardId}/hexes/${attackingHexId}`).update({ movesLeft: 0 });
 
   const attackerRolls = [];
   const defenderRolls = [];
@@ -61,11 +70,11 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
     defenderLost
     && takeOverSpace(boardId, hexes, attackingHexId, defendingHexId, attackingUnits)
     && updateUnits(boardId, attackingHexId, 1)
-    && endCombat();
+    && endCombat(attackingHexId);
   } else {
     updateUnits(boardId, attackingHexId, attackingUnits - 1);
 
     const enoughAttackingUnits = attackingUnits - 1 > 1;
-    !enoughAttackingUnits && endCombat();
+    !enoughAttackingUnits && endCombat(attackingHexId);
   }
 }
