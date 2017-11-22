@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
-import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors } from '../functions';
+import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors } from '../functions';
 import { withRouter } from 'react-router-dom';
 import { AllotmentGUI } from './';
 import '../css/_board.scss';
@@ -52,7 +52,7 @@ class Board extends Component {
                   r={hex.r}
                   s={hex.s}
                   onClick={() => {
-                    selectHex(user, currentPlayer, hexId, selectedHex, currentPhase);
+                    selectHex(user, hexes, currentPlayer, hexId, selectedHex, currentPhase);
                     renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
                     renderCombatGUI(user, currentPlayer, hexes, currentPhase, hexId, selectedHex);
                   }}
@@ -116,7 +116,7 @@ const mapDispatch = (dispatch, ownProps) => {
         ownProps.history.push(`/boards/${boardId}/battle`);
       }
     },
-    selectHex(user, currentPlayer, newHexId, oldHexId, phase) {
+    selectHex(user, hexes, currentPlayer, newHexId, oldHexId, phase) {
       const isCurrentPlayer = user.username === currentPlayer;
       const isNewHex = newHexId !== oldHexId;
 
@@ -124,6 +124,12 @@ const mapDispatch = (dispatch, ownProps) => {
         const hexElement = document.getElementById(newHexId);
         oldHexId && document.getElementById(oldHexId).classList.remove('highlight-select');
         hexElement.classList.add('highlight-select');
+
+        if (phase === 'attack') {
+          const highlightedEnemies = [...document.getElementsByClassName('highlight-attack')];
+          highlightedEnemies.forEach(hex => hex.classList.remove('highlight-attack'));
+          highlightNeighbors(newHexId, currentPlayer, hexes);
+        }
 
         firebase.ref(`/boards/${boardId}/state`).update({ prevSelectedHex: oldHexId })
         firebase.ref(`/boards/${boardId}/state`).update({ selectedHex: newHexId })
