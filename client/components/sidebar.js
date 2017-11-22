@@ -60,8 +60,9 @@ const Sidebar = (props) => {
         </div>
       </div>)
       }
-
-      {inGame
+      {props.match.params.boardId && !playerOrder.includes(user) &&
+        (<h1>SPECTATOR MODE</h1>)}
+      {props.match.params.boardId
         && (<div>
           <div className="avatar">
             <img src="../assets/wizard-avatar.jpg" />
