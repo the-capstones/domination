@@ -1,14 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { hexagons } from '../functions'
+import { setInGame } from '../store';
+import firebase from '../firebase';
+
 import '../css/_auth-form.scss';
-import firebase from '../firebase'
 
 // COMPONENT
 
 const NewGame = (props) => {
   const { user } = props
-  console.log(user)
+
   return (
     <div className="form">
       <h1>Start a New Game</h1>
@@ -51,7 +53,7 @@ const mapDispatch = (dispatch, ownProps) => {
         }
       });
 
-      let state = {
+      const state = {
         currentPhase: 'allotment', // or whatever default state 'start' should be default for distribution
         currentPlayer: user.username, // default 1st player
         playerOrder: [user.username], // array of all players in order of turn
@@ -61,11 +63,10 @@ const mapDispatch = (dispatch, ownProps) => {
         status: 'waiting',
       }
 
-      let board = { hexes, state, boardName, maxPlayers }
-      firebase
-        .ref('boards')
-        .push(board)
-        .then(snap => ownProps.history.push(`/boards/${snap.key}`))
+      const board = { hexes, state, boardName, maxPlayers }
+      firebase.ref('boards').push(board)
+        .then(snap => ownProps.history.push(`/boards/${snap.key}`));
+      dispatch(setInGame(true));
     }
   }
 }

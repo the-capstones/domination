@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { hexagons, config, addColors, addIdToHexes } from '../functions';
+import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints } from '../functions';
 import { AllotmentGUI } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'
@@ -11,9 +10,10 @@ import firebase from '../firebase'
 class Board extends Component {
 
   componentDidMount() {
-    const { playerOrder, hexes } = this.props;
+    const { playerOrder, hexes, boardId } = this.props;
     addIdToHexes();
     addColors(playerOrder, hexes);
+    calcAllotmentPoints(boardId, hexes);
   }
 
   render() {
@@ -26,7 +26,6 @@ class Board extends Component {
       currentPlayer,
       renderAllotmentGUI,
       selectHex,
-      selectedHex,
     } = this.props;
 
     return (
@@ -75,7 +74,6 @@ const mapState = (state) => {
     hexes: state.board.hexes,
     playerOrder: state.board.state.playerOrder,
     currentPlayer: state.board.state.currentPlayer,
-    selectedHex: state.board.state.selectedHex,
   }
 }
 

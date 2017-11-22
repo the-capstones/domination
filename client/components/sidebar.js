@@ -15,6 +15,7 @@ const Sidebar = (props) => {
     isLoggedIn,
     handleClick,
     inGame,
+    status,
     hexagons,
     user,
     currentPhase,
@@ -87,7 +88,7 @@ const Sidebar = (props) => {
         </div>)
       }
 
-      {inGame && currentPlayer === user
+      {inGame && status !== 'waiting' && currentPlayer === user
         && (
           <div>
             <button className="phase-btn" onClick={() => changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons)}>
@@ -106,15 +107,18 @@ const Sidebar = (props) => {
  * CONTAINER
  */
 const mapState = (state) => {
+  const isBoardLoaded = Object.keys(state.board).length > 0;
+
   return {
     user: state.user.username,
     isLoggedIn: !!state.user.id,
-    inGame: state.inGame,
     hexagons: state.board.hexes,
-    currentPlayer: Object.keys(state.board).length && state.board.state.currentPlayer || '',
-    currentPhase: Object.keys(state.board).length && state.board.state.currentPhase || '',
-    playerOrder: Object.keys(state.board).length && state.board.state.playerOrder || [],
-    allotmentPointsPerTurn: Object.keys(state.board).length && state.board.state.allotmentPointsPerTurn,
+    inGame: state.inGame,
+    status: isBoardLoaded && state.board.state.status,
+    currentPlayer: isBoardLoaded && state.board.state.currentPlayer || '',
+    currentPhase: isBoardLoaded && state.board.state.currentPhase || '',
+    playerOrder: isBoardLoaded && state.board.state.playerOrder || [],
+    allotmentPointsPerTurn: isBoardLoaded && state.board.state.allotmentPointsPerTurn,
   }
 }
 
