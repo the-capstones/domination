@@ -17,7 +17,6 @@ import {
   ChannelList,
   AllotmentGUI,
   NewGame,
-  Score
 } from './components';
 import { me } from './store';
 
@@ -35,6 +34,7 @@ class Routes extends Component {
     return (
       <Router history={history}>
         <Main>
+          <Route exact path="/boards/:boardId/battle" component={CombatRisk} />
           <Switch>
             <Route exact path="/boards/:boardId/score" component={Score} />
             <Route path="/boards/:boardId" component={Sidebar} />
@@ -52,7 +52,6 @@ class Routes extends Component {
               <Switch>
                 <Route path="/home" component={UserHome} />
                 <Route path="/settings" component={Settings} />
-                <Route exact path="/combat-risk" component={CombatRisk} />
                 <Route exact path="/combat-custom" component={CombatCustom} />
                 <Route exact path="/allotment" component={AllotmentGUI} />
               </Switch>
