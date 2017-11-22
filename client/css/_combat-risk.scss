@@ -1,11 +1,25 @@
 @import './_variables.scss';
 
+#combat-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $black-light;
+  opacity: 0.5;
+  z-index: 999;
+}
+
 .combat {
   // flex-basis: 15%;
   display: flex;
   margin: 0.5rem;
   // width: calc(100vw - 1rem - 2px);
   background: $black;
+  opacity: 1;
 }
 
 .player-container {
@@ -35,6 +49,25 @@
 }
 
 .unit-container {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 33%;
+  background: $black-light;
+  margin: 0.5rem 0.25rem 0.5rem 0.25rem;
+  justify-content: space-around;
+
+  label {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 4rem;
+    margin: 2rem;
+  }
+}
+
+.enemy-unit-container {
   display: flex;
   flex-direction: column;
   flex-basis: 33%;
