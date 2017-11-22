@@ -28,7 +28,7 @@ const Sidebar = (props) => {
 
   const colors = ['#b3482e', '#6f9bc4', '#d5a149', '#83ada0', '#c7723d']
   const numOfPlayers = playerOrder.length;
-
+  console.log(props)
   return (
     <div className="sidebar-wrapper">
       <h1>DOMINATION</h1>
@@ -61,7 +61,9 @@ const Sidebar = (props) => {
       </div>)
       }
 
-      {inGame
+      {props.match.params.boardId && !playerOrder.includes(user) &&
+        (<h1>SPECTATOR MODE</h1>)}
+      {props.match.params.boardId
         && (<div>
           <div className="avatar">
             <img src="../assets/wizard-avatar.jpg" />
