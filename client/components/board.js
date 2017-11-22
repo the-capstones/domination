@@ -17,7 +17,7 @@ class Board extends Component {
     calcAllotmentPoints(boardId, hexes);
   }
 
-  componentWillReceiveProps() {
+  componentDidUpdate() {
     const { playerOrder, hexes } = this.props;
     addColors(playerOrder, hexes);
   }
@@ -110,8 +110,9 @@ const mapDispatch = (dispatch, ownProps) => {
       const isValidMove = attackerNeighbors.includes(defenderHexId);
       const isAttacker = user.username === currentPlayer;
       const isAttacking = attackerHexId && hexes[attackerHexId].playerId === currentPlayer && hexes[defenderHexId].playerId !== currentPlayer;
+      const enoughUnits = hexes[attackerHexId].unit1 > 1;
 
-      if (phase === 'attack' && isValidMove && isAttacker && isAttacking) {
+      if (phase === 'attack' && enoughUnits && isValidMove && isAttacker && isAttacking) {
         ownProps.history.push(`/boards/${boardId}/battle`);
       }
     },
@@ -120,6 +121,10 @@ const mapDispatch = (dispatch, ownProps) => {
       const isNewHex = newHexId !== oldHexId;
 
       if (isCurrentPlayer && isNewHex) {
+        const hexElement = document.getElementById(newHexId);
+        oldHexId && document.getElementById(oldHexId).classList.remove('highlight-select');
+        hexElement.classList.add('highlight-select');
+
         firebase.ref(`/boards/${boardId}/state`).update({ prevSelectedHex: oldHexId })
         firebase.ref(`/boards/${boardId}/state`).update({ selectedHex: newHexId })
       }
