@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints } from '../functions';
-import { AllotmentGUI, CombatRisk } from './';
+import { withRouter } from 'react-router-dom';
+import { AllotmentGUI } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'
 
@@ -27,12 +28,12 @@ class Board extends Component {
       renderAllotmentGUI,
       renderCombatGUI,
       selectHex,
+      selectedHex,
       prevSelectedHex,
     } = this.props;
 
     return (
       <div className="board">
-        <CombatRisk />
         <HexGrid width={config.width} height={config.height}>
           <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
             {
@@ -46,9 +47,9 @@ class Board extends Component {
                   r={hex.r}
                   s={hex.s}
                   onClick={() => {
-                    selectHex(hexId);
+                    selectHex(user, currentPlayer, hexId, selectedHex, currentPhase);
                     renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
-                    renderCombatGUI(currentPhase, hexId, selectedHex, prevSelectedHex);
+                    renderCombatGUI(user, currentPlayer, hexes, currentPhase, selectedHex, prevSelectedHex);
                   }}
 
                 >
@@ -84,6 +85,8 @@ const mapState = (state) => {
 }
 
 const mapDispatch = (dispatch, ownProps) => {
+  const { boardId } = ownProps;
+
   return {
     renderAllotmentGUI(phase, selectedHexId, hexes, user, currentPlayer) {
       const allGuis = document.getElementsByClassName('allotment-guis');
@@ -97,16 +100,22 @@ const mapDispatch = (dispatch, ownProps) => {
         gui.classList.add('show');
       }
     },
-    renderCombatGUI(phase, id, selectedHexId, prevSelectedHex) {
-      if (phase === 'attack' && selectedHexId && prevSelectedHex) {
-        const combatGui = document.getElementById('combat-wrapper');
-        combatGui.classList.remove('hidden');
+    renderCombatGUI(user, currentPlayer, hexes, phase, selectedHexId, prevSelectedHexId) {
+      const isAttacker = user.username === currentPlayer;
+      const isAttacking = prevSelectedHexId && hexes[prevSelectedHexId].playerId === currentPlayer
+        && hexes[selectedHexId].playerId !== currentPlayer;
+
+      if (phase === 'attack' && isAttacker && isAttacking) {
+        ownProps.history.push(`/boards/${boardId}/battle`);
       }
     },
-    selectHex(newHexId, oldHexId, phase) {
-      if (newHexId !== oldHexId) {
-        firebase.ref(`/boards/${ownProps.boardId}/state`).update({ prevSelectedHex: oldHexId })
-        firebase.ref(`/boards/${ownProps.boardId}/state`).update({ selectedHex: newHexId })
+    selectHex(user, currentPlayer, newHexId, oldHexId, phase) {
+      const isCurrentPlayer = user.username === currentPlayer;
+      const isNewHex = newHexId !== oldHexId;
+
+      if (isCurrentPlayer && isNewHex) {
+        firebase.ref(`/boards/${boardId}/state`).update({ prevSelectedHex: oldHexId })
+        firebase.ref(`/boards/${boardId}/state`).update({ selectedHex: newHexId })
       }
     }
   }
@@ -114,5 +123,5 @@ const mapDispatch = (dispatch, ownProps) => {
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default connect(mapState, mapDispatch)(Board);
+export default withRouter(connect(mapState, mapDispatch)(Board));
 

@@ -1,7 +1,16 @@
 @import './_variables.scss';
 
-.hidden {
-  display: none;
+#combat-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $black-light;
+  opacity: 0.5;
+  z-index: 999;
 }
 
 .combat {
@@ -10,9 +19,7 @@
   margin: 0.5rem;
   // width: calc(100vw - 1rem - 2px);
   background: $black;
-  position: absolute;
-  top: 30%;
-  left: 23%;
+  opacity: 1;
 }
 
 .player-container {
