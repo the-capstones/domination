@@ -23,6 +23,7 @@ const Sidebar = (props) => {
     changePhase,
     playerOrder,
     allotmentPointsPerTurn,
+    leaveGame,
   } = props;
 
   const colors = ['#b3482e', '#6f9bc4', '#d5a149', '#83ada0', '#c7723d']
@@ -38,7 +39,7 @@ const Sidebar = (props) => {
           {
             isLoggedIn
               ? <div>
-                <Link to="/home">Home</Link>
+                <Link to="/">Home</Link>
                 <a href="#" onClick={handleClick}>Logout</a>
                 <Link to="/rules">Rules</Link>
               </div>
@@ -99,6 +100,14 @@ const Sidebar = (props) => {
           </div>
         )
       }
+
+      {inGame && status !== 'waiting' && currentPlayer === user
+        && (
+          <div className="leave-game-container">
+            <button onClick={leaveGame}>Leave Game</button>
+          </div>
+        )
+      }
     </div>
   )
 }
@@ -128,6 +137,10 @@ const mapDispatch = (dispatch, ownProps) => {
   return {
     handleClick() {
       dispatch(logout())
+    },
+    leaveGame() {
+      dispatch(setInGame(false));
+      ownProps.history.push('/');
     },
     changePhase(
       currentPhase,
