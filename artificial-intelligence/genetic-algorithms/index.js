@@ -1,10 +1,11 @@
 'use strict'
-
 const { generateStartingGenomes } = require('./population')
 const play = require('./play')
 const { populateNextGeneration } = require('./reproduction')
 
+
 /* generate starting genomes: array of 20 AI players with random genetic material */
+
 let genomes = generateStartingGenomes()
 console.log(genomes)
 
