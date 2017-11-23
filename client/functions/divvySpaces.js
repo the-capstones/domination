@@ -70,6 +70,7 @@ export const addColors = (playerOrder, hexes) => {
       const hex = document.getElementById(id)
       const username = hexes[id].playerId;
       const playerId = players.indexOf(username);
+      hex.classList.remove('hex-fill-red', 'hex-fill-black', 'hex-fill-blue', 'hex-fill-yellow', 'hex-fill-green', 'hex-fill-orange')
       hex.classList.add(`hex-fill-${colors[playerId]}`);
     })
   }
