@@ -4,19 +4,18 @@
   position: fixed;
   border-radius: 5px;
   padding: 1rem;
-  width: 15rem;
-  min-height: 3.2rem;
+  width: 25rem;
+  min-height: 4rem;
   top: 0;
   left: 0;
   background: $black;
-  font-size: 1.25rem;
+  font-size: 0.5rem;
+}
 
-  button {
-    text-align: center;
-    background: none;
-    border: none;
-    padding: 0.5rem;
-  }
+.allotment button {
+  text-align: center;
+  background: $black-light;
+  border: none;
 }
 
 .fa-plus {

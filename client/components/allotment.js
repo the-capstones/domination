@@ -48,6 +48,12 @@ const mapDispatch = (dispatch, ownProps) => {
         updatedHexObj[hexId].unit1 += 1;
         firebase.ref(`/boards/${boardId}/hexes`).update(updatedHexObj);
         firebase.ref(`/boards/${boardId}/state`).update({ allotmentLeft });
+        if (allotmentLeft === 0) {
+          firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'attack' });
+        }
+      }
+      else {
+        firebase.ref(`/boards/${boardId}/state`).update({ currentPhase: 'attack' });
       }
     }
   }
