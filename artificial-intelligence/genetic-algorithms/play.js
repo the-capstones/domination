@@ -3,6 +3,7 @@
 /* eslint "no-loop-func": 0 */
 
 const trueskill = require('trueskill')
+const { hexagons } = require('../../client/functions/gridGenerator')
 
 function shufflePlayerOrder(playerArray) {
   for (let i = 0; i < playerArray.length; i++) {
@@ -14,10 +15,30 @@ function shufflePlayerOrder(playerArray) {
   return playerArray
 }
 
+function generateBoard(players) {
+  let board = {}
+
+  hexagons.forEach(hex => {
+    hex.id = `${hex.q},${hex.r},${hex.s}`;
+    board[hex.id] = {
+      movesLeft: 2,
+      playerId: '',
+      unit1: 1,
+      unit2: 0,
+      unit3: 0
+    }
+  });
+}
+
 function play(player1, player2, player3, player4) {
+  // initialize board
+  generateBoard(arguments)
+
   let players = [...arguments]
   let gameRank = players.length;
   players = shufflePlayerOrder(players)
+
+
 
   while (gameRank > 0) {
     players.forEach(player => {
@@ -39,5 +60,6 @@ function play(player1, player2, player3, player4) {
   trueskill.AdjustPlayers(players)
   //each player now has accurate 'trueskill' value as player.rank
 }
+console.log(hexagons)
 
 module.exports = { shufflePlayerOrder, play }

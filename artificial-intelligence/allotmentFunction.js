@@ -50,7 +50,7 @@ const hexesStep1 = {
 
 // test the function myHexes with the console.log statement below
 // it should return:
-// { 
+// {
 // myHex1: { movesLeft: 0, playerId: 1, unit1: 6 },
 // myHex2: { movesLeft: 2, playerId: 1, unit1: 1 },
 // myHex3: { movesLeft: 2, playerId: 1, unit1: 6 },
@@ -79,7 +79,7 @@ const hexesStep2 = {
 function unitStrengthDifference(allHexesObj, startingHex, artIntelplayerId){
     const adjacentHexResults = attackMatrixFunctions.adjacentHex(startingHex)
     const nearbyEnemyUnits = adjacentHexResults.map(hex => {
-        if (allHexesObj[hex] && 
+        if (allHexesObj[hex] &&
             allHexesObj[hex].playerId !== '' &&
             allHexesObj[hex].playerId !== artIntelplayerId) {
             return allHexesObj[hex].unit1
@@ -87,13 +87,14 @@ function unitStrengthDifference(allHexesObj, startingHex, artIntelplayerId){
         }).reduce((sum, value) => {return sum + value}, 0)
     const myUnits = allHexesObj[startingHex].unit1
     return nearbyEnemyUnits - myUnits
+    // or nearbyEnemyUnits/myUnits
 }
 
 // test the function unitStrengthDifference with the console.log statement below
 // it should return 4
 // console.log(unitStrengthDifference(hexesStep2, '0,0,0'))
 
-// Step 3: For all territories, filter the ones out that have 15 units and choose 
+// Step 3: For all territories, filter the ones out that have 15 units and choose
 // the one that has the highest value in step 2.
 // (function: nextAllotment)
 
@@ -130,8 +131,9 @@ function nextAllotment(allHexesObj, artIntelplayerId){
     let biggestUnitDifference = -Infinity
     let mostNeededAllotment = ''
     allotableHexes.forEach(hex => {
-        if (unitStrengthDifference(allHexesObj, hex) > biggestUnitDifference) {
-            biggestUnitDifference = unitStrengthDifference(allHexesObj, hex)
+        let difference = unitStrengthDifference(allHexesObj, hex)
+        if (difference > biggestUnitDifference) {
+            biggestUnitDifference = difference
             mostNeededAllotment = hex
         }
     })
@@ -141,3 +143,8 @@ function nextAllotment(allHexesObj, artIntelplayerId){
 // test the function nextAllotment with the console.log statement below
 // it should return '5,5,5'
 // console.log(nextAllotment(hexesStep3, myPlayerId))
+
+module.exports = {
+    unitStrengthDifference,
+    nextAllotment
+}
