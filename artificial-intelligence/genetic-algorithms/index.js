@@ -1,12 +1,12 @@
 'use strict'
 
-import { AIgenome, generateStartingGenomes } from './population'
-import play from './play'
-import { populateNextGeneration } from './reproduction'
+const { generateStartingGenomes } = require('./population')
+const play = require('./play')
+const { populateNextGeneration } = require('./reproduction')
 
 /* generate starting genomes: array of 20 AI players with random genetic material */
 let genomes = generateStartingGenomes()
-// console.log(genomes)
+console.log(genomes)
 
 /* next step after generation: have these players play eachother (groups of 4). Play several iterations for more accurate sense of skill (for weighting in 'mating pool') */
 

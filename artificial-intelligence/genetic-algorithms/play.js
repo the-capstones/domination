@@ -14,7 +14,7 @@ function shufflePlayerOrder(playerArray) {
   return playerArray
 }
 
-export default function play(player1, player2, player3, player4) {
+function play(player1, player2, player3, player4) {
   let players = [...arguments]
   let gameRank = players.length;
   players = shufflePlayerOrder(players)
@@ -39,3 +39,5 @@ export default function play(player1, player2, player3, player4) {
   trueskill.AdjustPlayers(players)
   //each player now has accurate 'trueskill' value as player.rank
 }
+
+module.exports = { shufflePlayerOrder, play }
