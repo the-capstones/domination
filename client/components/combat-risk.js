@@ -10,80 +10,77 @@ const CombatRisk = props => {
 
   return (
     <div id="combat-wrapper">
-      <div id="combat-gui">
-        <div className="combat">
-          <div className="player-container">
+      <div className="combat">
+        <div className="player-container">
 
-            <div className="option-container">
-              <label>PLAYER</label>
-              <button onClick={() => handleRoll(props)}>ROLL</button>
-              <button onClick={endCombat}>END COMBAT</button>
-            </div>
-
-            <div className="unit-container">
-              <h2>
-                {attackingUnits - 1}
-              </h2>
-              <label>UNITS</label>
-              <label>REMAINING</label>
-            </div>
-
-            <div className="roll-container">
-              <div className="die-container">
-                <img src="assets/wizard-avatar.jpg" />
-                <label>-</label>
-              </div>
-
-              <div className="die-container">
-                <img src="assets/wizard-avatar.jpg" />
-                <label>-</label>
-              </div>
-
-              <div className="die-container">
-                <img src="assets/wizard-avatar.jpg" />
-                <label>-</label>
-              </div>
-            </div>
-
+          <div className="option-container">
+            <label>PLAYER</label>
+            <button onClick={() => handleRoll(props)}>ROLL</button>
+            <button onClick={endCombat}>END COMBAT</button>
           </div>
 
-          <div className="result">
-            <h3>RESULT</h3>
+          <div className="unit-container">
+            <h2>
+              {attackingUnits - 1}
+            </h2>
+            <label>UNITS</label>
+            <label>REMAINING</label>
           </div>
 
-          <div className="enemy-container">
-
-            <div className="option-container">
-              <label>ENEMY</label>
+          <div className="roll-container">
+            <div className="die-container">
+              <img src="assets/wizard-avatar.jpg" />
+              <label>-</label>
             </div>
 
-            <div className="enemy-unit-container">
-              <h2>
-                {defendingUnits}
-              </h2>
-              <label>UNITS</label>
-              <label>REMAINING</label>
+            <div className="die-container">
+              <img src="assets/wizard-avatar.jpg" />
+              <label>-</label>
             </div>
 
-
-            <div className="roll-container">
-              <div className="enemy-die-container">
-                <img src="assets/wizard-avatar.jpg" />
-                <label>-</label>
-              </div>
-
-              <div className="enemy-die-container">
-                <img src="assets/wizard-avatar.jpg" />
-                <label>-</label>
-              </div>
+            <div className="die-container">
+              <img src="assets/wizard-avatar.jpg" />
+              <label>-</label>
             </div>
-
           </div>
 
         </div>
+
+        <div className="result">
+          <h3>RESULT</h3>
         </div>
-        <div className="back-pannel" />
+
+        <div className="enemy-container">
+
+          <div className="option-container">
+            <label>ENEMY</label>
+          </div>
+
+          <div className="enemy-unit-container">
+            <h2>
+              {defendingUnits}
+            </h2>
+            <label>UNITS</label>
+            <label>REMAINING</label>
+          </div>
+
+
+          <div className="roll-container">
+            <div className="enemy-die-container">
+              <img src="assets/wizard-avatar.jpg" />
+              <label>-</label>
+            </div>
+
+            <div className="enemy-die-container">
+              <img src="assets/wizard-avatar.jpg" />
+              <label>-</label>
+            </div>
+          </div>
+
+        </div>
+
       </div>
+    </div>
   )
 }
 
