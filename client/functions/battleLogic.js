@@ -39,9 +39,7 @@ const displayResult = (winnerId, loserId, unitOrSpace) => {
   resultElement.innerHTML = guiMessage;
 }
 
-export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendingHexId, attackingUnits, defendingUnits }) => {
-  const attackerName = hexes[attackingHexId].playerId;
-  const defenderName = hexes[defendingHexId].playerId;
+export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendingHexId, attackingUnits, defendingUnits, attackerName, defenderName }) => {
 
   const attackerNeighbors = getNeighbors(attackingHexId);
   const isValidMove = attackerNeighbors.includes(defendingHexId);
