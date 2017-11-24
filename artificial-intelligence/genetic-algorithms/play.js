@@ -2,7 +2,7 @@
 const trueskill = require('trueskill')
 const { hexagons } = require('../funcs/gridGenerator')
 const { divvySpaces } = require('../funcs/divvySpaces')
-const { myHexes, playableHexes } = require('../attackMatrixCreator')
+const { myHexes, playableHexes, attackableHexes } = require('../attackMatrixCreator')
 const { nextAllotment } = require('../allotmentFunction')
 
 const TERRITORIES_PER_UNIT_ALLOTTED = 15
@@ -42,6 +42,7 @@ function allot(player, board) {
   let allotStrategy = player.allotmentStrategy
   let hexToAllotTo = nextAllotment(board, player.id, allotStrategy)
   board[hexToAllotTo].unit1++
+  console.log(`allotted unit to ${hexToAllotTo}. Units on territory: ${board[hexToAllotTo].unit1}`)
 }
 
 
@@ -57,15 +58,21 @@ function play(player1, player2, player3, player4) {
   while (gameRank) {
 
     players.forEach(player => {
-      playerHexes = myHexes(board, player.id);
-      hexesOwned = playerHexes.length;
+      console.log('********************************************')
+      console.log(`********** STARTING PLAYER ${player.id} TURN **********`)
+      console.log('********************************************')
+      let playerHexes = myHexes(board, player.id);
+      let hexesOwned = Object.keys(playerHexes).length;
 
       if (hexesOwned) {
         let allotment = Math.max(Math.floor(hexesOwned / TERRITORIES_PER_UNIT_ALLOTTED), 3)
+        console.log(`starting allotment: ${allotment} based on ${hexesOwned} territories`)
 
         while (allotment) {
           allot(player, board)
           allotment--
+          console.log(`allotment remaining: ${allotment}`)
+          console.log('--------------------------------------------')
         }
 
          //battle logic
@@ -80,8 +87,8 @@ function play(player1, player2, player3, player4) {
 
       }
 
-    }
-    }
+    })
+    gameRank--
 }
 
 
@@ -92,10 +99,43 @@ function play(player1, player2, player3, player4) {
 //   })
 
 // //when game is over
-trueskill.AdjustPlayers(players)
+// trueskill.AdjustPlayers(players)
   //each player now has accurate 'trueskill' value as player.rank
 }
 
-play({ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 })
+// dummy data for testing
+let p1 = {
+  id: 1,
+  chanceToWinThreshold: 0.5,
+  playerStrengthQuotientThreshold: 0.2,
+  attackStrategy: 'maximizeTerritoryGains',
+  allotmentStrategy: 'differenceInUnits'
+}
+
+let p2 = {
+  id: 2,
+  chanceToWinThreshold: 0.6,
+  playerStrengthQuotientThreshold: null,
+  attackStrategy: 'maximizeTerritoryGains',
+  allotmentStrategy: 'ratioOfUnits'
+}
+
+let p3 = {
+  id: 3,
+  chanceToWinThreshold: 0.7,
+  playerStrengthQuotientThreshold: null,
+  attackStrategy: 'minimizeUnitsLostRatio',
+  allotmentStrategy: 'ratioOfUnits'
+}
+
+let p4 = {
+  id: 4,
+  chanceToWinThreshold: 0.4,
+  playerStrengthQuotientThreshold: 0.4,
+  attackStrategy: 'minimizeUnitsLostRatio',
+  allotmentStrategy: 'differenceInUnits'
+}
+
+play(p1, p2, p3, p4)
 
 module.exports = { shufflePlayerOrder, play }
