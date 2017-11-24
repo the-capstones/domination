@@ -1,10 +1,12 @@
 const { AIgenome } = require('./population')
 
+const DEFAULT_SKILL_LEVEL = 25
+
 // random sampling based off of Monte Carlo rejection sampling
 function selectParent(genomes) {
   // random number between 0 & sum of all genomes' skill
-  // default skill level is 25 and there are 20 genomes
-  let random = Math.random() * 25 * 20;
+  // as skill levels are adjusted with TrueSkill, their sum remains the same
+  let random = Math.random() * DEFAULT_SKILL_LEVEL * genomes.length;
   for (var i = 0; random > 0; i++) {
     random -= genomes[i].skill[0]
   }
@@ -33,8 +35,8 @@ function reproduce(genomes, i) {
     ? parentA.allotmentStrategy
     : parentB.allotmentStrategy
 
-  let mutationRate = 0.01
-  let mutate = Math.random() < mutationRate
+  const MUTATION_RATE = 0.01
+  let mutate = Math.random() < MUTATION_RATE
   let geneVariations = [CTWmin, PSQmin, attackStrategy, allotmentStrategy]
 
   if (mutate) {

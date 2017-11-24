@@ -1,9 +1,8 @@
-import firebase from '../firebase';
 import { validBoardCheck } from './';
 
-const PERCENT_DISABLED = .20;
+const PERCENT_DISABLED = 0.20;
 
-export const divvySpaces = (playerOrder, hexes, boardId) => {
+const divvySpaces = (playerOrder, hexes, boardId) => {
   let validBoard = false;
 
   while (!validBoard) {
@@ -61,7 +60,7 @@ export const divvySpaces = (playerOrder, hexes, boardId) => {
   } //while !validBoard
 }
 
-export const addColors = (playerOrder, hexes) => {
+const addColors = (playerOrder, hexes) => {
   const players = ['', ...playerOrder];
   const colors = ['black', 'red', 'blue', 'yellow', 'green', 'orange'];
 
@@ -74,3 +73,5 @@ export const addColors = (playerOrder, hexes) => {
     })
   }
 }
+
+module.exports = {}

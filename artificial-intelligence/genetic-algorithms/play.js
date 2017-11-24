@@ -4,6 +4,7 @@
 
 const trueskill = require('trueskill')
 const { hexagons } = require('../functions/gridGenerator')
+const divvySpaces = require('../functions/divvySpaces')
 
 function shufflePlayerOrder(playerArray) {
   for (let i = 0; i < playerArray.length; i++) {
@@ -17,6 +18,7 @@ function shufflePlayerOrder(playerArray) {
 
 function generateBoard(players) {
   let board = {}
+  players = [...players]
 
   hexagons.forEach(hex => {
     hex.id = `${hex.q},${hex.r},${hex.s}`;
@@ -28,6 +30,7 @@ function generateBoard(players) {
       unit3: 0
     }
   });
+  divvySpaces(players, board)
   return board
 }
 
@@ -35,11 +38,14 @@ function play(player1, player2, player3, player4) {
   // initialize board
   let board = generateBoard(arguments)
 
+  let players = [...arguments]
+  // // let gameRank = players.length;
+  // players = shufflePlayerOrder(players)
+  // console.log('PLAYERS ARE', players)
+
+
   console.log(board)
 
-  // let players = [...arguments]
-  // let gameRank = players.length;
-  // players = shufflePlayerOrder(players)
 
 
 
@@ -64,6 +70,6 @@ function play(player1, player2, player3, player4) {
   //each player now has accurate 'trueskill' value as player.rank
 }
 
-play()
+play(1,2,3,4)
 
 module.exports = { shufflePlayerOrder, play }
