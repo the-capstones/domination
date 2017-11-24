@@ -32,7 +32,16 @@ const takeOverSpace = (boardId, hexes, attackingHexId, defendingHexId, attacking
   return true;
 }
 
+const displayResult = (winnerId, loserId, unitOrSpace) => {
+  const resultElement = document.getElementById('result');
+  const guiMessage = `${winnerId} wins. ${loserId} loses a ${unitOrSpace}.`;
+
+  resultElement.innerHTML = guiMessage;
+}
+
 export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendingHexId, attackingUnits, defendingUnits }) => {
+  const attackerName = hexes[attackingHexId].playerId;
+  const defenderName = hexes[defendingHexId].playerId;
 
   const attackerNeighbors = getNeighbors(attackingHexId);
   const isValidMove = attackerNeighbors.includes(defendingHexId);
@@ -65,6 +74,7 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
 
   if (attackerHighestRoll > defenderHighestRoll) {
     updateUnits(boardId, defendingHexId, defendingUnits - 1);
+    displayResult(attackerName, defenderName, 'unit')
 
     const defenderLost = defendingUnits <= 1;
     defenderLost
@@ -73,8 +83,10 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
     && endCombat(attackingHexId)
   } else {
     updateUnits(boardId, attackingHexId, attackingUnits - 1);
+    displayResult(defenderName, attackerName, 'unit')
 
     const enoughAttackingUnits = attackingUnits - 1 > 1;
     !enoughAttackingUnits && endCombat(attackingHexId);
   }
 }
+
