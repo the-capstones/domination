@@ -2,7 +2,7 @@
 const trueskill = require('trueskill')
 const { hexagons } = require('../funcs/gridGenerator')
 const { divvySpaces } = require('../funcs/divvySpaces')
-const { myHexes } = require('../attackMatrixCreator')
+const { myHexes, playableHexes } = require('../attackMatrixCreator')
 const { nextAllotment } = require('../allotmentFunction')
 
 const TERRITORIES_PER_UNIT_ALLOTTED = 15
@@ -19,6 +19,7 @@ function shufflePlayerOrder(playerArray) {
   return playerArray
 }
 
+
 function generateBoard(players) {
   let board = {}
   players = [...players]
@@ -28,9 +29,7 @@ function generateBoard(players) {
     board[hex.id] = {
       movesLeft: 2,
       playerId: '',
-      unit1: 1,
-      unit2: 0,
-      unit3: 0
+      unit1: 1
     }
   });
 
@@ -38,11 +37,13 @@ function generateBoard(players) {
   return board
 }
 
+
 function allot(player, board) {
   let allotStrategy = player.allotmentStrategy
   let hexToAllotTo = nextAllotment(board, player.id, allotStrategy)
   board[hexToAllotTo].unit1++
 }
+
 
 function play(player1, player2, player3, player4) {
   // initialize board

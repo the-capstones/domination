@@ -184,7 +184,7 @@ function attackableHexes(allHexesObj, startingHexString, artIntelplayerId){
 
 // test the function attackableHexes with the console.log statements below
 // console.log(startingHex, 'dummy starting hex')
-// console.log(attackableHexes(hexesStep2, startingHex, myPlayerId), 'final results!')
+console.log(attackableHexes(hexesStep2, startingHex, myPlayerId), 'final results!')
 
 // Step 3: For a given board, what are all the attacks I can make?
 // (container Function: attackMatrix)
@@ -288,14 +288,14 @@ function attackMatrix(hexesObj, artIntelplayerId){
 }
 
 // test the function attackMatrix with the console.log statements below
-// console.log('----------------');
-// console.log('----------------');
-// console.log('starting board state')
-// console.log(hexesStep3)
-// console.log('----------------');
-// console.log('----------------');
-// console.log('starting playerId for the artificial intelligence', myPlayerId)
-// console.log(attackMatrix(hexesStep3, myPlayerId))
+console.log('----------------');
+console.log('----------------');
+console.log('starting board state')
+console.log(hexesStep3)
+console.log('----------------');
+console.log('----------------');
+console.log('starting playerId for the artificial intelligence', myPlayerId)
+console.log(attackMatrix(hexesStep3, myPlayerId))
 
 module.exports = {
     attackMatrix,
