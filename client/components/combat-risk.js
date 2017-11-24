@@ -6,7 +6,7 @@ import { handleRoll } from '../functions';
 import '../css/_combat-risk.scss';
 
 const CombatRisk = props => {
-  const { endCombat, defendingUnits, attackingUnits } = props;
+  const { endCombat, defendingUnits, attackingUnits, attackerName, defenderName } = props;
 
   return (
     <div id="combat-wrapper">
@@ -15,7 +15,7 @@ const CombatRisk = props => {
           <div className="player-container">
 
             <div className="option-container">
-              <label>PLAYER</label>
+              <label>{attackerName}</label>
               <button onClick={() => handleRoll(props)}>ROLL</button>
               <button onClick={endCombat}>END COMBAT</button>
             </div>
@@ -47,15 +47,14 @@ const CombatRisk = props => {
 
           </div>
 
-          <div className="result">
-            <h3>RESULT</h3>
+        <div className="result-box">
+          <h3 id="result">RESULT</h3>
+        </div>
+
+        <div className="player-container">
+          <div className="option-container">
+            <label>{defenderName}</label>
           </div>
-
-          <div className="enemy-container">
-
-            <div className="option-container">
-              <label>ENEMY</label>
-            </div>
 
             <div className="enemy-unit-container">
               <h2>
@@ -100,6 +99,8 @@ const mapState = (state, ownProps) => {
     attackingHexId,
     attackingUnits: hexes[attackingHexId].unit1,
     defendingUnits: hexes[defendingHexId].unit1,
+    attackerName: hexes[attackingHexId].playerId,
+    defenderName: hexes[defendingHexId].playerId,
   }
 }
 
