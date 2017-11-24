@@ -1,8 +1,13 @@
 'use strict'
-/* eslint "no-loop-func": 0 */
 const trueskill = require('trueskill')
 const { hexagons } = require('../funcs/gridGenerator')
 const { divvySpaces } = require('../funcs/divvySpaces')
+const { myHexes } = require('../attackMatrixCreator')
+const { nextAllotment } = require('../allotmentFunction')
+
+const TERRITORIES_PER_UNIT_ALLOTTED = 15
+
+/* eslint "no-loop-func": 0 */
 
 function shufflePlayerOrder(playerArray) {
   for (let i = 0; i < playerArray.length; i++) {
@@ -28,8 +33,15 @@ function generateBoard(players) {
       unit3: 0
     }
   });
+
   divvySpaces(players, board)
   return board
+}
+
+function allot(player, board) {
+  let allotStrategy = player.allotmentStrategy
+  let hexToAllotTo = nextAllotment(board, player.id, allotStrategy)
+  board[hexToAllotTo].unit1++
 }
 
 function play(player1, player2, player3, player4) {
@@ -37,37 +49,52 @@ function play(player1, player2, player3, player4) {
   let board = generateBoard(arguments)
 
   let players = [...arguments]
-  // // let gameRank = players.length;
-  // players = shufflePlayerOrder(players)
-  // console.log('PLAYERS ARE', players)
+  let gameRank = players.length;
+  players = shufflePlayerOrder(players)
+
+  // when gameRank gets to 0 game is over
+  while (gameRank) {
+
+    players.forEach(player => {
+      playerHexes = myHexes(board, player.id);
+      hexesOwned = playerHexes.length;
+
+      if (hexesOwned) {
+        let allotment = Math.max(Math.floor(hexesOwned / TERRITORIES_PER_UNIT_ALLOTTED), 3)
+
+        while (allotment) {
+          allot(player, board)
+          allotment--
+        }
+
+         //battle logic
+//       if (/* player has no units left */ !player.units /**/) {
+//         player.rank = gameRank;
+//         player.inGame = false;
+//         gameRank--;
+//         return;
+//       }
+//       //logic for draws
+//       //fortification logic
+
+      }
+
+    }
+    }
+}
 
 
-  console.log(board)
+//     if (player.inGame) {
+//       //allotment logic
+//
+//     }
+//   })
 
-
-
-
-  // while (gameRank > 0) {
-  //   players.forEach(player => {
-  //     if (player.inGame) {
-  //       //allotment logic
-  //       //battle logic
-  //       if (/* player has no units left */ !player.units /**/) {
-  //         player.rank = gameRank;
-  //         player.inGame = false;
-  //         gameRank--;
-  //         return;
-  //       }
-  //       //logic for draws
-  //       //fortification logic
-  //     }
-  //   })
-  // }
-  // //when game is over
-  // trueskill.AdjustPlayers(players)
+// //when game is over
+trueskill.AdjustPlayers(players)
   //each player now has accurate 'trueskill' value as player.rank
 }
 
-play({id: 1}, {id: 2}, {id: 3}, {id: 4})
+play({ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 })
 
 module.exports = { shufflePlayerOrder, play }
