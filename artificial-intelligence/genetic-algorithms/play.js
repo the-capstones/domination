@@ -1,10 +1,8 @@
 'use strict'
-
 /* eslint "no-loop-func": 0 */
-
 const trueskill = require('trueskill')
-const { hexagons } = require('../functions/gridGenerator')
-const divvySpaces = require('../functions/divvySpaces')
+const { hexagons } = require('../funcs/gridGenerator')
+const { divvySpaces } = require('../funcs/divvySpaces')
 
 function shufflePlayerOrder(playerArray) {
   for (let i = 0; i < playerArray.length; i++) {
@@ -70,6 +68,6 @@ function play(player1, player2, player3, player4) {
   //each player now has accurate 'trueskill' value as player.rank
 }
 
-play(1,2,3,4)
+play({id: 1}, {id: 2}, {id: 3}, {id: 4})
 
 module.exports = { shufflePlayerOrder, play }
