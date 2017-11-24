@@ -1,4 +1,4 @@
-import { getNeighbors } from './';
+const { getNeighbors } = require('./hexHighlighter.js')
 
 const filterValidHexes = (mightBeNeighbors, cache, hexes) => {
   return mightBeNeighbors.filter(neighbor => {
@@ -9,7 +9,7 @@ const filterValidHexes = (mightBeNeighbors, cache, hexes) => {
     return false;
   })
 };
-export const validBoardCheck = (initialHex, hexes) => {
+const validBoardCheck = (initialHex, hexes) => {
   let mightBeNeighbors;
   const queue = [];
   const cache = {};
@@ -24,4 +24,8 @@ export const validBoardCheck = (initialHex, hexes) => {
   const validHexesFound = new Set(queue).size;
   const validHexesOnBoard = Object.entries(hexes).filter(hexArr => hexArr[1].playerId !== '').length;
   return validHexesFound === validHexesOnBoard;
+}
+
+module.exports = {
+  validBoardCheck
 }

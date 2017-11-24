@@ -6,7 +6,7 @@ const getNeighbor = (id, [q, r, s]) => {
   return sepId.join(',');
 }
 
-export const getNeighbors = (id) => {
+const getNeighbors = (id) => {
   const directions = [
     [1, 0, -1], [1, -1, 0], [0, -1, 1],
     [-1, 0, 1], [-1, 1, 0], [0, 1, -1]
@@ -14,16 +14,7 @@ export const getNeighbors = (id) => {
   return directions.map(direction => getNeighbor(id, direction))
 }
 
-export const highlightNeighbors = (id) => {
-  const polygons = [];
-  const allNeighbors = getNeighbors(id)
-    .map(neighborId => polygons.push(document.getElementById(neighborId)));
 
-  polygons.forEach(hex => hex && hex.classList.add('highlight-attack'));
-
-  function removeHighlight() {
-    polygons.forEach(hex => hex && hex.classList.remove('highlight-attack'));
-  }
-
-  return removeHighlight;
+module.exports = {
+  getNeighbors
 }
