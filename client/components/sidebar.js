@@ -108,7 +108,7 @@ const Sidebar = (props) => {
         )
       }
 
-      {boardId && status !== 'waiting'
+      {boardId
         && (
           <div className="leave-game-container">
             <button onClick={() => leaveGame(user, playerOrder)}>Leave Game</button>
