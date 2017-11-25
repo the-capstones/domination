@@ -101,6 +101,7 @@ const mapState = (state, ownProps) => {
     defendingUnits: hexes[defendingHexId].unit1,
     attackerName: hexes[attackingHexId].playerId,
     defenderName: hexes[defendingHexId].playerId,
+    playerOrder: state.board.state.playerOrder,
   }
 }
 
