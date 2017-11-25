@@ -9,6 +9,7 @@ import '../css/_allotment-gui.scss';
 
 const AllotmentGUI = (props) => {
   const {
+    user,
     allotmentLeft,
     hexId,
     addUnit,
@@ -24,7 +25,7 @@ const AllotmentGUI = (props) => {
     <div className="allotment-gui-wrapper">
 
       <div className="allotment">
-        <button onClick={() => addUnit(hexId, hexagons, allotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, selectedHex)}>
+        <button onClick={() => addUnit(user, hexId, hexagons, allotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, selectedHex)}>
           <i className="fa fa-plus" aria-hidden="true" />
         </button>
         <span className="muted">{allotmentLeft}</span>
@@ -57,7 +58,8 @@ const mapState = (state) => {
 const mapDispatch = (dispatch, ownProps) => {
   const boardId = ownProps.match.params.boardId;
   return {
-    addUnit(id, hexagons, inputAllotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, selectedHex) {
+    addUnit(user, id, hexagons, inputAllotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, selectedHex) {
+      if (user !== currentPlayer) return;
       if (inputAllotmentLeft > 0) {
         inputAllotmentLeft -= 1;
         const updatedHexArr = Object.entries(hexagons).filter(hex => hex[0] === id );
