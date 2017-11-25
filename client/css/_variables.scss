@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Black+Ops+One|Monsteratt');
+@import url('https://fonts.googleapis.com/css?family=Mountains+of+Christmas');
 
 $title: 'Black Ops One', cursive;
-$text: 'Monsteratt', helvetica, sans serif;
+$text: 'Mountains+of+Christmas';
 $black-dark: #252425;
 $black: #343233;
 $black-light: #3f3d3e;
@@ -19,6 +19,7 @@ $player-orange: #c7723d;
 $player-yellow: #d5a149;
 $player-green: #83ada0;
 $player-blue: #6f9bc4;
+$redbackground: url('/assets/redyellow.jpg');
 
 @mixin transition($transition...) {
   -moz-transition:    $transition;

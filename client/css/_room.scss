@@ -6,7 +6,10 @@
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: $black;
+  // background: $black;
+  // next 2 lines are new, save if we want to put in a background image
+  background-image: $redbackground;
+  background-size: cover;
   flex-direction: column;
   z-index: 0;
 
@@ -47,5 +50,6 @@
     align-items: center;
     display: flex;
   }
+
 
 }

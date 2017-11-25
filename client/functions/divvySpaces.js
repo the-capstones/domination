@@ -61,17 +61,34 @@ export const divvySpaces = (playerOrder, hexes, boardId) => {
   } //while !validBoard
 }
 
-export const addColors = (playerOrder, hexes) => {
+export const addColors = (playerOrder, hexes, theme) => {
   const players = ['', ...playerOrder];
-  const colors = ['black', 'red', 'blue', 'yellow', 'green', 'orange'];
-
+  let colors = ['black', 'red', 'blue', 'yellow', 'green', 'orange'];
+  let removeColors = ['hex-fill-red', 'hex-fill-black', 'hex-fill-blue', 'hex-fill-yellow', 'hex-fill-green', 'hex-fill-orange']
+  if (theme === 'redStyle'){
+    colors = ['redStyle-black', 'redStyle-purple', 'redStyle-yellow', 'redStyle-pink', 'redStyle-green', 'redStyle-orange']
+    removeColors = ['hex-fill-redStyle-black',
+    'hex-fill-redStyle-purple',
+    'hex-fill-redStyle-yellow',
+    'hex-fill-redStyle-pink',
+    'hex-fill-redStyle-green', 'hex-fill-redStyle-orange']
+  }
   if (hexes) {
     Object.keys(hexes).forEach(id => {
       const hex = document.getElementById(id)
       const username = hexes[id].playerId;
       const playerId = players.indexOf(username);
-      hex.classList.remove('hex-fill-red', 'hex-fill-black', 'hex-fill-blue', 'hex-fill-yellow', 'hex-fill-green', 'hex-fill-orange')
+      hex.classList.remove(...removeColors)
       hex.classList.add(`hex-fill-${colors[playerId]}`);
+      // use the line below to test all the design colors without having 
+      // to make a game with 5 people
+      // hex.classList.add(`hex-fill-${colors[getRandomIntInclusive(0, 5)]}`);
     })
   }
+}
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }

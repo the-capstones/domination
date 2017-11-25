@@ -22,28 +22,42 @@
 .board,
 svg {
   fill: $black;
-  background: $black;
+  // background: $black;
 }
 
-svg g {
+// svg g {
+//   position: relative;
+//   fill: $neutral;
+//   fill-opacity: 1;
+//   transition: transform 2s
+// }
+
+// svg g:hover {
+//   fill-opacity: .7;
+//   transform: rotate(360deg);
+// }
+polygon {
   position: relative;
   fill: $neutral;
-  fill-opacity: 0.8;
-}
-
-svg g:hover {
   fill-opacity: 1;
+  transition: transform .3s
 }
 
-svg g polygon {
-  stroke: $neutral-dark;
-  stroke-width: 0.1;
-
+polygon:hover {
+  fill-opacity: .7;
+  transform: rotate(7200deg);
+  transform-origin: center;
 }
+
+// svg g polygon {
+//   stroke: $neutral-dark;
+//   stroke-width: 0.1;
+
+// }
 
 svg g text {
-  font-size: 0.18em;
-  fill: white;
+  font-size: 0.4em;
+  fill: black;
   fill-opacity: 1;
 }
 
@@ -70,6 +84,33 @@ svg g text {
 
 .hex-fill-black {
   fill: $black;
+  opacity: 0  
+}
+
+.hex-fill-redStyle-purple {
+  fill: url(#RadialGradient1);
+  // overflow: hidden;
+}
+
+.hex-fill-redStyle-yellow {
+  fill: url(#RadialGradient2);
+}
+
+.hex-fill-redStyle-green {
+  fill: url(#RadialGradient3);  
+}
+
+.hex-fill-redStyle-pink {
+  fill: url(#RadialGradient4);  
+}
+
+.hex-fill-redStyle-orange {
+  fill: url(#RadialGradient5);  
+}
+
+.hex-fill-redStyle-black {
+  fill: $black;
+  opacity: 0
 }
 
 // Don't know what this did
