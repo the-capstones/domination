@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
 
+import '../css/_main.scss';
+
 /**
  * COMPONENT
  *  The Main component is our 'picture frame' - it displays the navbar and anything
@@ -15,6 +17,14 @@ const Main = (props) => {
 
   return (
     <div className="main-wrapper">
+  {
+  // save below in case we want to do a background video
+  //   <div className="fullscreen-bg">
+  // <video loop muted autoPlay className="fullscreen-bg__video">
+  //     <source src="/assets/blackandwhite.mp4" type="video/mp4"/>
+  // </video>
+  // </div>
+}
       {children}
     </div>
   )

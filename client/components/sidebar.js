@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, setInGame } from '../store';
-import { changePhaseFunction } from '../functions';
+import { changePhaseFunction, attackMatrix } from '../functions';
 import firebase from '../firebase'
 
 
@@ -14,7 +14,6 @@ const Sidebar = (props) => {
   const {
     isLoggedIn,
     handleClick,
-    inGame,
     status,
     hexagons,
     user,
@@ -24,7 +23,8 @@ const Sidebar = (props) => {
     playerOrder,
     allotmentPointsPerTurn,
     leaveGame,
-    allotmentLeft
+    allotmentLeft,
+    attacksLeft
   } = props;
   const boardId = props.match.params.boardId;
 
@@ -107,7 +107,15 @@ const Sidebar = (props) => {
           </div>
         )
       }
-
+      {
+        //logic to switch phases if the player can no longer attack
+        boardId
+        && status !== 'waiting'
+        && currentPlayer === user
+        && currentPhase === 'attack'
+        && attacksLeft === 0
+        && changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId)
+      }
       {boardId
         && (
           <div className="leave-game-container">
@@ -124,18 +132,22 @@ const Sidebar = (props) => {
  */
 const mapState = (state) => {
   const isBoardLoaded = Object.keys(state.board).length > 0;
+  let hexagons = isBoardLoaded && state.board.hexes
+  let currentPlayer = isBoardLoaded && state.board.state.currentPlayer || ''
+  let attacksLeft = isBoardLoaded && Object.entries(attackMatrix(hexagons, currentPlayer)).length
 
   return {
     user: state.user.username,
     isLoggedIn: !!state.user.id,
-    hexagons: state.board.hexes,
+    hexagons: hexagons,
     inGame: state.inGame,
     status: isBoardLoaded && state.board.state.status,
-    currentPlayer: isBoardLoaded && state.board.state.currentPlayer || '',
+    currentPlayer: currentPlayer,
     currentPhase: isBoardLoaded && state.board.state.currentPhase || '',
     playerOrder: isBoardLoaded && state.board.state.playerOrder || [],
     allotmentPointsPerTurn: isBoardLoaded && state.board.state.allotmentPointsPerTurn,
-    allotmentLeft: isBoardLoaded && state.board.state.allotmentLeft
+    allotmentLeft: isBoardLoaded && state.board.state.allotmentLeft,
+    attacksLeft: attacksLeft
   }
 }
 
