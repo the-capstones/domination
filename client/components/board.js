@@ -20,7 +20,7 @@ class Board extends Component {
 
   componentDidUpdate() {
     console.log('component did update has ran')
-    
+
     const { playerOrder, hexes } = this.props;
     addColors(playerOrder, hexes);
   }
@@ -97,10 +97,10 @@ const mapState = (state) => {
 const mapDispatch = (dispatch, ownProps) => {
   const { boardId } = ownProps;
   console.log('map dispatch has ran')
-  
+
   return {
     renderAllotmentGUI(phase, selectedHexId, hexes, user, currentPlayer) {
-      console.log('renderAllotmentGui has ran')      
+      console.log('renderAllotmentGui has ran')
       const allGuis = document.getElementsByClassName('allotment-guis');
       [...allGuis].forEach(gui => gui.classList.remove('show'));
       const isOwner = hexes[selectedHexId].playerId === user.username;
@@ -113,20 +113,27 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     renderCombatGUI(user, currentPlayer, hexes, phase, defenderHexId, attackerHexId) {
-      console.log('renderCombatGUI has ran')      
+      console.log('renderCombatGUI has ran')
       const attackerNeighbors = getNeighbors(attackerHexId);
-      const isValidMove = attackerNeighbors.includes(defenderHexId);
+      const isValidMove = attackerNeighbors.includes(defenderHexId)
+        && hexes[defenderHexId].playerId !== '';
       const isAttacker = user.username === currentPlayer;
       const isAttacking = attackerHexId && hexes[attackerHexId].playerId === currentPlayer && hexes[defenderHexId].playerId !== currentPlayer;
       const enoughUnits = hexes[attackerHexId].unit1 > 1;
+      const enoughMoves = hexes[attackerHexId].movesLeft > 0;
 
-      if (phase === 'attack' && enoughUnits && isValidMove && isAttacker && isAttacking) {
+      if (phase === 'attack'
+        && enoughMoves
+        && enoughUnits
+        && isValidMove
+        && isAttacker
+        && isAttacking) {
         ownProps.history.push(`/boards/${boardId}/battle`);
       }
     },
     selectHex(user, hexes, currentPlayer, newHexId, oldHexId, phase) {
       console.log('selectHex has ran')
-      
+
       const isCurrentPlayer = user.username === currentPlayer;
       const isNewHex = newHexId !== oldHexId;
 
