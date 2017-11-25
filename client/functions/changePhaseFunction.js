@@ -12,11 +12,15 @@ export function changePhaseFunction(
     console.log('changePhaseFunction has ran')
     if (inputCurrentPhase === 'allotment') {
       firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'attack' });
+      setTimeout(() => {
+        const allGuis = document.getElementsByClassName('allotment-guis');
+        [...allGuis].forEach(gui => gui.classList.remove('show'));
+      }, 300)
     }
     else if (inputCurrentPhase === 'fortification' || inputCurrentPhase === 'attack') {
       const currIdx = inputPlayerOrder.indexOf(inputCurrentPlayer);
       let nextIdx;
-  
+
       if (currIdx === inputPlayerOrder.length - 1) {
         nextIdx = 0;
       }
