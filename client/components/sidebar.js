@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, setInGame } from '../store';
-import {changePhaseFunction } from '../functions';
+import { changePhaseFunction } from '../functions';
 import firebase from '../firebase'
 
 
@@ -108,10 +108,10 @@ const Sidebar = (props) => {
         )
       }
 
-      {boardId && status !== 'waiting' && currentPlayer === user
+      {boardId && status !== 'waiting'
         && (
           <div className="leave-game-container">
-            <button onClick={leaveGame}>Leave Game</button>
+            <button onClick={() => leaveGame(user, playerOrder)}>Leave Game</button>
           </div>
         )
       }
@@ -146,9 +146,11 @@ const mapDispatch = (dispatch, ownProps) => {
     handleClick() {
       dispatch(logout())
     },
-    leaveGame() {
+    leaveGame(user, playerOrder) {
+      const newPlayerOrder = playerOrder.filter(player => player !== user);
       dispatch(setInGame(false));
       ownProps.history.push('/');
+      firebase.ref(`/boards/${boardId}/state`).update({ playerOrder: newPlayerOrder });
     },
     changePhase(
       currentPhase,
