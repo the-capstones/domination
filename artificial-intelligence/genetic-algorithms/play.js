@@ -2,7 +2,7 @@
 const trueskill = require('trueskill')
 const { hexagons } = require('../funcs/gridGenerator')
 const { divvySpaces } = require('../funcs/divvySpaces')
-const { myHexes, playableHexes, attackableHexes } = require('../attackMatrixCreator')
+const { myHexes, playableHexes, attackableHexes, attackMatrix } = require('../attackMatrixCreator')
 const { nextAllotment } = require('../allotmentFunction')
 
 const TERRITORIES_PER_UNIT_ALLOTTED = 15
@@ -42,7 +42,8 @@ function allot(player, board) {
   let allotStrategy = player.allotmentStrategy
   let hexToAllotTo = nextAllotment(board, player.id, allotStrategy)
   board[hexToAllotTo].unit1++
-  console.log(`allotted unit to ${hexToAllotTo}. Units on territory: ${board[hexToAllotTo].unit1}`)
+  console.log(`allotted unit to ${hexToAllotTo}.`)
+  console.log(`units on territory: ${board[hexToAllotTo].unit1}`)
 }
 
 
@@ -75,7 +76,20 @@ function play(player1, player2, player3, player4) {
           console.log('--------------------------------------------')
         }
 
-         //battle logic
+        //battle logic
+        let inBattle = true
+        console.log('************* BEGINNING BATTLE *************')
+
+        while (inBattle) {
+          let attackMatrixForPlayer = attackMatrix(board, player.id)
+          console.log(attackMatrixForPlayer)
+          console.log('--------------------------------------------')
+           // do battle stuff
+
+           // when player is ready to end battle phase
+           // will need logic to determine when to end battle (i.e. unfavorable odds, no more moves to make etc.)
+           inBattle = false
+         }
 //       if (/* player has no units left */ !player.units /**/) {
 //         player.rank = gameRank;
 //         player.inGame = false;
@@ -109,7 +123,8 @@ let p1 = {
   chanceToWinThreshold: 0.5,
   playerStrengthQuotientThreshold: 0.2,
   attackStrategy: 'maximizeTerritoryGains',
-  allotmentStrategy: 'differenceInUnits'
+  allotmentStrategy: 'differenceInUnits',
+  skill: [25, 25 / 3]
 }
 
 let p2 = {
@@ -117,7 +132,8 @@ let p2 = {
   chanceToWinThreshold: 0.6,
   playerStrengthQuotientThreshold: null,
   attackStrategy: 'maximizeTerritoryGains',
-  allotmentStrategy: 'ratioOfUnits'
+  allotmentStrategy: 'ratioOfUnits',
+  skill: [25, 25 / 3]
 }
 
 let p3 = {
@@ -125,7 +141,8 @@ let p3 = {
   chanceToWinThreshold: 0.7,
   playerStrengthQuotientThreshold: null,
   attackStrategy: 'minimizeUnitsLostRatio',
-  allotmentStrategy: 'ratioOfUnits'
+  allotmentStrategy: 'ratioOfUnits',
+  skill: [25, 25 / 3]
 }
 
 let p4 = {
@@ -133,7 +150,8 @@ let p4 = {
   chanceToWinThreshold: 0.4,
   playerStrengthQuotientThreshold: 0.4,
   attackStrategy: 'minimizeUnitsLostRatio',
-  allotmentStrategy: 'differenceInUnits'
+  allotmentStrategy: 'differenceInUnits',
+  skill: [25, 25 / 3]
 }
 
 play(p1, p2, p3, p4)
