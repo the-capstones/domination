@@ -11,11 +11,11 @@ export function changePhaseFunction(
   ) {
     console.log('changePhaseFunction has ran')
     if (inputCurrentPhase === 'allotment') {
-      firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'attack' });
-      setTimeout(() => {
-        const allGuis = document.getElementsByClassName('allotment-guis');
-        [...allGuis].forEach(gui => gui.classList.remove('show'));
-      }, 300)
+      firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'attack' })
+        .then(() => {
+          const allGuis = document.getElementsByClassName('allotment-guis');
+          [...allGuis].forEach(gui => gui.classList.remove('show'));
+        });
     }
     else if (inputCurrentPhase === 'fortification' || inputCurrentPhase === 'attack') {
       const currIdx = inputPlayerOrder.indexOf(inputCurrentPlayer);
