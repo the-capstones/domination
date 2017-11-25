@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
-import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors } from '../functions';
+import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors } from '../functions';
 import { withRouter } from 'react-router-dom';
 import { AllotmentGUI } from './';
 import '../css/_board.scss';
@@ -11,13 +11,16 @@ import firebase from '../firebase'
 class Board extends Component {
 
   componentDidMount() {
+    console.log('component did mount has ran')
     const { playerOrder, hexes, boardId } = this.props;
     addIdToHexes();
     addColors(playerOrder, hexes);
     calcAllotmentPoints(boardId, hexes);
   }
 
-  componentWillReceiveProps() {
+  componentDidUpdate() {
+    console.log('component did update has ran')
+
     const { playerOrder, hexes } = this.props;
     addColors(playerOrder, hexes);
   }
@@ -52,9 +55,10 @@ class Board extends Component {
                   r={hex.r}
                   s={hex.s}
                   onClick={() => {
-                    selectHex(user, currentPlayer, hexId, selectedHex, currentPhase);
-                    renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
-                    renderCombatGUI(user, currentPlayer, hexes, currentPhase, hexId, selectedHex);
+                    const isCurrentPlayer = user.username === currentPlayer;
+                    isCurrentPlayer && selectHex(user, hexes, currentPlayer, hexId, selectedHex, currentPhase);
+                    isCurrentPlayer && currentPhase === 'allotment' && renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
+                    isCurrentPlayer && currentPhase === 'attack' && renderCombatGUI(user, currentPlayer, hexes, currentPhase, hexId, selectedHex);
                   }}
 
                 >
@@ -78,6 +82,7 @@ class Board extends Component {
 }
 
 const mapState = (state) => {
+  console.log('map state has ran')
   return {
     user: state.user,
     currentPhase: state.board.state.currentPhase,
@@ -91,9 +96,11 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch, ownProps) => {
   const { boardId } = ownProps;
+  console.log('map dispatch has ran')
 
   return {
     renderAllotmentGUI(phase, selectedHexId, hexes, user, currentPlayer) {
+      console.log('renderAllotmentGui has ran')
       const allGuis = document.getElementsByClassName('allotment-guis');
       [...allGuis].forEach(gui => gui.classList.remove('show'));
       const isOwner = hexes[selectedHexId].playerId === user.username;
@@ -106,22 +113,45 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     renderCombatGUI(user, currentPlayer, hexes, phase, defenderHexId, attackerHexId) {
+      console.log('renderCombatGUI has ran')
       const attackerNeighbors = getNeighbors(attackerHexId);
-      const isValidMove = attackerNeighbors.includes(defenderHexId);
+      const isValidMove = attackerNeighbors.includes(defenderHexId)
+        && hexes[defenderHexId].playerId !== '';
       const isAttacker = user.username === currentPlayer;
       const isAttacking = attackerHexId && hexes[attackerHexId].playerId === currentPlayer && hexes[defenderHexId].playerId !== currentPlayer;
+      const enoughUnits = hexes[attackerHexId].unit1 > 1;
+      const enoughMoves = hexes[attackerHexId].movesLeft > 0;
 
-      if (phase === 'attack' && isValidMove && isAttacker && isAttacking) {
+      if (phase === 'attack'
+        && enoughMoves
+        && enoughUnits
+        && isValidMove
+        && isAttacker
+        && isAttacking) {
         ownProps.history.push(`/boards/${boardId}/battle`);
       }
     },
-    selectHex(user, currentPlayer, newHexId, oldHexId, phase) {
+    selectHex(user, hexes, currentPlayer, newHexId, oldHexId, phase) {
+      console.log('selectHex has ran')
+
       const isCurrentPlayer = user.username === currentPlayer;
       const isNewHex = newHexId !== oldHexId;
 
       if (isCurrentPlayer && isNewHex) {
-        firebase.ref(`/boards/${boardId}/state`).update({ prevSelectedHex: oldHexId })
-        firebase.ref(`/boards/${boardId}/state`).update({ selectedHex: newHexId })
+        const highlightedHexes = [...document.getElementsByClassName('highlight-select')];
+        highlightedHexes.forEach(hex => hex.classList.remove('highlight-select'));
+
+        const hexElement = document.getElementById(newHexId);
+        hexElement.classList.add('highlight-select');
+
+        if (phase === 'attack') {
+          const highlightedEnemies = [...document.getElementsByClassName('highlight-attack')];
+          highlightedEnemies.forEach(hex => hex.classList.remove('highlight-attack'));
+          highlightNeighbors(newHexId, currentPlayer, hexes);
+        }
+
+        firebase.ref(`/boards/${boardId}/state`).update({ prevSelectedHex: oldHexId, selectedHex: newHexId })
+        // firebase.ref(`/boards/${boardId}/state`).update({ selectedHex: newHexId })
       }
     }
   }

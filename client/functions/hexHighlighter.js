@@ -14,15 +14,20 @@ export const getNeighbors = (id) => {
   return directions.map(direction => getNeighbor(id, direction))
 }
 
-export const highlightNeighbors = (id) => {
-  const polygons = [];
-  const allNeighbors = getNeighbors(id)
-    .map(neighborId => polygons.push(document.getElementById(neighborId)));
+export const highlightNeighbors = (id, currentPlayer, hexes) => {
+  if (hexes[id].playerId !== currentPlayer || hexes[id].unit1 <= 1 || hexes[id].movesLeft === 0) return;
+  const enemyNeighbors = getNeighbors(id)
+    .filter(neighborId => {
+      return hexes[neighborId]
+        && hexes[neighborId].playerId !== currentPlayer
+        && hexes[neighborId].playerId !== ''
+    })
+    .map(neighborId => document.getElementById(neighborId));
 
-  polygons.forEach(hex => hex && hex.classList.add('highlight-attack'));
+    enemyNeighbors.forEach(hex => hex && hex.classList.add('highlight-attack'));
 
   function removeHighlight() {
-    polygons.forEach(hex => hex && hex.classList.remove('highlight-attack'));
+    enemyNeighbors.forEach(hex => hex && hex.classList.remove('highlight-attack'));
   }
 
   return removeHighlight;
