@@ -17,7 +17,11 @@ export const getNeighbors = (id) => {
 export const highlightNeighbors = (id, currentPlayer, hexes) => {
   if (hexes[id].playerId !== currentPlayer || hexes[id].unit1 <= 1 || hexes[id].movesLeft === 0) return;
   const enemyNeighbors = getNeighbors(id)
-    .filter(neighborId => hexes[neighborId].playerId !== currentPlayer && hexes[neighborId].playerId !== '')
+    .filter(neighborId => {
+      return hexes[neighborId]
+        && hexes[neighborId].playerId !== currentPlayer
+        && hexes[neighborId].playerId !== ''
+    })
     .map(neighborId => document.getElementById(neighborId));
 
     enemyNeighbors.forEach(hex => hex && hex.classList.add('highlight-attack'));
