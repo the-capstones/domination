@@ -93,20 +93,6 @@ function unitStrengthDifference(allHexesObj, startingHex, artIntelplayerId, meas
     return difference
 }
 
-// function unitStrengthDifference(allHexesObj, startingHex, artIntelplayerId){
-//     const adjacentHexResults = attackMatrixFunctions.adjacentHex(startingHex)
-//     const nearbyEnemyUnits = adjacentHexResults.map(hex => {
-//         if (allHexesObj[hex] &&
-//             allHexesObj[hex].playerId !== '' &&
-//             allHexesObj[hex].playerId !== artIntelplayerId) {
-//             return allHexesObj[hex].unit1
-//         } else {return 0}
-//         }).reduce((sum, value) => {return sum + value}, 0)
-//     const myUnits = allHexesObj[startingHex].unit1
-//     return nearbyEnemyUnits - myUnits
-//     // or nearbyEnemyUnits/myUnits
-// }
-
 // test the function unitStrengthDifference with the console.log statement below
 // it should return 4
 // console.log(unitStrengthDifference(hexesStep2, '0,0,0'))
