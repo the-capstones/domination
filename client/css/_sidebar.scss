@@ -3,6 +3,7 @@
 .sidebar-wrapper {
   position: relative;
   flex-basis: 15%;
+  min-width: 200px;
   margin: 0.5rem;
   height: calc(100vh - 1rem - 2px);
   background: $black;
