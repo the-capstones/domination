@@ -16,7 +16,10 @@ const ChannelList = (props) => {
 
         {
           allBoards && Object.entries(allBoards)
-            .filter(board => board[1].state.status === 'waiting')
+            .filter(board => {
+              return board[1].state.status === 'waiting'
+                && board[1].maxPlayers > board[1].state.playerOrder.length
+            })
             .map((board, i) => {
               const boardId = board[0];
               const boardState = board[1];

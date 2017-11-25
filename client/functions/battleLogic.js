@@ -1,6 +1,27 @@
 import firebase from '../firebase';
 import { getNeighbors } from './';
 
+const winningCheck = (playerOrder) => {
+  const onePlayerLeft = playerOrder.length === 1;
+
+  if (onePlayerLeft) {
+    alert(playerOrder[0], ' wins!');
+  }
+};
+
+const playerDefeatedCheck = (boardId, hexagons, defendingPlayer, playerOrder) => {
+  const hexagonsLeft = Object.entries(hexagons).filter(([id, hex]) => {
+    return hex.playerId === defendingPlayer;
+  });
+
+  if (hexagonsLeft.length === 0) {
+    const newPlayerOrder = playerOrder.filter(player => player !== defendingPlayer);
+    firebase.ref(`/boards/${boardId}/state`).update({ playerOrder: newPlayerOrder })
+    alert(defendingPlayer, ' has been defeated.');
+    winningCheck(newPlayerOrder);
+  }
+}
+
 export const dieRoll = number => {
   const resultArray = [];
 
@@ -19,8 +40,9 @@ const updateUnits = (boardId, hexId, units) => {
   return true;
 }
 
-const takeOverSpace = (boardId, hexes, attackingHexId, defendingHexId, attackingUnits) => {
+const takeOverSpace = (boardId, hexes, attackingHexId, defendingHexId, attackingUnits, playerOrder) => {
   const defeatedHex = hexes[defendingHexId];
+  const defenderUsername = defeatedHex.playerId;
   const attackerUsername = hexes[attackingHexId].playerId;
   const conqueredHex = Object.assign({}, defeatedHex, {
     playerId: attackerUsername,
@@ -29,10 +51,21 @@ const takeOverSpace = (boardId, hexes, attackingHexId, defendingHexId, attacking
   });
 
   firebase.ref(`/boards/${boardId}/hexes/${defendingHexId}`).update(conqueredHex);
+
+  const updatedHexes = Object.assign({}, hexes);
+  updatedHexes[defendingHexId].playerId = attackerUsername;
+  playerDefeatedCheck(boardId, updatedHexes, defenderUsername, playerOrder)
   return true;
 }
 
-export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendingHexId, attackingUnits, defendingUnits }) => {
+const displayResult = (winnerId, loserId, unitOrSpace) => {
+  const resultElement = document.getElementById('result');
+  const guiMessage = `${winnerId} wins. ${loserId} loses a ${unitOrSpace}.`;
+
+  resultElement.innerHTML = guiMessage;
+}
+
+export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendingHexId, attackingUnits, defendingUnits, attackerName, defenderName, playerOrder }) => {
 
   const attackerNeighbors = getNeighbors(attackingHexId);
   const isValidMove = attackerNeighbors.includes(defendingHexId);
@@ -65,16 +98,19 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
 
   if (attackerHighestRoll > defenderHighestRoll) {
     updateUnits(boardId, defendingHexId, defendingUnits - 1);
+    displayResult(attackerName, defenderName, 'unit')
 
     const defenderLost = defendingUnits <= 1;
     defenderLost
-    && takeOverSpace(boardId, hexes, attackingHexId, defendingHexId, attackingUnits - 1)
+    && takeOverSpace(boardId, hexes, attackingHexId, defendingHexId, attackingUnits - 1, playerOrder)
     && updateUnits(boardId, attackingHexId, 1)
     && endCombat(attackingHexId)
   } else {
     updateUnits(boardId, attackingHexId, attackingUnits - 1);
+    displayResult(defenderName, attackerName, 'unit')
 
     const enoughAttackingUnits = attackingUnits - 1 > 1;
     !enoughAttackingUnits && endCombat(attackingHexId);
   }
 }
+
