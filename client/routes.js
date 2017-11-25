@@ -43,7 +43,8 @@ class Routes extends Component {
             <Route path="/boards/:boardId" component={Room} />
             <Route path="/newGame" component={NewGame} />
             <Route path="/channels" component={ChannelList} />
-            <Route exact path="/" component={Login} />
+            {!isLoggedIn && <Route exact path="/" component={Login} />}
+            {isLoggedIn && <Route path="/" component={ChannelList} />}
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             {
