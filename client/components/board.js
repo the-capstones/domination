@@ -138,8 +138,10 @@ const mapDispatch = (dispatch, ownProps) => {
       const isNewHex = newHexId !== oldHexId;
 
       if (isCurrentPlayer && isNewHex) {
+        const highlightedHexes = [...document.getElementsByClassName('highlight-select')];
+        highlightedHexes.forEach(hex => hex.classList.remove('highlight-select'));
+
         const hexElement = document.getElementById(newHexId);
-        oldHexId && document.getElementById(oldHexId).classList.remove('highlight-select');
         hexElement.classList.add('highlight-select');
 
         if (phase === 'attack') {
