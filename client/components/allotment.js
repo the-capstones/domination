@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import firebase from '../firebase'
-import {changePhaseFunction } from '../functions';
+import { changePhaseFunction, highlightNeighbors } from '../functions';
 
 import '../css/_allotment-gui.scss';
 
@@ -17,13 +17,14 @@ const AllotmentGUI = (props) => {
     currentPlayer,
     playerOrder,
     allotmentPointsPerTurn,
+    selectedHex
   } = props;
 
   return (
     <div className="allotment-gui-wrapper">
 
       <div className="allotment">
-        <button onClick={() => addUnit(hexId, hexagons, allotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn)}>
+        <button onClick={() => addUnit(hexId, hexagons, allotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, selectedHex)}>
           <i className="fa fa-plus" aria-hidden="true" />
         </button>
         <span className="muted">{allotmentLeft}</span>
@@ -49,13 +50,14 @@ const mapState = (state) => {
     currentPhase: isBoardLoaded && state.board.state.currentPhase || '',
     playerOrder: isBoardLoaded && state.board.state.playerOrder || [],
     allotmentPointsPerTurn: isBoardLoaded && state.board.state.allotmentPointsPerTurn,
+    selectedHex: isBoardLoaded && state.board.state.selectedHex,
   }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
   const boardId = ownProps.match.params.boardId;
   return {
-    addUnit(id, hexagons, inputAllotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn) {
+    addUnit(id, hexagons, inputAllotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, selectedHex) {
       if (inputAllotmentLeft > 0) {
         inputAllotmentLeft -= 1;
         const updatedHexArr = Object.entries(hexagons).filter(hex => hex[0] === id );
@@ -68,7 +70,8 @@ const mapDispatch = (dispatch, ownProps) => {
         firebase.ref(`/boards/${boardId}/hexes`).update(updatedHexObj);
         firebase.ref(`/boards/${boardId}/state`).update({ allotmentLeft: inputAllotmentLeft });
         if (inputAllotmentLeft === 0) {
-          changePhaseFunction(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId)
+          changePhaseFunction(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId);
+          highlightNeighbors(selectedHex, currentPlayer, hexagons);
         }
       }
     }
