@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
+import { HexGrid, Layout, Hexagon, Text, HexUtils, Pattern } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors } from '../functions';
 import { withRouter } from 'react-router-dom';
@@ -14,7 +14,7 @@ class Board extends Component {
     console.log('component did mount has ran')
     const { playerOrder, hexes, boardId } = this.props;
     addIdToHexes();
-    addColors(playerOrder, hexes);
+    // addColors(playerOrder, hexes);
     calcAllotmentPoints(boardId, hexes);
   }
 
@@ -22,7 +22,7 @@ class Board extends Component {
     console.log('component did update has ran')
 
     const { playerOrder, hexes } = this.props;
-    addColors(playerOrder, hexes);
+    // addColors(playerOrder, hexes);
   }
 
   render() {
@@ -49,6 +49,8 @@ class Board extends Component {
                 const hexId = `${hex.q},${hex.r},${hex.s}`;
                 const doesPlayerOwn = !!hexes[hexId].playerId.length;
                 const hexUnits = hexes[hexId].unit1.toString();
+                let randomNum = Math.floor(Math.random() * 12);
+                if (randomNum < 10) randomNum = '0' + randomNum.toString();
                 return (<Hexagon
                   key={i}
                   q={hex.q}
@@ -60,7 +62,7 @@ class Board extends Component {
                     isCurrentPlayer && currentPhase === 'allotment' && renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
                     isCurrentPlayer && currentPhase === 'attack' && renderCombatGUI(user, currentPlayer, hexes, currentPhase, hexId, selectedHex);
                   }}
-
+                  fill={`grass${randomNum}`}
                 >
                   <div className="poly-id" id={hexId} />
                   <Text>
@@ -74,7 +76,19 @@ class Board extends Component {
               })
             }
           </Layout>
-          {/*<Pattern id="img1" link="favicon.ico" />*/ /*fill="img1"*/}
+          <Pattern id="grass00" link="../assets/grass_00.png" />
+          <Pattern id="grass01" link="../assets/grass_01.png" />
+          <Pattern id="grass02" link="../assets/grass_02.png" />
+          <Pattern id="grass03" link="../assets/grass_03.png" />
+          <Pattern id="grass04" link="../assets/grass_04.png" />
+          <Pattern id="grass05" link="../assets/grass_05.png" />
+          <Pattern id="grass06" link="../assets/grass_06.png" />
+          <Pattern id="grass07" link="../assets/grass_07.png" />
+          <Pattern id="grass08" link="../assets/grass_08.png" />
+          <Pattern id="grass09" link="../assets/grass_09.png" />
+          <Pattern id="grass10" link="../assets/grass_10.png" />
+          <Pattern id="grass11" link="../assets/grass_11.png" />
+          <Pattern id="grass12" link="../assets/grass_12.png" />
         </HexGrid>
       </div>
     )

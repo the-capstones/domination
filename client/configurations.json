@@ -25,11 +25,11 @@
   },
   "rectangle": {
     "width": 1400,
-    "height": 900,
-    "layout": { "width": 6, "height": 6, "flat": false, "spacing": 1.05 },
+    "height": 700,
+    "layout": { "width": 10, "height": 10, "flat": false, "spacing": 1.05 },
     "origin": { "x": -68, "y": -40 },
     "map": "rectangle",
-    "mapProps": [ 2,2 ]
+    "mapProps": [ 8,6 ]
   },
   "orientedRectangle": {
     "width": 1000,
