@@ -49,27 +49,32 @@ svg g text {
 
   //PLAYER CLASS COLORS
 .hex-fill-red {
-  fill: $player-red;
+  stroke: $player-red;
+  stroke-width: 0.5;
 }
 
 .hex-fill-orange {
-  fill: $player-orange;
+  stroke: $player-orange;
+  stroke-width: 0.5;
 }
 
 .hex-fill-yellow {
-  fill: $player-yellow;
+  stroke: $player-yellow;
+  stroke-width: 0.5;
 }
 
 .hex-fill-green {
-  fill: $player-green;
+  stroke: $player-green;
+  stroke-width: 0.5;
 }
 
 .hex-fill-blue {
-  fill: $player-blue;
+  stroke: $player-blue;
+  stroke-width: 0.5;
 }
 
 .hex-fill-black {
-  fill: $black;
+
 }
 
 // Don't know what this did
@@ -84,10 +89,10 @@ svg g text {
 
 .highlight-attack {
   stroke: red;
-  stroke-width: 0.25;
+  stroke-width: 0.5;
 }
 
 .highlight-select {
   stroke: lime;
-  stroke-width: 0.25;
+  stroke-width: 0.5;
 }

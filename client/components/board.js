@@ -14,7 +14,7 @@ class Board extends Component {
     console.log('component did mount has ran')
     const { playerOrder, hexes, boardId } = this.props;
     addIdToHexes();
-    // addColors(playerOrder, hexes);
+    addColors(playerOrder, hexes);
     calcAllotmentPoints(boardId, hexes);
   }
 
@@ -22,7 +22,7 @@ class Board extends Component {
     console.log('component did update has ran')
 
     const { playerOrder, hexes } = this.props;
-    // addColors(playerOrder, hexes);
+    addColors(playerOrder, hexes);
   }
 
   render() {
@@ -62,7 +62,7 @@ class Board extends Component {
                     isCurrentPlayer && currentPhase === 'allotment' && renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
                     isCurrentPlayer && currentPhase === 'attack' && renderCombatGUI(user, currentPlayer, hexes, currentPhase, hexId, selectedHex);
                   }}
-                  fill={`grass${randomNum}`}
+                  fill={`grass01`}
                 >
                   <div className="poly-id" id={hexId} />
                   <Text>
