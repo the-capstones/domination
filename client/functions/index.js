@@ -5,3 +5,4 @@ export * from './calculateAllotmentPoints';
 export * from './hexHighlighter';
 export * from './battleLogic';
 export * from './changePhaseFunction';
+export * from './attackableHexesFunction';
