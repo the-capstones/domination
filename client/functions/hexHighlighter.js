@@ -25,10 +25,27 @@ export const highlightNeighbors = (id, currentPlayer, hexes) => {
     .map(neighborId => document.getElementById(neighborId));
 
     enemyNeighbors.forEach(hex => hex && hex.classList.add('highlight-attack'));
+}
 
-  function removeHighlight() {
-    enemyNeighbors.forEach(hex => hex && hex.classList.remove('highlight-attack'));
-  }
+export const highlightMovableNeighbors = (id, currentPlayer, hexes) => {
+  if (hexes[id].playerId !== currentPlayer || hexes[id].unit1 <= 1 ) return;
+  const friendlyNeighbors = getNeighbors(id)
+    .filter(neighborId => {
+      return hexes[neighborId]
+        && hexes[neighborId].playerId === currentPlayer
+        && hexes[neighborId].unit1 < 15
+    })
+    .map(neighborId => document.getElementById(neighborId));
 
-  return removeHighlight;
+    friendlyNeighbors.forEach(hex => hex && hex.classList.add('highlight-move'));
+}
+
+export const removeAllHighlights = () =>
+{
+  const highlightedHexes = [...document.getElementsByClassName('highlight-select')];
+  highlightedHexes.forEach(hex => hex.classList.remove('highlight-select'));
+  const highlightedHexes1 = [...document.getElementsByClassName('highlight-attack')];
+  highlightedHexes1.forEach(hex => hex.classList.remove('highlight-attack'));
+  const highlightedHexes2 = [...document.getElementsByClassName('highlight-move')];
+  highlightedHexes2.forEach(hex => hex.classList.remove('highlight-move'));
 }

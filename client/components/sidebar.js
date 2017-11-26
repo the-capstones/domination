@@ -100,9 +100,9 @@ const Sidebar = (props) => {
         && (
           <div>
             <button className="phase-btn" onClick={() => changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId)}>
-              {
-                currentPhase === 'allotment' ? 'Start Attack Phase' : 'End Turn'
-              }
+              {currentPhase === 'allotment' && 'Start Attack Phase'}
+              {currentPhase === 'attack' && 'Start Fortification Phase'}
+              {currentPhase === 'fortification' && 'End Turn'}
             </button>
           </div>
         )
