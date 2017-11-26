@@ -12,7 +12,11 @@ function AIgenome(CTWmin, PSQmin, attackStrategy, allotmentStrategy, id) {
   this.chanceToWinThreshold = CTWmin || Math.random()
   this.playerStrengthQuotientThreshold = PSQmin ||
     Math.round(Math.random())
-    ? Math.random()
+    // after testing min/max PSQ on several rounds with
+    // 4x4 AIvAI on 10x12 board, range of ~3-9
+    // this range increases as board gets larger
+    // (was ~4-15 on 12x18 board)
+    ? Math.random() * 9
     : null
   this.attackStrategy = attackStrategy ||
     Math.round(Math.random())

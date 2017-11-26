@@ -2,10 +2,21 @@
 const trueskill = require('trueskill')
 const { hexagons } = require('../funcs/gridGenerator')
 const { divvySpaces } = require('../funcs/divvySpaces')
-const { myHexes, playableHexes, attackableHexes, attackMatrix } = require('../attackMatrixCreator')
 const { nextAllotment } = require('../allotmentFunction')
+const { battleMatrix } = require('../battleMatrix')
+const {
+  myHexes,
+  attackMatrix,
+  findPlayerStrengthQuotient,
+  findAllEnemyHexesOnBoard
+} = require('../attackMatrixCreator')
 
 const TERRITORIES_PER_UNIT_ALLOTTED = 15
+const MAXIMIZE_TERRITORY_GAINS = 'maximizeTerritoryGains'
+const MINIMIZE_UNITS_LOST_RATIO = 'minimizeUnitsLostRatio'
+const DIFFERENCE_IN_UNITS = 'differenceInUnits'
+const RATIO_OF_UNITS = 'ratioOfUnits'
+
 
 /* eslint "no-loop-func": 0 */
 
@@ -41,9 +52,9 @@ function generateBoard(players) {
 function allot(player, board) {
   let allotStrategy = player.allotmentStrategy
   let hexToAllotTo = nextAllotment(board, player.id, allotStrategy)
-  board[hexToAllotTo].unit1++
+  hexToAllotTo && board[hexToAllotTo].unit1++
   console.log(`allotted unit to ${hexToAllotTo}.`)
-  console.log(`units on territory: ${board[hexToAllotTo].unit1}`)
+  hexToAllotTo && console.log(`units on territory: ${board[hexToAllotTo].unit1}`)
 }
 
 
@@ -59,10 +70,19 @@ function play(player1, player2, player3, player4) {
   while (gameRank) {
 
     players.forEach(player => {
+
+      let {
+        chanceToWinThreshold,
+        playerStrengthQuotientThreshold,
+        attackStrategy,
+        allotmentStrategy,
+        id
+      } = player
+
       console.log('********************************************')
-      console.log(`********** STARTING PLAYER ${player.id} TURN **********`)
+      console.log(`********** STARTING PLAYER ${id} TURN **********`)
       console.log('********************************************')
-      let playerHexes = myHexes(board, player.id);
+      let playerHexes = myHexes(board, id);
       let hexesOwned = Object.keys(playerHexes).length;
 
       if (hexesOwned) {
@@ -81,11 +101,32 @@ function play(player1, player2, player3, player4) {
         console.log('************* BEGINNING BATTLE *************')
 
         while (inBattle) {
-          let attackMatrixForPlayer = attackMatrix(board, player.id)
+          let attackMatrixForPlayer = attackMatrix(board, id)
           console.log(attackMatrixForPlayer)
           console.log('--------------------------------------------')
            // do battle stuff
 
+           if (attackStrategy === MAXIMIZE_TERRITORY_GAINS) {
+             // look at CTW only
+           } else {
+             // look at (attacking units - expected units) / CTW
+           }
+
+          if (playerStrengthQuotientThreshold) {
+
+            let enemyHexes = findAllEnemyHexesOnBoard(board, id)
+            let min = Infinity
+
+            enemyHexes.forEach(enemyHex => {
+              let psq = findPlayerStrengthQuotient(board, enemyHex)
+              if (psq < min) min = psq
+              // console.log(`player strength quotient for ${enemyHex}: ${psq}`)
+            })
+
+            if (min < playerStrengthQuotientThreshold) {
+            console.log(`MIN PSQ: ${min}`)
+          }
+        }
            // when player is ready to end battle phase
            // will need logic to determine when to end battle (i.e. unfavorable odds, no more moves to make etc.)
            inBattle = false

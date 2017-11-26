@@ -47,6 +47,11 @@ function winProbability(allHexesObj, battleMatrix, myHex, enemyHex){
     return winningProbability
 }
 
+function playerStrengthQuotient(allHexesObj, enemyHex) {
+    let myHexes = attackMatrixFunctions.myHexes(allHexesObj, artIntelplayerId)
+
+}
+
 // test the function winProbability with the console.log statements below
 // console.log(battleMatrix[6][3].ChanceToWin, 'chance to win 6 vs 3')
 // console.log(winProbability(hexesStep1, battleMatrix, attackStartHex, attackEndHex))
@@ -163,4 +168,7 @@ function bestAttack(allHexesObj, artIntelplayerId, battleMatrix, minThresholdToA
 // console.log(battleMatrix[6][1].ChanceToWin, 'best attack probability on the board')
 // console.log(bestAttack(hexesStep2, myPlayerId, battleMatrix, minThresholdToAttack), 'next attack')
 
-module.exports = bestAttack
+module.exports = {
+    bestAttack,
+    playerStrengthQuotient
+}

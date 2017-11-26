@@ -137,15 +137,34 @@ const hexesStep2 = {
     }
 }
 
+function adjacentHex(startingHexString, allHexesObj) {
+    const startingHexArray = [startingHexString.split(',').map(numString => +numString)]
+    const nestedResults = startingHexArray.map(starting => (
+        [[starting[0] - 1, starting[1] + 1, starting[2]],
+        [starting[0] - 1, starting[1], starting[2] + 1],
+        [starting[0], starting[1] - 1, starting[2] + 1],
+        [starting[0], starting[1] + 1, starting[2] - 1],
+        [starting[0] + 1, starting[1], starting[2] - 1],
+        [starting[0] + 1, starting[1] - 1, starting[2]]]
+    ))
+    const adjacentHexes = nestedResults[0]
+        .map(hex => hex.join(','))
+        .filter(hexId => !!allHexesObj[hexId])
+    return adjacentHexes
+}
+
+// console.log('ADJACENT HEXES:', adjacentHex('0,0,0', hexesStep2))
+
 function closestEnemy(allHexesObj, startingHex, artIntelplayerId) {
-    let queue = attackMatrixFunctions.adjacentHex(startingHex)
-    let closestEnemyHex = ''
+    let queue = adjacentHex(startingHex, allHexesObj)
+    let closestEnemyHex = null
     let searchedHexes = {}
     let totalEnemyHexes = Object.keys(allHexesObj).filter(hexID => {
         return allHexesObj[hexID].playerId !== '' && allHexesObj[hexID].playerId !== artIntelplayerId
     })
-    while (Object.keys(searchedHexes).length !== totalEnemyHexes.length && closestEnemyHex.length === 0) {
-        if (queue.length > 1000000000) { return null }
+    let maxHexesToSearch = Object.keys(allHexesObj).length - totalEnemyHexes.length
+
+    while (Object.keys(searchedHexes).length <= maxHexesToSearch && !closestEnemyHex) {
         let hex = queue.shift()
         if (!searchedHexes.hasOwnProperty(hex)) {
             if (allHexesObj[hex] &&
@@ -154,7 +173,7 @@ function closestEnemy(allHexesObj, startingHex, artIntelplayerId) {
                 closestEnemyHex = hex
             } else {
                 searchedHexes[hex] = hex
-                queue = queue.concat(attackMatrixFunctions.adjacentHex(hex))
+                queue = queue.concat(adjacentHex(hex, allHexesObj))
             }
         }
     }
@@ -163,7 +182,7 @@ function closestEnemy(allHexesObj, startingHex, artIntelplayerId) {
 
 // test the function closestEnemy with the console.log statement below
 // it should return '0,2,-2'
-console.log(closestEnemy(hexesStep2, '0,0,0', myPlayerId))
+console.log('CLOSEST ENEMY HEX:', closestEnemy(hexesStep2, '0,0,0', myPlayerId))
 
 // Step 3: Calculate the product of the units in a territory that can move times
 // the distance to the closest enemy.
@@ -338,3 +357,5 @@ function bestMove(allHexesObj, artIntelplayerId) {
 // test the function bestMove with the console.log statement below
 // it should return [ '5,4,6', '5,5,5', 14 ]
 // console.log(bestMove(hexesStep5, myPlayerId))
+
+module.exports = { hexDistance }

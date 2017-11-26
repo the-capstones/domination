@@ -1,4 +1,4 @@
-
+const { hexDistance } = require('./fortifyFunction')
 // This file is responsible for creating the attack Matrix
 
 // The attack matrix is an object that calculates all the possible attacks
@@ -174,6 +174,14 @@ function isAHexNotMyHex(allHexesObj, adjacentHexArray, artIntelplayerId) {
     return results
 }
 
+// isAHexNotMyHex(hexesStep2, adjacentHexResults, myPlayerId)
+
+function attackableHexes(allHexesObj, startingHexString, artIntelplayerId) {
+    const adjacentHexes = adjacentHex(startingHexString)
+    const attackableHexArr = isAHexNotMyHex(allHexesObj, adjacentHexes, artIntelplayerId)
+    return attackableHexArr
+}
+
 function findAllEnemyHexesOnBoard(allHexesObj, artIntelplayerId) {
     let results = []
 
@@ -185,12 +193,18 @@ function findAllEnemyHexesOnBoard(allHexesObj, artIntelplayerId) {
     return results
 }
 
-// isAHexNotMyHex(hexesStep2, adjacentHexResults, myPlayerId)
-
-function attackableHexes(allHexesObj, startingHexString, artIntelplayerId) {
-    const adjacentHexes = adjacentHex(startingHexString)
-    const attackableHexArr = isAHexNotMyHex(allHexesObj, adjacentHexes, artIntelplayerId)
-    return attackableHexArr
+function findPlayerStrengthQuotient(hexesObj, startHex) {
+    const owner = startHex.playerId
+    const allHexesOwnedByPlayer = myHexes(hexesObj, owner)
+    let sum = 0;
+    Object.keys(allHexesOwnedByPlayer).forEach(hex => {
+        let distance = hexDistance(startHex, hex)
+        if (distance) {
+            let units = hexesObj[hex].unit1
+            sum += (units / distance)
+        }
+    })
+    return sum;
 }
 
 // test the function attackableHexes with the console.log statements below
@@ -299,20 +313,21 @@ function attackMatrix(hexesObj, artIntelplayerId) {
     return attackMoveObj
 }
 
-// test the function attackMatrix with the console.log statements below
-console.log('----------------');
-console.log('----------------');
-console.log('starting board state')
-console.log(hexesStep3)
-console.log('----------------');
-console.log('----------------');
-console.log('starting playerId for the artificial intelligence', myPlayerId)
-console.log(attackMatrix(hexesStep3, myPlayerId))
+// // test the function attackMatrix with the console.log statements below
+// console.log('----------------');
+// console.log('----------------');
+// console.log('starting board state')
+// console.log(hexesStep3)
+// console.log('----------------');
+// console.log('----------------');
+// console.log('starting playerId for the artificial intelligence', myPlayerId)
+// console.log(attackMatrix(hexesStep3, myPlayerId))
 
 module.exports = {
     attackMatrix,
     myHexes,
     enoughUnits,
     adjacentHex,
-    findAllEnemyHexesOnBoard
+    findAllEnemyHexesOnBoard,
+    findPlayerStrengthQuotient
 }
