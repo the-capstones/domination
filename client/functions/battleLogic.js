@@ -47,7 +47,7 @@ const takeOverSpace = (boardId, hexes, attackingHexId, defendingHexId, attacking
   const conqueredHex = Object.assign({}, defeatedHex, {
     playerId: attackerUsername,
     unit1: attackingUnits,
-    movesLeft: 0,
+    // movesLeft: 0,
   });
 
   firebase.ref(`/boards/${boardId}/hexes/${defendingHexId}`).update(conqueredHex);
@@ -71,8 +71,8 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
   const isValidMove = attackerNeighbors.includes(defendingHexId);
   if (!isValidMove) return;
 
-  hexes[attackingHexId].movesLeft > 0
-    && firebase.ref(`/boards/${boardId}/hexes/${attackingHexId}`).update({ movesLeft: 0 });
+  // hexes[attackingHexId].movesLeft > 0
+  //   && firebase.ref(`/boards/${boardId}/hexes/${attackingHexId}`).update({ movesLeft: 0 });
 
   const attackerRolls = [];
   const defenderRolls = [];
