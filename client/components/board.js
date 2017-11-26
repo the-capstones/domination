@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
-import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors, changePhaseFunction } from '../functions';
+import { config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors, changePhaseFunction } from '../functions';
 import { withRouter } from 'react-router-dom';
 import '../css/_board.scss';
 import firebase from '../firebase'
@@ -30,6 +30,7 @@ class Board extends Component {
     const {
       user,
       hexes,
+      hexagons,
       currentPhase,
       currentPlayer,
       playerOrder,
@@ -90,6 +91,7 @@ const mapState = (state) => {
     selectedHex: state.board.state.selectedHex,
     prevSelectedHex: state.board.state.prevSelectedHex,
     hexes: state.board.hexes,
+    hexagons: state.board.state.hexagons,
     playerOrder: state.board.state.playerOrder,
     currentPlayer: state.board.state.currentPlayer,
     allotmentPointsPerTurn: state.board.state.allotmentPointsPerTurn,

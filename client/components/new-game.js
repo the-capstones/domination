@@ -60,7 +60,7 @@ const mapDispatch = (dispatch, ownProps) => {
       const maxPlayers = evt.target.maxPlayers.value || 2;
       let boardSize = evt.target.boardSize.value;
       boardSize = boardSize.split(',').map(num => +num)
-      const percentVoidSpaces = evt.target.percentVoidSpaces.value;
+      const percentVoidSpaces = evt.target.percentVoidSpaces.value / 100;
       const hexagons = generator.apply(this, boardSize)
       let hexes = {}
 
@@ -81,6 +81,8 @@ const mapDispatch = (dispatch, ownProps) => {
         playerOrder: [user.username], // array of all players in order of turn
         allotmentPointsPerTurn: { [user.username]: 3 }, //obj of points(val) per player(key) per turn
         allotmentLeft: 3,
+        percentVoidSpaces: percentVoidSpaces,
+        hexagons: hexagons,
         gameSettings: 'default', // array/obj of game settings TBD
         status: 'waiting',
         selectedHex: '',
