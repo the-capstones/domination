@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
-import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors } from '../functions';
+import { hexagons, config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors, changePhaseFunction } from '../functions';
 import { withRouter } from 'react-router-dom';
-import { AllotmentGUI } from './';
 import '../css/_board.scss';
 import firebase from '../firebase'
 
@@ -33,11 +32,15 @@ class Board extends Component {
       hexes,
       currentPhase,
       currentPlayer,
+      playerOrder,
       renderAllotmentGUI,
       renderCombatGUI,
       selectHex,
       selectedHex,
       prevSelectedHex,
+      allotmentPointsPerTurn,
+      allotmentLeft,
+      addUnit,
     } = this.props;
 
     return (
@@ -57,7 +60,8 @@ class Board extends Component {
                   onClick={() => {
                     const isCurrentPlayer = user.username === currentPlayer;
                     isCurrentPlayer && selectHex(user, hexes, currentPlayer, hexId, selectedHex, currentPhase);
-                    isCurrentPlayer && currentPhase === 'allotment' && renderAllotmentGUI(currentPhase, hexId, hexes, user, currentPlayer);
+                    isCurrentPlayer && currentPhase === 'allotment'
+                      && addUnit(user.username, hexId, hexes, allotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, selectedHex);
                     isCurrentPlayer && currentPhase === 'attack' && renderCombatGUI(user, currentPlayer, hexes, currentPhase, hexId, selectedHex);
                   }}
 
@@ -67,9 +71,6 @@ class Board extends Component {
                     {doesPlayerOwn ? hexUnits : ''}
                   </Text>
                   {/*<Text>{HexUtils.getID(hex)}</Text>*/}
-                  <foreignObject className="allotment-guis" id={`${hexId}-algui`}>
-                    <AllotmentGUI hexId={hexId} />
-                  </foreignObject>
                 </Hexagon>)
               })
             }
@@ -90,7 +91,9 @@ const mapState = (state) => {
     prevSelectedHex: state.board.state.prevSelectedHex,
     hexes: state.board.hexes,
     playerOrder: state.board.state.playerOrder,
-    currentPlayer: state.board.state.currentPlayer
+    currentPlayer: state.board.state.currentPlayer,
+    allotmentPointsPerTurn: state.board.state.allotmentPointsPerTurn,
+    allotmentLeft: state.board.state.allotmentLeft,
   }
 }
 
@@ -99,19 +102,6 @@ const mapDispatch = (dispatch, ownProps) => {
   console.log('map dispatch has ran')
 
   return {
-    renderAllotmentGUI(phase, selectedHexId, hexes, user, currentPlayer) {
-      console.log('renderAllotmentGui has ran')
-      const allGuis = document.getElementsByClassName('allotment-guis');
-      [...allGuis].forEach(gui => gui.classList.remove('show'));
-      const isOwner = hexes[selectedHexId].playerId === user.username;
-      const isCurrentPlayer = user.username === currentPlayer;
-      if (phase === 'allotment' && isOwner && isCurrentPlayer) {
-        const selectedHex = document.getElementById(`${selectedHexId}-algui`);
-        selectedHexId && selectedHex.classList.remove('show');
-        const gui = document.getElementById(`${selectedHexId}-algui`);
-        gui.classList.add('show');
-      }
-    },
     renderCombatGUI(user, currentPlayer, hexes, phase, defenderHexId, attackerHexId) {
       console.log('renderCombatGUI has ran')
       const attackerNeighbors = getNeighbors(attackerHexId);
@@ -152,6 +142,25 @@ const mapDispatch = (dispatch, ownProps) => {
 
         firebase.ref(`/boards/${boardId}/state`).update({ prevSelectedHex: oldHexId, selectedHex: newHexId })
         // firebase.ref(`/boards/${boardId}/state`).update({ selectedHex: newHexId })
+      }
+    },
+    addUnit(user, id, hexagons, inputAllotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, selectedHex) {
+      if (user !== currentPlayer) return;
+      if (inputAllotmentLeft > 0) {
+        inputAllotmentLeft -= 1;
+        const updatedHexArr = Object.entries(hexagons).filter(hex => hex[0] === id);
+        const hexId = updatedHexArr[0][0];
+        const hexStats = updatedHexArr[0][1];
+        const updatedHexObj = {
+          [hexId]: Object.assign({}, hexStats),
+        };
+        updatedHexObj[hexId].unit1 += 1;
+        firebase.ref(`/boards/${boardId}/hexes`).update(updatedHexObj);
+        firebase.ref(`/boards/${boardId}/state`).update({ allotmentLeft: inputAllotmentLeft });
+        if (inputAllotmentLeft === 0) {
+          changePhaseFunction(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId);
+          highlightNeighbors(selectedHex, currentPlayer, hexagons);
+        }
       }
     }
   }
