@@ -24,6 +24,20 @@ const NewGame = (props) => {
           <input name="maxPlayers" type="text" />
         </div>
         <div>Select game settings</div>
+
+          <div className="gameSettings">
+            <label htmlFor="boardSize"><small>Board size:</small></label>
+            <select name="boardSize">
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+              <option value="epic">Epic</option>
+            </select>
+
+            <label htmlFor="percentVoid"><small>Percentage of void spaces:</small></label>
+            <input name="percentVoidSpaces" type="number" min="0" max="90" />
+          </div>
+
         <div>
           <button type="submit">Start Game</button>
         </div>
@@ -40,6 +54,8 @@ const mapDispatch = (dispatch, ownProps) => {
       evt.preventDefault();
       const boardName = evt.target.boardName.value;
       const maxPlayers = evt.target.maxPlayers.value || 2;
+      const boardSize = evt.target.boardSize.value;
+      const percentVoidSpaces = evt.target.percentVoidSpaces.value;
       let hexes = {}
 
       hexagons.forEach(hex => {
