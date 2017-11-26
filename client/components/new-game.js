@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { hexagons } from '../functions'
+import { generator } from '../functions'
 import { setInGame } from '../store';
 import firebase from '../firebase';
 
@@ -10,6 +10,10 @@ import '../css/_auth-form.scss';
 
 const NewGame = (props) => {
   const { user } = props
+  const SMALL_BOARD = [5, 5];
+  const MEDIUM_BOARD = [8, 6];
+  const LARGE_BOARD = [12, 8];
+  const EPIC_BOARD = [16, 12];
 
   return (
     <div className="form">
@@ -28,10 +32,10 @@ const NewGame = (props) => {
           <div className="gameSettings">
             <label htmlFor="boardSize"><small>Board size:</small></label>
             <select name="boardSize">
-              <option value="small">Small</option>
-              <option value="medium">Medium</option>
-              <option value="large">Large</option>
-              <option value="epic">Epic</option>
+              <option value={SMALL_BOARD} >Small</option>
+              <option value={MEDIUM_BOARD} >Medium</option>
+              <option value={LARGE_BOARD} >Large</option>
+              <option value={EPIC_BOARD} >Epic</option>
             </select>
 
             <label htmlFor="percentVoid"><small>Percentage of void spaces:</small></label>
@@ -54,8 +58,10 @@ const mapDispatch = (dispatch, ownProps) => {
       evt.preventDefault();
       const boardName = evt.target.boardName.value;
       const maxPlayers = evt.target.maxPlayers.value || 2;
-      const boardSize = evt.target.boardSize.value;
+      let boardSize = evt.target.boardSize.value;
+      boardSize = boardSize.split(',').map(num => +num)
       const percentVoidSpaces = evt.target.percentVoidSpaces.value;
+      const hexagons = generator.apply(this, boardSize)
       let hexes = {}
 
       hexagons.forEach(hex => {
