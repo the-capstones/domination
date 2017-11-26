@@ -5,7 +5,7 @@ const winningCheck = (playerOrder) => {
   const onePlayerLeft = playerOrder.length === 1;
 
   if (onePlayerLeft) {
-    alert(playerOrder[0], ' wins!');
+    alert(`${playerOrder[0]} wins!`);
   }
 };
 
@@ -17,7 +17,7 @@ const playerDefeatedCheck = (boardId, hexagons, defendingPlayer, playerOrder) =>
   if (hexagonsLeft.length === 0) {
     const newPlayerOrder = playerOrder.filter(player => player !== defendingPlayer);
     firebase.ref(`/boards/${boardId}/state`).update({ playerOrder: newPlayerOrder })
-    alert(defendingPlayer, ' has been defeated.');
+    alert(`${defendingPlayer} has been defeated.`);
     winningCheck(newPlayerOrder);
   }
 }
