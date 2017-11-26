@@ -100,7 +100,7 @@ function movableHexes(allHexesObj, artIntelplayerId) {
                 if (enemiesNear === 0) { movableHexArray.push(hex) }
             }
         })
-        if (movableHexArray.length > 0) movableHexObj[hexString] = movableHexArray
+        if (enemiesNear === 0 && movableHexArray.length > 0) movableHexObj[hexString] = movableHexArray
     }
     if (Object.keys(movableHexObj).length === 0) { return null }
     return movableHexObj
@@ -141,21 +141,22 @@ function closestEnemy(allHexesObj, startingHex, artIntelplayerId) {
     let queue = attackMatrixFunctions.adjacentHex(startingHex)
     let closestEnemyHex = ''
     let searchedHexes = {}
-    while (queue.length > 0 && closestEnemyHex.length === 0){
-    if (queue.length > 1000000000) {return null}
-    let hex = queue.shift()
-
-    if (
-        !searchedHexes.hasOwnProperty(hex) &&
-        allHexesObj[hex] && 
-        allHexesObj[hex].playerId !== '' &&
-        allHexesObj[hex].playerId !== artIntelplayerId
-    ){
-        closestEnemyHex = hex
-        searchedHexes[hex] = hex
-    } else {
-        queue = queue.concat(attackMatrixFunctions.adjacentHex(hex))
-    }
+    let totalEnemyHexes = Object.keys(allHexesObj).filter(hexID => {
+        return allHexesObj[hexID].playerId !== '' && allHexesObj[hexID].playerId !== artIntelplayerId
+    })
+    while (Object.keys(searchedHexes).length !== totalEnemyHexes.length && closestEnemyHex.length === 0) {
+        if (queue.length > 1000000000) { return null }
+        let hex = queue.shift()
+        if (!searchedHexes.hasOwnProperty(hex)) {
+            if (allHexesObj[hex] &&
+                allHexesObj[hex].playerId !== '' &&
+                allHexesObj[hex].playerId !== artIntelplayerId) {
+                closestEnemyHex = hex
+            } else {
+                searchedHexes[hex] = hex
+                queue = queue.concat(attackMatrixFunctions.adjacentHex(hex))
+            }
+        }
     }
     return closestEnemyHex
 }
