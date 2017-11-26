@@ -14,3 +14,4 @@ export { default as Settings } from './settings';
 export { default as CombatRisk } from './combat-risk';
 export { default as CombatCustom } from './combat-custom';
 export { default as ChannelList } from './channelList';
+export { default as GameOver } from './gameover';
