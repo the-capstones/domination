@@ -162,8 +162,6 @@ function adjacentHex(startingHexString) {
     return adjacentHexes
 }
 
-const adjacentHexResults = adjacentHex(startingHex)
-
 function isAHexNotMyHex(allHexesObj, adjacentHexArray, artIntelplayerId) {
     let results = []
     adjacentHexArray.forEach(hex => {
@@ -174,37 +172,14 @@ function isAHexNotMyHex(allHexesObj, adjacentHexArray, artIntelplayerId) {
     return results
 }
 
+
+// const adjacentHexResults = adjacentHex(startingHex)
 // isAHexNotMyHex(hexesStep2, adjacentHexResults, myPlayerId)
 
 function attackableHexes(allHexesObj, startingHexString, artIntelplayerId) {
     const adjacentHexes = adjacentHex(startingHexString)
     const attackableHexArr = isAHexNotMyHex(allHexesObj, adjacentHexes, artIntelplayerId)
     return attackableHexArr
-}
-
-function findAllEnemyHexesOnBoard(allHexesObj, artIntelplayerId) {
-    let results = []
-
-    for (const hex in allHexesObj) {
-        if (allHexesObj[hex] && allHexesObj[hex].playerId !== '' && allHexesObj[hex].playerId !== artIntelplayerId) {
-            results.push(hex)
-        }
-    }
-    return results
-}
-
-function findPlayerStrengthQuotient(hexesObj, startHex) {
-    const owner = startHex.playerId
-    const allHexesOwnedByPlayer = myHexes(hexesObj, owner)
-    let sum = 0;
-    Object.keys(allHexesOwnedByPlayer).forEach(hex => {
-        let distance = hexDistance(startHex, hex)
-        if (distance) {
-            let units = hexesObj[hex].unit1
-            sum += (units / distance)
-        }
-    })
-    return sum;
 }
 
 // test the function attackableHexes with the console.log statements below
@@ -327,7 +302,5 @@ module.exports = {
     attackMatrix,
     myHexes,
     enoughUnits,
-    adjacentHex,
-    findAllEnemyHexesOnBoard,
-    findPlayerStrengthQuotient
+    adjacentHex
 }

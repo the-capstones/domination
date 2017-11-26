@@ -1,5 +1,10 @@
+'use strict'
+/* eslint "guard-for-in": 0 */
+
 const battleMatrix = require('./battleMatrix')
 const attackMatrixFunctions = require('./attackMatrixCreator')
+const { myHexes } = require('./attackMatrixCreator')
+const { hexDistance } = require('./fortifyFunction')
 
 // This file is responsible for creating the nextAttack function
 
@@ -45,11 +50,6 @@ function winProbability(allHexesObj, battleMatrix, myHex, enemyHex){
     const defenderUnits = allHexesObj[enemyHex].unit1
     const winningProbability = battleMatrix[attackerUnits][defenderUnits].ChanceToWin
     return winningProbability
-}
-
-function playerStrengthQuotient(allHexesObj, enemyHex) {
-    let myHexes = attackMatrixFunctions.myHexes(allHexesObj, artIntelplayerId)
-
 }
 
 // test the function winProbability with the console.log statements below
@@ -168,7 +168,37 @@ function bestAttack(allHexesObj, artIntelplayerId, battleMatrix, minThresholdToA
 // console.log(battleMatrix[6][1].ChanceToWin, 'best attack probability on the board')
 // console.log(bestAttack(hexesStep2, myPlayerId, battleMatrix, minThresholdToAttack), 'next attack')
 
+// OPTIONAL PARAMETERS
+// The AI bot may include strength quotient of enemy forces in their
+// attack decisions - use functions below
+
+function findAllEnemyHexesOnBoard(allHexesObj, artIntelplayerId) {
+    let results = []
+
+    for (const hex in allHexesObj) {
+        if (allHexesObj[hex] && allHexesObj[hex].playerId !== '' && allHexesObj[hex].playerId !== artIntelplayerId) {
+            results.push(hex)
+        }
+    }
+    return results
+}
+
+function findPlayerStrengthQuotient(hexesObj, startHex) {
+    const owner = startHex.playerId
+    const allHexesOwnedByPlayer = myHexes(hexesObj, owner)
+    let sum = 0;
+    Object.keys(allHexesOwnedByPlayer).forEach(hex => {
+        let distance = hexDistance(startHex, hex)
+        if (distance) {
+            let units = hexesObj[hex].unit1
+            sum += (units / distance)
+        }
+    })
+    return sum;
+}
+
 module.exports = {
     bestAttack,
-    playerStrengthQuotient
+    findPlayerStrengthQuotient,
+    findAllEnemyHexesOnBoard
 }
