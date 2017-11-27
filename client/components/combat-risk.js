@@ -51,7 +51,7 @@ const CombatRisk = props => {
           <h3 id="result">RESULT</h3>
         </div>
 
-        <div className="player-container">
+        <div className="enemy-container">
           <div className="option-container">
             <label>{defenderName}</label>
           </div>
