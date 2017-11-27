@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createGrid, divvySpaces } from '../functions'
 import configs from '../configurations';
@@ -14,9 +15,9 @@ const Tutorial = (props) => {
 
   return (
     <div className="tutorial-wrapper">
-      <div id="tutorial" >
-      <h1>Tutorial</h1>
-      <div><p>Play our resident DOMINATION bot as we walk you through game play.</p></div>
+      <div id="tutorial">
+        <h1>Tutorial</h1>
+        <div><p>Play our resident DOMINATION bot as we walk you through game play.</p></div>
         <div className="center">
           <button
             className="text"
@@ -26,7 +27,6 @@ const Tutorial = (props) => {
           </button>
         </div>
       </div>
-
     </div>
   )
 }
@@ -59,6 +59,8 @@ const mapDispatch = (dispatch, ownProps) => {
         playerOrder: [user.username, 'dombot'], // array of all players in order of turn
         allotmentPointsPerTurn: { [user.username]: 3 }, //obj of points(val) per player(key) per turn
         allotmentLeft: 3,
+        boardLayout: boardConfig,
+        hexagons,
         gameSettings: 'default', // array/obj of game settings TBD
         status: 'playing',
         selectedHex: '',
@@ -78,6 +80,6 @@ const mapDispatch = (dispatch, ownProps) => {
   }
 }
 
-const TutorialContainer = connect(mapState, mapDispatch)(Tutorial)
+const TutorialContainer = withRouter(connect(mapState, mapDispatch)(Tutorial))
 export default TutorialContainer
 

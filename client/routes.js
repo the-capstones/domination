@@ -37,6 +37,7 @@ class Routes extends Component {
           <Route exact path="/boards/:boardId/battle" component={CombatRisk} />
           <Switch>
             <Route path="/boards/:boardId" component={Sidebar} />
+            <Route path="/tutorial/:boardId" component={Sidebar} />
             <Route path="/" component={Sidebar} />
           </Switch>
           <Switch>

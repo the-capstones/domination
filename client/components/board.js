@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import firebase from '../firebase'
 import { GameOver } from './';
 import {
-  hexagons,
   addColors,
   addIdToHexes,
   calcAllotmentPoints,
@@ -21,7 +20,7 @@ import '../css/_board.scss';
 class Board extends Component {
 
   componentDidMount() {
-    console.log('component did mount has ran')
+    console.log('component did mount has run')
     const { playerOrder, hexes, boardId } = this.props;
     addIdToHexes();
     addColors(playerOrder, hexes);
@@ -29,7 +28,7 @@ class Board extends Component {
   }
 
   componentDidUpdate() {
-    console.log('component did update has ran')
+    console.log('component did update has run')
 
     const { playerOrder, hexes } = this.props;
     addColors(playerOrder, hexes);
