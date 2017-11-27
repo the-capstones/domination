@@ -60,6 +60,7 @@ const Sidebar = (props) => {
           <Link to="/newGame">New Game</Link>
           <Link to="/channels">Join Game</Link>
           <Link to="/settings">Settings</Link>
+          <Link to="/tutorial">Tutorial</Link>
         </div>
       </div>)
       }
