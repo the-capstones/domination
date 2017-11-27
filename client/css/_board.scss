@@ -42,35 +42,33 @@ svg g polygon {
 }
 
 svg g text {
-  font-size: 0.18em;
-  fill: white;
+  font-family: $hex-text;
+  font-size: 0.45rem;
+  font-weight: bold;
+  stroke: $neutral-light;
+  stroke-width: 0.1;
   fill-opacity: 1;
 }
 
   //PLAYER CLASS COLORS
 .hex-fill-red {
-  stroke: $player-red;
-  stroke-width: 0.3;
+  fill: $player-red;
 }
 
 .hex-fill-orange {
-  stroke: $player-orange;
-  stroke-width: 0.3;
+  fill: $player-orange;
 }
 
 .hex-fill-yellow {
-  stroke: $player-yellow;
-  stroke-width: 0.3;
+  fill: $player-yellow;
 }
 
 .hex-fill-green {
-  stroke: $player-green;
-  stroke-width: 0.3;
+  fill: $player-green;
 }
 
 .hex-fill-blue {
-  stroke: $player-blue;
-  stroke-width: 0.3;
+  fill: $player-blue;
 }
 
 .hex-fill-black {
