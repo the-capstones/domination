@@ -8,6 +8,7 @@ const trueskill = require('trueskill')
 const fs = require('fs')
 const battleMatrix = require('../battleMatrix')
 const { hexagons } = require('../funcs/gridGenerator')
+const { bestMove } = require('../fortifyFunction')
 const { divvySpaces } = require('../funcs/divvySpaces')
 const { nextAllotment } = require('../allotmentFunction')
 const { findPlayerStrengthQuotient } = require('../nextAttackFunction')
@@ -166,6 +167,24 @@ function chooseAttack(board, player) {
 }
 
 
+function fortify(board, id) {
+  let bestOption = bestMove(board, id)
+
+  if (bestOption) {
+    let fromHex = bestOption[0]
+    let toHex = bestOption[1]
+    let startingHexUnits = board[fromHex].unit1
+    let endingHexUnits = board[toHex].unit1
+    let unitsToMove = Math.min(startingHexUnits - 1, 15 - endingHexUnits)
+    board[fromHex].unit1 -= unitsToMove
+    board[toHex].unit1 += unitsToMove
+    console.log(`moved ${unitsToMove} from ${fromHex} to ${toHex}`)
+  } else {
+    console.log('No valid moves available.')
+  }
+}
+
+
 function play(player1, player2, player3, player4) {
 
   let board = generateBoard(arguments)
@@ -229,7 +248,8 @@ function play(player1, player2, player3, player4) {
         }
 
         // fortification phase
-
+        console.log('**************** FORTIFYING ****************')
+        fortify(board, id)
       }
 
     })
@@ -243,6 +263,12 @@ function play(player1, player2, player3, player4) {
   // console.log(p2)
   // console.log(p3)
   // console.log(p4)
+  // fs.writeFile(__dirname + "/test.txt", JSON.stringify(players), err => {
+  //   if (err) { return console.log(err) }
+  //   console.log('The file was saved!');
+  // });
+  console.log('players:', players)
+  return players
 }
 
 // dummy data for testing
@@ -282,6 +308,11 @@ let p4 = {
   skill: [25, 25 / 3]
 }
 
+let start = Date.now()
 play(p1, p2, p3, p4)
+let end = Date.now()
+
+console.log(`Game ran in ${end - start} ms.`)
+console.log(`Game ran in ${(end - start / 1000) / 60} mins.`)
 
 module.exports = { shufflePlayerOrder, play }

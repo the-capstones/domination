@@ -1,6 +1,8 @@
 'use strict'
+const fs = require('fs')
+const path = require('path')
 const { generateStartingGenomes } = require('./population')
-const play = require('./play')
+const { play } = require('./play')
 const { populateNextGeneration } = require('./reproduction')
 
 
@@ -9,15 +11,26 @@ const { populateNextGeneration } = require('./reproduction')
 let genomes = generateStartingGenomes()
 console.log(genomes)
 
+let results = {}
+
 /* next step after generation: have these players play eachother (groups of 4). Play several iterations for more accurate sense of skill (for weighting in 'mating pool') */
+for (let totalIterations = 1; totalIterations <= 100; totalIterations++) {
 
-// for (let i = 0; i < genomes.length; i += 4) {
-//   // 5 games needed in 4x4 free-for-all for accurate assesment of skill;
-//   // can increase later
-//   for (let j = 1; j <= 3; j++) {
-//     play(genomes[i], genomes[i + 1], genomes[i + 2], genomes[i + 3])
-//   }
-// }
+  for (let i = 0; i < genomes.length; i += 4) {
+    // 5 games in 4x4 free-for-all provide most accurate skill assesment;
+    // can increase later
+    for (let match = 1; match <= 3; match++) {
+      let genomeResults = play(genomes[i], genomes[i + 1], genomes[i + 2], genomes[i + 3])
+      results[i][match] = JSON.stringify(genomeResults)
+    }
+  }
+  fs.writeFile(path.join(__dirname, `results${totalIterations}.txt`), JSON.stringify(results), err => {
+    if (err) { return console.log(err) }
+    console.log('The file was saved!');
+  })
 
-let nextGeneration = populateNextGeneration(genomes)
-console.log(nextGeneration)
+  genomes = populateNextGeneration(genomes)
+}
+
+
+// console.log(genomes)

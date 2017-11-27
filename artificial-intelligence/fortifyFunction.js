@@ -365,7 +365,8 @@ function bestMove(allHexesObj, artIntelplayerId) {
     if (currentBestMove[2] === 0) { return null }
     return currentBestMove
 }
-
+// best move looks like:
+// [ fromHexId, toHexId, product]
 // test the function bestMove with the console.log statement below
 // it should return [ '5,4,6', '5,5,5', 14 ]
 // console.log(bestMove(hexesStep5, myPlayerId))
