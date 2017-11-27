@@ -16,31 +16,24 @@ const CombatRisk = props => {
 
             <div className="option-container">
               <label>{attackerName}</label>
-              <button onClick={() => handleRoll(props)}>ROLL</button>
-              <button onClick={endCombat}>END COMBAT</button>
             </div>
 
             <div className="unit-container">
-              <h2>
-                {attackingUnits - 1}
-              </h2>
-              <label>UNITS</label>
-              <label>REMAINING</label>
+              <label>
+                {attackingUnits - 1} UNITS REMAINING
+              </label>
             </div>
 
             <div className="roll-container">
               <div className="die-container">
-                <img src="assets/wizard-avatar.jpg" />
                 <label>-</label>
               </div>
 
               <div className="die-container">
-                <img src="assets/wizard-avatar.jpg" />
                 <label>-</label>
               </div>
 
               <div className="die-container">
-                <img src="assets/wizard-avatar.jpg" />
                 <label>-</label>
               </div>
             </div>
@@ -48,7 +41,9 @@ const CombatRisk = props => {
           </div>
 
         <div className="result-box">
-          <h3 id="result">RESULT</h3>
+          <h3 id="result"></h3>
+          <button onClick={() => handleRoll(props)}>ROLL</button>
+          <button onClick={endCombat}>END COMBAT</button>
         </div>
 
         <div className="enemy-container">
@@ -57,11 +52,9 @@ const CombatRisk = props => {
           </div>
 
             <div className="enemy-unit-container">
-              <h2>
-                {defendingUnits}
-              </h2>
-              <label>UNITS</label>
-              <label>REMAINING</label>
+              <label>
+                {defendingUnits} UNITS REMAINING
+              </label>
             </div>
 
 

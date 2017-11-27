@@ -236,7 +236,9 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     addUnit(user, id, hexagons, inputAllotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, selectedHex) {
-      if (user !== currentPlayer || hexagons[id].unit1 >= 15) return;
+      if (hexagons[selectedHex].playerId !== user
+        || user !== currentPlayer
+        || hexagons[id].unit1 >= 15) return;
       if (inputAllotmentLeft > 0) {
         inputAllotmentLeft -= 1;
         const updatedHexArr = Object.entries(hexagons).filter(hex => hex[0] === id);
