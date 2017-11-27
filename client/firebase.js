@@ -14,3 +14,4 @@ const database = firebase.database()
 // line below enables logging for debugging
 // firebase.database.enableLogging(true)
 export default database
+
