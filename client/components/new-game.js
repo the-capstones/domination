@@ -32,6 +32,7 @@ const NewGame = (props) => {
               <option value={'rectangle-medium'} >Medium</option>
               <option value={'rectangle-large'} >Large</option>
               <option value={'rectangle-epic'} >Epic</option>
+              <option value={'hexagon'} >Hexagon</option>
             </select>
 
             <label htmlFor="percentVoid"><small>Percentage of void spaces:</small></label>
