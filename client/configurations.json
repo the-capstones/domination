@@ -58,7 +58,7 @@
   "rectangle-large": {
     "width": 1400,
     "height": 900,
-    "layout": { "width": 6, "height": 6, "flat": false, "spacing": 1.05 },
+    "layout": { "width": 10, "height": 10, "flat": false, "spacing": 1.05 },
     "origin": { "x": -68, "y": -40 },
     "map": "rectangle",
     "mapProps": [ 12, 8 ]
