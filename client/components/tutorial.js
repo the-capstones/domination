@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { hexagons, createGrid } from '../functions'
+import { createGrid, divvySpaces } from '../functions'
 import configs from '../configurations';
 import { setInGame } from '../store'
 import firebase from '../firebase'
@@ -38,6 +38,8 @@ const mapDispatch = (dispatch, ownProps) => {
     handleSubmit(evt, user) {
       evt.preventDefault();
       console.log('clicked')
+      let boardConfig = configs.hexagon
+      let hexagons = createGrid(boardConfig)
       let hexes = {}
 
       hexagons.forEach(hex => {
@@ -64,9 +66,14 @@ const mapDispatch = (dispatch, ownProps) => {
       }
 
       const board = { hexes, state }
+      let boardId = ''
       firebase.ref('boards').push(board)
-        .then(snap => ownProps.history.push(`/tutorial/${snap.key}`));
-      dispatch(setInGame(true));
+        .then(snap => {
+          boardId = snap.key
+          divvySpaces(state.playerOrder, hexes, boardId)
+          dispatch(setInGame(true));
+          ownProps.history.push(`/tutorial/${boardId}`);
+        })
     }
   }
 }
