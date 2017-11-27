@@ -6,7 +6,6 @@ import firebase from '../firebase'
 import { GameOver } from './';
 import {
   hexagons,
-  config,
   addColors,
   addIdToHexes,
   calcAllotmentPoints,
@@ -36,10 +35,9 @@ class Board extends Component {
   }
 
   render() {
-    const layout = config.layout;
-    const size = { x: layout.width, y: layout.height };
     const {
       user,
+      boardLayout,
       hexes,
       hexagons,
       currentPhase,
@@ -53,11 +51,13 @@ class Board extends Component {
       allotmentLeft,
       addUnit,
     } = this.props;
+    const layout = boardLayout.layout;
+    const size = { x: layout.width, y: layout.height };
 
     return (
       <div className="board">
-        <HexGrid width={config.width} height={config.height}>
-          <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
+        <HexGrid width={boardLayout.width} height={boardLayout.height}>
+          <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={boardLayout.origin}>
             {
               hexagons.map((hex, i) => {
                 const hexId = `${hex.q},${hex.r},${hex.s}`;
@@ -113,6 +113,7 @@ const mapState = (state) => {
     selectedHex: state.board.state.selectedHex,
     prevSelectedHex: state.board.state.prevSelectedHex,
     hexes: state.board.hexes,
+    boardLayout: state.board.state.boardLayout,
     hexagons: state.board.state.hexagons,
     playerOrder: state.board.state.playerOrder,
     currentPlayer: state.board.state.currentPlayer,

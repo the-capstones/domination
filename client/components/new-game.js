@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { createGrid } from '../functions'
+import configs from '../configurations';
 import { setInGame } from '../store';
 import firebase from '../firebase';
 
@@ -56,8 +57,9 @@ const mapDispatch = (dispatch, ownProps) => {
       const boardName = evt.target.boardName.value;
       const maxPlayers = evt.target.maxPlayers.value || 2;
       let boardSize = evt.target.boardSize.value;
+      const boardConfig = configs[boardSize]
       const percentVoidSpaces = evt.target.percentVoidSpaces.value / 100;
-      const hexagons = createGrid(boardSize)
+      const hexagons = createGrid(boardConfig)
       let hexes = {}
 
       hexagons.forEach(hex => {
@@ -78,6 +80,7 @@ const mapDispatch = (dispatch, ownProps) => {
         allotmentPointsPerTurn: { [user.username]: 3 }, //obj of points(val) per player(key) per turn
         allotmentLeft: 3,
         percentVoidSpaces: percentVoidSpaces,
+        boardLayout: boardConfig,
         hexagons: hexagons,
         gameSettings: 'default', // array/obj of game settings TBD
         status: 'waiting',
