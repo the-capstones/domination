@@ -1,7 +1,8 @@
 import firebase from '../firebase';
-import { validBoardCheck } from './';
+import { validBoardCheck, spriteGenerator } from './';
 
 const PERCENT_DISABLED = .20;
+const AMOUNT_OF_LANDMARKS = 6;
 
 export const divvySpaces = (playerOrder, hexes, boardId) => {
   let validBoard = false;
@@ -32,22 +33,46 @@ export const divvySpaces = (playerOrder, hexes, boardId) => {
       { color: 'orange', amount: spacesPerPlayer },
     ]
 
+    const sprites = spriteGenerator('medieval');
+    let landmarksAvailable = [];
+
     // used for validBoardCheck
     let initialValidHex;
 
     const hexesCopy = Object.assign({}, hexes);
+    const copyKeys = Object.keys(hexesCopy);
 
-    Object.keys(hexesCopy).forEach(id => {
+    while (landmarksAvailable.length < AMOUNT_OF_LANDMARKS) {
+      const randomHex = Math.floor(Math.random() * copyKeys.length);
+      landmarksAvailable.push(copyKeys[randomHex]);
+    }
+
+    copyKeys.forEach(id => {
       let successfulAssign = false;
       while (!successfulAssign) {
+        // player
         const assign = Math.floor(Math.random() * (numPlayers + 1));
         const assignment = assignmentColors[assign];
         const player = players[assign];
         const hex = hexesCopy[id];
 
+        // sprite
+        const tiles = sprites.tiles;
+        const spriteAssign = Math.floor(Math.random() * tiles.length);
+        let sprite = player === ''
+          ? sprites.disabled
+          : tiles[spriteAssign];
+
+        if (landmarksAvailable.includes(id)) {
+          const landmarks = sprites.landmarks;
+          const landmarkAssign = Math.floor(Math.random() * landmarks.length);
+          sprite = landmarks[landmarkAssign];
+        }
+
         if (assignment.amount > 0) {
           assignment.amount--;
           hex.playerId = player;
+          hex.tile = sprite;
           successfulAssign = true;
         }
         if (!initialValidHex && hexesCopy[id].playerId !== '') initialValidHex = id;
