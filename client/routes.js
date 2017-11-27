@@ -11,7 +11,6 @@ import {
   UserHome,
   Sidebar,
   Room,
-  Settings,
   CombatRisk,
   CombatCustom,
   ChannelList,
@@ -44,14 +43,13 @@ class Routes extends Component {
           <Route path="/newGame" component={NewGame} />
             <Route path="/channels" component={ChannelList} />
             {!isLoggedIn && <Route exact path="/" component={Login} />}
-            {isLoggedIn && <Route path="/" component={ChannelList} />}
+            {isLoggedIn && <Route exact path="/" component={ChannelList} />}
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             {
               isLoggedIn &&
               <Switch>
                 <Route path="/home" component={UserHome} />
-                <Route path="/settings" component={Settings} />
                 <Route exact path="/combat-custom" component={CombatCustom} />
                 <Route exact path="/allotment" component={AllotmentGUI} />
               </Switch>

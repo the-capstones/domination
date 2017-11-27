@@ -4,14 +4,15 @@ import { validBoardCheck, spriteGenerator } from './';
 const PERCENT_DISABLED = .20;
 const AMOUNT_OF_LANDMARKS = 6;
 
-export const divvySpaces = (playerOrder, hexes, boardId) => {
+export const divvySpaces = (playerOrder, hexes, boardId, amountVoid) => {
   let validBoard = false;
+  let percentVoid = amountVoid || PERCENT_DISABLED;
 
   while (!validBoard) {
     const players = ['', ...playerOrder];
     const numPlayers = playerOrder.length;
     let numSpaces = Object.keys(hexes).length;
-    let numVoidSpaces = Math.floor(numSpaces * PERCENT_DISABLED);
+    let numVoidSpaces = Math.floor(numSpaces * percentVoid);
     let numAllotSpaces = numSpaces - numVoidSpaces;
 
     // distributes spaces evenly to players
