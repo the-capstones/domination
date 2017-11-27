@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { hexagons } from '../functions'
+import { hexagons, createGrid } from '../functions'
+import configs from '../configurations';
 import { setInGame } from '../store'
 import firebase from '../firebase'
 
