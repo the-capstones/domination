@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
+<<<<<<< HEAD
 import { config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors, highlightMovableNeighbors, changePhaseFunction } from '../functions';
+=======
+>>>>>>> master
 import { withRouter } from 'react-router-dom';
-import '../css/_board.scss';
 import firebase from '../firebase'
+import { GameOver } from './';
+import {
+  hexagons,
+  config,
+  addColors,
+  addIdToHexes,
+  calcAllotmentPoints,
+  getNeighbors,
+  highlightNeighbors,
+  highlightMovableNeighbors,
+  changePhaseFunction
+} from '../functions';
 
+import '../css/_board.scss';
 
 class Board extends Component {
 
@@ -78,6 +93,17 @@ class Board extends Component {
           </Layout>
           {/*<Pattern id="img1" link="favicon.ico" />*/ /*fill="img1"*/}
         </HexGrid>
+        {
+          user
+          && !playerOrder.includes(user.username)
+          && <GameOver lost={true} />
+        }
+        {
+          user
+          && playerOrder.length === 1
+          && playerOrder.includes(user.username)
+          && <GameOver lost={false} />
+        }
       </div>
     )
   }

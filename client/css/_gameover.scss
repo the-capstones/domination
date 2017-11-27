@@ -1,0 +1,25 @@
+@import './_variables.scss';
+
+.gameover-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: $black-light;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+  h1 {
+    font-size: 10rem;
+    text-align: center;
+    font-family: $title;
+    color: $neutral;
+  }
+
+  i {
+    font-size: 10rem;
+  }
+}
