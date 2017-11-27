@@ -26,6 +26,7 @@ for (let totalIterations = 1; totalIterations <= 100; totalIterations++) {
       results[i][match] = JSON.stringify(genomeResults)
     }
   }
+  // writeFileSync? + small delay
   fs.writeFile(path.join(__dirname, `results${totalIterations}.txt`), JSON.stringify(results), err => {
     if (err) { return console.log(err) }
     console.log('The file was saved!');
