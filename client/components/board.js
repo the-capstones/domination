@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
+import { HexGrid, Layout, Hexagon, Text, HexUtils, Pattern } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import firebase from '../firebase'
@@ -13,7 +13,8 @@ import {
   getNeighbors,
   highlightNeighbors,
   highlightMovableNeighbors,
-  changePhaseFunction
+  changePhaseFunction,
+  spriteGenerator,
 } from '../functions';
 
 import '../css/_board.scss';
@@ -53,6 +54,8 @@ class Board extends Component {
       addUnit,
     } = this.props;
 
+    const [theme, landmarks, tiles] = spriteGenerator('medieval', true);
+
     return (
       <div className="board">
         <HexGrid width={config.width} height={config.height}>
@@ -67,6 +70,7 @@ class Board extends Component {
                   q={hex.q}
                   r={hex.r}
                   s={hex.s}
+                  fill={hexes[hexId] && hexes[hexId].tile}
                   onClick={() => {
                     const isCurrentPlayer = user.username === currentPlayer;
                     isCurrentPlayer && selectHex(user, hexes, currentPlayer, hexId, selectedHex, currentPhase);
@@ -87,6 +91,16 @@ class Board extends Component {
             }
           </Layout>
           {/*<Pattern id="img1" link="favicon.ico" />*/ /*fill="img1"*/}
+          {
+            tiles.map((name, i) => (
+              <Pattern key={i} id={name} link={`../assets/${theme}/${name}.png`} />
+            ))
+          }
+          {
+            landmarks.map((name, i) => (
+              <Pattern key={i} id={name} link={`../assets/${theme}/landmarks/${name}.png`} />
+            ))
+          }
         </HexGrid>
         {
           user
