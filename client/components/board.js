@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
 import { connect } from 'react-redux';
-<<<<<<< HEAD
-import { config, addColors, addIdToHexes, calcAllotmentPoints, getNeighbors, highlightNeighbors, highlightMovableNeighbors, changePhaseFunction } from '../functions';
-=======
->>>>>>> master
 import { withRouter } from 'react-router-dom';
 import firebase from '../firebase'
 import { GameOver } from './';
