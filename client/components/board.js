@@ -67,6 +67,7 @@ class Board extends Component {
                   q={hex.q}
                   r={hex.r}
                   s={hex.s}
+                  fill="pattern"
                   onClick={() => {
                     const isCurrentPlayer = user.username === currentPlayer;
                     isCurrentPlayer && selectHex(user, hexes, currentPlayer, hexId, selectedHex, currentPhase);
@@ -87,6 +88,9 @@ class Board extends Component {
             }
           </Layout>
           {/*<Pattern id="img1" link="favicon.ico" />*/ /*fill="img1"*/}
+          <pattern id="Pattern" x="10" y="10" width="50" height="50" patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="50" height="50" fill="skyblue" />
+          </pattern>
         </HexGrid>
         {
           user
