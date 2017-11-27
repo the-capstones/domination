@@ -25,7 +25,7 @@ class Board extends Component {
     console.log('component did mount has ran')
     const { playerOrder, hexes, boardId } = this.props;
     addIdToHexes();
-    // addColors(playerOrder, hexes);
+    addColors(playerOrder, hexes);
     calcAllotmentPoints(boardId, hexes);
   }
 
@@ -33,7 +33,7 @@ class Board extends Component {
     console.log('component did update has ran')
 
     const { playerOrder, hexes } = this.props;
-    // addColors(playerOrder, hexes);
+    addColors(playerOrder, hexes);
   }
 
   render() {
