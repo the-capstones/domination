@@ -5,18 +5,18 @@
 /* eslint "guard-for-in": 0 */
 
 const trueskill = require('trueskill')
+const fs = require('fs')
+const battleMatrix = require('../battleMatrix')
 const { hexagons } = require('../funcs/gridGenerator')
 const { divvySpaces } = require('../funcs/divvySpaces')
 const { nextAllotment } = require('../allotmentFunction')
-const battleMatrix = require('../battleMatrix')
-const { findPlayerStrengthQuotient, findAllEnemyHexesOnBoard, bestAttack } = require('../nextAttackFunction')
+const { findPlayerStrengthQuotient } = require('../nextAttackFunction')
 const { myHexes, attackMatrix } = require('../attackMatrixCreator')
+
 
 const TERRITORIES_PER_UNIT_ALLOTTED = 15
 const MAXIMIZE_TERRITORY_GAINS = 'maximizeTerritoryGains'
 const MINIMIZE_UNITS_LOST_RATIO = 'minimizeUnitsLostRatio'
-const DIFFERENCE_IN_UNITS = 'differenceInUnits'
-const RATIO_OF_UNITS = 'ratioOfUnits'
 
 
 function shufflePlayerOrder(playerArray) {
@@ -63,15 +63,26 @@ function allot(player, board) {
 
 
 function rollDiceAndReturnMax(numDice) {
-  let results = []
+  let result = 0
   for (let i = 0; i < numDice; i++) {
-    results.push(Math.ceil(Math.random() * 6))
+    let dieRoll = Math.ceil(Math.random() * 6)
+    result = dieRoll > result ? dieRoll : result
   }
-  return results.reduce((sum, currDice) => Math.max(sum, currDice))
+  return result
 }
 
 
-function attack(attackingHex, defendingHex, board) {
+function hasTerritories(board, playerId) {
+  for (const hex in board) {
+    if (board[hex].playerId === playerId) {
+      return true
+    }
+  }
+  return false
+}
+
+
+function battle(attackingHex, defendingHex, board) {
 
   let attackDiceRoll = rollDiceAndReturnMax(3)
   let defendDiceRoll = rollDiceAndReturnMax(2)
@@ -83,11 +94,10 @@ function attack(attackingHex, defendingHex, board) {
     ? board[defendingHex].unit1--
     : board[attackingHex].unit1--
 
-  if (board[attackingHex].unit1 === 1) {
-    return
-  }
+  if (board[attackingHex].unit1 === 1) return
 
   if (!board[defendingHex].unit1) {
+
     board[defendingHex].playerId = board[attackingHex].playerId
     console.log(`${defendingHex} now belongs to attacker!`)
 
@@ -97,38 +107,88 @@ function attack(attackingHex, defendingHex, board) {
     return
   }
 
-  attack(attackingHex, defendingHex, board)
+  battle(attackingHex, defendingHex, board)
 
+}
+
+function chooseAttack(board, player) {
+  let { id,
+    playerStrengthQuotientThreshold,
+    attackStrategy,
+    chanceToWinThreshold
+  } = player
+  let hexToAttack = ''
+  let hexToAttackFrom = ''
+  let playerAttackMatrix = attackMatrix(board, id)
+
+  if (playerStrengthQuotientThreshold) {
+    let min = playerStrengthQuotientThreshold
+    for (const playableHex in playerAttackMatrix) {
+      playerAttackMatrix[playableHex].forEach(attackableHex => {
+        let psq = findPlayerStrengthQuotient(board, attackableHex)
+        if (psq <= min) {
+          min = psq
+          hexToAttack = attackableHex
+          hexToAttackFrom = playableHex
+        }
+      })
+    }
+  }
+
+  if (!hexToAttack) {
+    let minChanceToWin = chanceToWinThreshold
+    let minLostRatio = Infinity
+
+    for (const playableHex in playerAttackMatrix) {
+      playerAttackMatrix[playableHex].forEach(attackableHex => {
+        let attackUnits = board[playableHex].unit1
+        let defendUnits = board[attackableHex].unit1
+        let expectedUnits = battleMatrix[attackUnits][defendUnits].ExpectedUnits
+        let chanceToWin = battleMatrix[attackUnits][defendUnits].ChanceToWin
+        let unitsLostRatio = (attackUnits - expectedUnits) / chanceToWin
+
+        if (attackStrategy === MAXIMIZE_TERRITORY_GAINS && chanceToWin >= minChanceToWin) {
+          minChanceToWin = chanceToWin
+          hexToAttack = attackableHex
+          hexToAttackFrom = playableHex
+        } else if (attackStrategy === MINIMIZE_UNITS_LOST_RATIO
+          && chanceToWin >= chanceToWinThreshold
+          && unitsLostRatio < minLostRatio
+        ) {
+          minLostRatio = unitsLostRatio
+          hexToAttack = attackableHex
+          hexToAttackFrom = playableHex
+        }
+      })
+    }
+  }
+  return [hexToAttackFrom, hexToAttack]
 }
 
 
 function play(player1, player2, player3, player4) {
-  // initialize board
-  let board = generateBoard(arguments)
 
+  let board = generateBoard(arguments)
   let players = [...arguments]
   let gameRank = players.length;
   players = shufflePlayerOrder(players)
 
-  // when gameRank gets to 0 game is over
-  while (gameRank) {
+  // when gameRank gets to 1 remaning player has won the game
+  while (gameRank > 1) {
 
     players.forEach(player => {
 
-      let {
-        chanceToWinThreshold,
-        playerStrengthQuotientThreshold,
-        attackStrategy,
-        id
-      } = player
+      // rank is assigned to players in the order that they lose,
+      // so if not assigned yet they are still in the game
+      if (!player.rank) {
 
-      console.log('********************************************')
-      console.log(`********** STARTING PLAYER ${id} TURN **********`)
-      console.log('********************************************')
-      let playerHexes = myHexes(board, id);
-      let hexesOwned = Object.keys(playerHexes).length;
+        let { id } = player
+        console.log('********************************************')
+        console.log(`********** STARTING PLAYER ${id} TURN **********`)
+        console.log('********************************************')
 
-      if (hexesOwned) {
+        let playerHexes = myHexes(board, id);
+        let hexesOwned = Object.keys(playerHexes).length;
 
         // allotment phase
         let allotment = Math.max(Math.floor(hexesOwned / TERRITORIES_PER_UNIT_ALLOTTED), 3)
@@ -146,105 +206,43 @@ function play(player1, player2, player3, player4) {
         console.log('************* BEGINNING BATTLE *************')
 
         while (inBattle) {
-          let hexToAttack = ''
-          let hexToAttackFrom = ''
-          let minChanceToWin = 0
-          let attackMatrixForPlayer = attackMatrix(board, id)
+          let [hexToAttackFrom, hexToAttack] = chooseAttack(board, player)
 
-          if (playerStrengthQuotientThreshold) {
-            let min = playerStrengthQuotientThreshold
-            for (const playableHex in attackMatrixForPlayer) {
-              attackMatrixForPlayer[playableHex].forEach(attackableHex => {
-                let psq = findPlayerStrengthQuotient(board, attackableHex)
-                if (psq <= min) {
-                  min = psq
-                  hexToAttack = attackableHex
-                  hexToAttackFrom = playableHex
-                }
-              })
+          if (hexToAttack) {
+            let defenderId = board[hexToAttack].playerId
+            battle(hexToAttackFrom, hexToAttack, board)
+
+            console.log('ATTACKED PLAYER', defenderId)
+            let defenderTerritories = hasTerritories(board, defenderId)
+            if (!defenderTerritories) {
+              console.log(`PLAYER ${defenderId} LOST`)
+              let playerLost = players.find(player => player.id === defenderId)
+              playerLost.rank = gameRank;
+              gameRank--
             }
           }
 
-          if (attackStrategy === MINIMIZE_UNITS_LOST_RATIO && !hexToAttack) {
-            // let playableHexes = Object.keys(attackMatrixForPlayer)
-            // console.log('PLAYABLE HEXES ARE:', playableHexes)
-            // playableHexes.forEach(hex => {
-
-            // })
-
-            for (const playableHex in attackMatrixForPlayer) {
-              let minLostRatio = Infinity
-
-              attackMatrixForPlayer[playableHex].forEach(attackableHex => {
-                let attackUnits = board[playableHex].unit1
-                let defendUnits = board[attackableHex].unit1
-                console.log('attack units:', attackUnits)
-                console.log('defend units:', defendUnits)
-                let expectedUnits = battleMatrix[attackUnits][defendUnits].ExpectedUnits
-                let chanceToWin = battleMatrix[attackUnits][defendUnits].ChanceToWin
-                let unitsLostRatio = (attackUnits - expectedUnits) / chanceToWin
-                if (chanceToWin >= chanceToWinThreshold && unitsLostRatio < minLostRatio) {
-                  minLostRatio = unitsLostRatio
-                  hexToAttack = attackableHex
-                  hexToAttackFrom = playableHex
-                }
-              })
-            }
-            hexToAttack && console.log('MINLOST HEX TO ATTACK IS', hexToAttack)
-            hexToAttackFrom && console.log('MINLOST HEX TO ATTACK FROM IS', hexToAttackFrom)
-
-          } else if (attackStrategy === MAXIMIZE_TERRITORY_GAINS && !hexToAttack) {
-
-            for (const playableHex in attackMatrixForPlayer) {
-              attackMatrixForPlayer[playableHex].forEach(attackableHex => {
-                let attackUnits = board[playableHex].unit1
-                let defendUnits = board[attackableHex].unit1
-                console.log('attack units:', attackUnits)
-                console.log('defend units:', defendUnits)
-                let chanceToWin = battleMatrix[attackUnits][defendUnits].ChanceToWin
-                if (chanceToWin >= minChanceToWin) {
-                  minChanceToWin = chanceToWin
-                  hexToAttack = attackableHex
-                  hexToAttackFrom = playableHex
-                }
-              })
-            }
-            hexToAttack && console.log('MAXTERR HEX TO ATTACK IS', hexToAttack)
-            hexToAttackFrom && console.log('MAXTERR HEX TO ATTACK FROM IS', hexToAttackFrom)
+          if (!hexToAttack) {
+            console.log('NO ADVANTAGEOUS ATTACK MOVES TO MAKE')
+            inBattle = false
           }
-
-          hexToAttack && attack(hexToAttackFrom, hexToAttack, board)
-          !hexToAttack && console.log('NO ADVANTAGEOUS ATTACK MOVES TO MAKE')
-          // when player is ready to end battle phase
-          // will need logic to determine when to end battle (i.e. unfavorable odds, no more moves to make etc.)
-          inBattle = false
-          // if (!hexToAttack) inBattle = false
         }
-        //       if (/* player has no units left */ !player.units /**/) {
-        //         player.rank = gameRank;
-        //         player.inGame = false;
-        //         gameRank--;
-        //         return;
-        //       }
-        //       //logic for draws
-        //       //fortification logic
+
+        // fortification phase
 
       }
 
     })
-    gameRank--
   }
 
-
-  //     if (player.inGame) {
-  //       //allotment logic
-  //
-  //     }
-  //   })
-
-  // //when game is over
-  // trueskill.AdjustPlayers(players)
+  let playerWon = players.find(player => !player.rank)
+  playerWon.rank = gameRank
+  trueskill.AdjustPlayers(players)
   //each player now has accurate 'trueskill' value as player.rank
+  // console.log(p1)
+  // console.log(p2)
+  // console.log(p3)
+  // console.log(p4)
 }
 
 // dummy data for testing

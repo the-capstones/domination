@@ -7,7 +7,7 @@ const divvySpaces = (playerOrder, hexes) => {
   let validBoard = false;
 
   while (!validBoard) {
-    const players = ['', ...playerOrder];
+    const players = [{id: ''}, ...playerOrder];
     const numPlayers = playerOrder.length;
     let numSpaces = Object.keys(hexes).length;
     let numVoidSpaces = Math.floor(numSpaces * PERCENT_DISABLED);
