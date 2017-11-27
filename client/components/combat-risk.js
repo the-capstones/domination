@@ -20,7 +20,7 @@ const CombatRisk = props => {
 
             <div className="unit-container">
               <label>
-                {attackingUnits - 1} UNITS REMAINING
+                {attackingUnits - 1} {attackingUnits - 1 === 1 ? 'UNIT' : 'UNITS'} REMAINING
               </label>
             </div>
 
@@ -53,7 +53,7 @@ const CombatRisk = props => {
 
             <div className="enemy-unit-container">
               <label>
-                {defendingUnits} UNITS REMAINING
+                {defendingUnits} {defendingUnits === 1 ? 'UNIT' : 'UNITS'} REMAINING
               </label>
             </div>
 
