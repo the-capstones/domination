@@ -35,8 +35,8 @@ const mapState = state => ({ user: state.user })
 const mapDispatch = (dispatch, ownProps) => {
   return {
     handleSubmit(evt, user) {
-      console.log('clicked')
       evt.preventDefault();
+      console.log('clicked')
       let hexes = {}
 
       hexagons.forEach(hex => {
@@ -53,18 +53,18 @@ const mapDispatch = (dispatch, ownProps) => {
       const state = {
         currentPhase: 'allotment', // or whatever default state 'start' should be default for distribution
         currentPlayer: user.username, // default 1st player
-        playerOrder: [user.username], // array of all players in order of turn
+        playerOrder: [user.username, 'dombot'], // array of all players in order of turn
         allotmentPointsPerTurn: { [user.username]: 3 }, //obj of points(val) per player(key) per turn
         allotmentLeft: 3,
         gameSettings: 'default', // array/obj of game settings TBD
-        status: 'waiting',
+        status: 'playing',
         selectedHex: '',
         prevSelectedHex: ''
       }
 
-      const board = { hexes, state, boardName, maxPlayers }
+      const board = { hexes, state }
       firebase.ref('boards').push(board)
-        .then(snap => ownProps.history.push(`/boards/${snap.key}`));
+        .then(snap => ownProps.history.push(`/tutorial/${snap.key}`));
       dispatch(setInGame(true));
     }
   }

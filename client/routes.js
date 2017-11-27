@@ -42,6 +42,7 @@ class Routes extends Component {
           </Switch>
           <Switch>
           <Route path="/boards/:boardId" component={Room} />
+          <Route path="/tutorial/:boardId" component={Room} />
           <Route path="/newGame" component={NewGame} />
           <Route path="/channels" component={ChannelList} />
           <Route exact path="/tutorial" component={Tutorial} />
