@@ -2,6 +2,9 @@
 const attackMatrixFunctions = require('./attackMatrixCreator')
 // const adjacentHex = require('./funcs/adjacentHex')
 
+// QUESTION
+// Suggestions for optimizing? When running simulation, frequently gets stuck on fortification phase. Is there a better way to do this?
+
 
 // REFACTOR CLOSEST ENEMY FUNCTION TO CACHE THE ALREADY SEARCHED HEXES
 // This file is responsible for creating the fortify function
