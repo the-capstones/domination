@@ -10,7 +10,7 @@
 // and the expected number of units he would have if he went through with the attack across
 // all win or lose outcomes.
 
-const battleMatrix = 
+const battleMatrix =
 {1:
 { 1:
    { ChanceToWin: 0.4715792181069959,
@@ -655,6 +655,7 @@ const battleMatrix =
   15:
    { ChanceToWin: 0.311306376357666,
      ExpectedUnits: 1.125412601453024 } } }
+
 
 // console.log(
 //   'The chance to win a fight with 2 attackers against 1 defender is ',
