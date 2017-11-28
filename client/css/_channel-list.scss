@@ -23,11 +23,12 @@
   padding: 1rem;
   display: flex;
   justify-content: space-evenly;
-  font-size: 1.5rem;
+  font-size: 2rem;
   background: $black-light;
 
   button {
-    padding: 0.5rem 1rem;
+    padding: 0.25rem 2rem;
+    font-size: 2rem;
     background: $neutral;
     color: $black;
   }

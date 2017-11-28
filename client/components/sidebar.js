@@ -65,20 +65,22 @@ const Sidebar = (props) => {
 
       {boardId && !playerOrder.includes(user) &&
         (<h1>SPECTATOR MODE</h1>)}
-        {
-          //logic to switch phases if the player can no longer attack
-          boardId
-          && status !== 'waiting'
-          && currentPlayer === user
-          && currentPhase === 'attack'
-          && attacksLeft === 0
-          && changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId)
-        }
+      {
+        //logic to switch phases if the player can no longer attack
+        boardId
+        && status !== 'waiting'
+        && currentPlayer === user
+        && currentPhase === 'attack'
+        && attacksLeft === 0
+        && changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId)
+      }
       {boardId
         && (<div>
-          <h1>Current Player: {currentPlayer}</h1>
-          <h1>Current Phase: {currentPhase}</h1>
-          {currentPhase === 'allotment' && (<h1>Allotment Left: {allotmentLeft}</h1>)}
+          <div className="current-state-info">
+            <h1>Current Player</h1><br /><p>{currentPlayer}</p>
+            <h1>Current Phase</h1><br /><p>{currentPhase}</p>
+            {currentPhase === 'allotment' && (<div><h1>Allotment Points</h1><br /><p>{allotmentLeft}</p></div>)}
+          </div>
           <div className="avatar">
             <img src="../assets/wizard-avatar.jpg" />
           </div>
