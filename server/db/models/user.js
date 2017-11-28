@@ -22,9 +22,9 @@ const User = db.define('user', {
   googleId: {
     type: Sequelize.STRING
   },
-  avatar: {
-    type: Sequelize.STRING
-  }
+  // avatar: {
+  //   type: Sequelize.STRING
+  // }
 })
 
 module.exports = User
@@ -61,13 +61,13 @@ const setSaltAndPassword = user => {
   }
 }
 
-const setAvatar = user => {
-  const avatarOptions = ['king', 'soldier', 'champion', 'commander', 'viking', 'wizard']
-  let avatarRandomIndex = Math.floor(Math.random() * avatarOptions.length)
-  let avatarChoice = avatarOptions[avatarRandomIndex]
-  user.avatar = `../assets/avatar/${avatarChoice}.png`
-}
+// const setAvatar = user => {
+//   const avatarOptions = ['king', 'soldier', 'champion', 'commander', 'viking', 'wizard']
+//   let avatarRandomIndex = Math.floor(Math.random() * avatarOptions.length)
+//   let avatarChoice = avatarOptions[avatarRandomIndex]
+//   user.avatar = `../assets/avatar/${avatarChoice}.png`
+// }
 
-User.beforeCreate(setAvatar)
+// User.beforeCreate(setAvatar)
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)

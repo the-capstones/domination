@@ -85,7 +85,8 @@ const mapDispatch = (dispatch, ownProps) => {
         gameSettings: 'default', // array/obj of game settings TBD
         status: 'waiting',
         selectedHex: '',
-        prevSelectedHex: ''
+        prevSelectedHex: '',
+        playerClasses: {},
       }
 
       const board = { hexes, state, boardName, maxPlayers }

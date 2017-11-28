@@ -1,0 +1,80 @@
+@import './_variables.scss';
+
+.class-select-wrapper {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  top: 0;
+  z-index: 999;
+  width: 100vw;
+  height: 100vh;
+
+  .title {
+    font-family: $title;
+    font-size: 1.5rem;
+    width: 60vw;
+    border-radius: 5px 5px 0 0;
+    border: 1px solid $neutral;
+    background: $black;
+    text-align:center;
+  }
+
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 60vw;
+    height: 60vh;
+    background: $black;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid $neutral;
+
+    label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      flex-basis: 33%;
+
+      img {
+        height: 150px;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+      }
+    }
+
+    label > input{ /* HIDE RADIO */
+      visibility: hidden; /* Makes input not-clickable */
+      position: absolute; /* Remove input from document flow */
+    }
+
+    label > input + img{ /* IMAGE STYLES */
+      cursor:pointer;
+      border:2px solid transparent;
+    }
+
+    label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+      border:2px solid $neutral;
+      border-radius: 50%;
+    }
+  }
+
+  input[type=submit] {
+    font-family: $title;
+    font-size: 2rem;
+    width: 100%;
+    background: $neutral;
+    color: $black;
+    border: none;
+    border-radius: 0 0 5px 5px;
+
+    &:hover {
+      background: $primary;
+      color: $neutral;
+    }
+  }
+}

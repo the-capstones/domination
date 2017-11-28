@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, setInGame } from '../store';
 import { changePhaseFunction, attackMatrix } from '../functions';
-import firebase from '../firebase'
+import firebase from '../firebase';
 
 
 import '../css/_sidebar.scss';
@@ -18,7 +18,6 @@ const Sidebar = (props) => {
     status,
     hexagons,
     user,
-    avatar,
     currentPhase,
     currentPlayer,
     changePhase,
@@ -26,7 +25,9 @@ const Sidebar = (props) => {
     allotmentPointsPerTurn,
     leaveGame,
     allotmentLeft,
-    attacksLeft
+    attacksLeft,
+    showSelectClass,
+    playerClasses
   } = props;
   const boardId = props.match.params.boardId;
 
@@ -67,22 +68,27 @@ const Sidebar = (props) => {
 
       {boardId && !playerOrder.includes(user) &&
         (<h1>SPECTATOR MODE</h1>)}
-        {
-          //logic to switch phases if the player can no longer attack
-          boardId
-          && status !== 'waiting'
-          && currentPlayer === user
-          && currentPhase === 'attack'
-          && attacksLeft === 0
-          && changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId)
-        }
+      {
+        //logic to switch phases if the player can no longer attack
+        boardId
+        && status !== 'waiting'
+        && currentPlayer === user
+        && currentPhase === 'attack'
+        && attacksLeft === 0
+        && changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId)
+      }
       {boardId
         && (<div>
           <h1>Current Player: {currentPlayer}</h1>
           <h1>Current Phase: {currentPhase}</h1>
           {currentPhase === 'allotment' && (<h1>Allotment Left: {allotmentLeft}</h1>)}
           <div className="avatar">
-              <img src={avatar} style={ {background: colors[playerIndex]}} />
+            {
+              playerClasses
+              && playerClasses.hasOwnProperty(user)
+                ? <img src={`../assets/avatar/${playerClasses[user]}.png`} style={{ background: colors[playerIndex] }} />
+                : <button onClick={showSelectClass}>Select A Class</button>
+            }
           </div>
 
           <div className="players">
@@ -141,7 +147,6 @@ const mapState = (state) => {
 
   return {
     user: state.user.username,
-    avatar: state.user.avatar,
     isLoggedIn: !!state.user.id,
     hexagons: hexagons,
     inGame: state.inGame,
@@ -151,7 +156,8 @@ const mapState = (state) => {
     playerOrder: isBoardLoaded && state.board.state.playerOrder || [],
     allotmentPointsPerTurn: isBoardLoaded && state.board.state.allotmentPointsPerTurn,
     allotmentLeft: isBoardLoaded && state.board.state.allotmentLeft,
-    attacksLeft: attacksLeft
+    attacksLeft: attacksLeft,
+    playerClasses: isBoardLoaded && state.board.state.playerClasses,
   }
 }
 
@@ -183,6 +189,9 @@ const mapDispatch = (dispatch, ownProps) => {
         allotmentPointsPerTurn,
         hexagons,
         boardId)
+    },
+    showSelectClass() {
+      ownProps.history.push(`/boards/${boardId}/class-select`)
     }
   }
 }
