@@ -106,6 +106,10 @@ nav {
     background: $black-light;
   }
 
+  tr {
+    height: 4rem;
+  }
+
   tr > th:nth-child(1) {
     width: 20%;
   }
@@ -159,4 +163,8 @@ nav {
     margin: 0;
   }
 
+}
+
+.sidebar-icon {
+  width: 75%;
 }
