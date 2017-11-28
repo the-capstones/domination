@@ -10,7 +10,7 @@ export function changePhaseFunction(
     inputHexagons,
     inputBoardId
   ) {
-    console.log('changePhaseFunction has ran')
+    console.log('changePhaseFunction has run')
     removeAllHighlights()
     if (inputCurrentPhase === 'allotment') {
       firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'attack', selectedHex: '' })

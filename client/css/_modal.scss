@@ -1,0 +1,55 @@
+@import './_variables.scss';
+
+#phase-modal-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  // height: 100vh;
+  background: $black-light;
+
+  h3 {
+    font-family: $title;
+    font-size: 3.5rem;
+    margin-bottom: 0;
+  }
+}
+
+#phase-modal {
+  width: 80%;
+  height: 80%;
+  padding: 2.5rem;
+  font-size: 2rem;
+
+  p {
+    font-size: 2.5rem;
+    font-family: $text;
+    padding-top: 0;
+  }
+}
+
+
+
+.channel {
+  margin: 1rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 1.5rem;
+  background: $black-light;
+
+  button {
+    padding: 0.5rem 1rem;
+    background: $neutral;
+    color: $black;
+  }
+
+  p {
+    min-width: 10rem;
+  }
+}
+
+.channel:hover {
+  background: $black-dark;
+}

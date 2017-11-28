@@ -20,7 +20,7 @@ export function Room(props) {
           <WaitingRoom />
         )
       }
-      {status === 'playing' &&
+      {status !== 'waiting' &&
         (
           <Board boardId={boardId} />
         )

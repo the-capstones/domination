@@ -17,7 +17,7 @@ const Tutorial = (props) => {
     <div className="tutorial-wrapper">
       <div id="tutorial">
         <h1>Tutorial</h1>
-        <div><p>Play our resident DOMINATION bot as we walk you through game play.</p></div>
+        <div><p>Play our resident DOMINATION bot Zero as we walk you through game play.</p></div>
         <div className="center">
           <button
             className="text"
@@ -56,13 +56,13 @@ const mapDispatch = (dispatch, ownProps) => {
       const state = {
         currentPhase: 'allotment', // or whatever default state 'start' should be default for distribution
         currentPlayer: user.username, // default 1st player
-        playerOrder: [user.username, 'dombot'], // array of all players in order of turn
+        playerOrder: [user.username, 'Zero'], // array of all players in order of turn
         allotmentPointsPerTurn: { [user.username]: 3 }, //obj of points(val) per player(key) per turn
         allotmentLeft: 3,
         boardLayout: boardConfig,
         hexagons,
         gameSettings: 'default', // array/obj of game settings TBD
-        status: 'playing',
+        status: 'tutorial',
         selectedHex: '',
         prevSelectedHex: ''
       }
@@ -74,7 +74,7 @@ const mapDispatch = (dispatch, ownProps) => {
           boardId = snap.key
           divvySpaces(state.playerOrder, hexes, boardId)
           dispatch(setInGame(true));
-          ownProps.history.push(`/tutorial/${boardId}`);
+          ownProps.history.push(`/boards/${boardId}`);
         })
     }
   }

@@ -1,9 +1,12 @@
+'use strict'
+/* eslint "max-params": 0 */
+
 import React, { Component } from 'react';
 import { HexGrid, Layout, Hexagon, Text, HexUtils, Pattern } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import firebase from '../firebase'
-import { GameOver } from './';
+import { GameOver, PhaseModal, AIturn } from './';
 import {
   addColors,
   addIdToHexes,
@@ -29,7 +32,6 @@ class Board extends Component {
 
   componentDidUpdate() {
     console.log('component did update has run')
-
     const { playerOrder, hexes } = this.props;
     addColors(playerOrder, hexes);
   }
@@ -50,14 +52,22 @@ class Board extends Component {
       fortify,
       allotmentLeft,
       addUnit,
+      status
     } = this.props;
     const layout = boardLayout.layout;
     const size = { x: layout.width, y: layout.height };
+    let turn1 = true
 
     const [theme, landmarks, tiles] = spriteGenerator('medieval', true);
 
     return (
       <div className="board">
+
+        {/*logic if in tutorial mode */}
+        {status === 'tutorial' && turn1 && user.username === currentPlayer && <PhaseModal phase={currentPhase} />}
+        {status === 'tutorial' && user.username !== currentPlayer && turn1-- && '' }
+        {status === 'tutorial' && user.username !== currentPlayer && <AIturn />}
+
         <HexGrid width={boardLayout.width} height={boardLayout.height}>
           <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={boardLayout.origin}>
             {
@@ -119,7 +129,7 @@ class Board extends Component {
 }
 
 const mapState = (state) => {
-  console.log('map state has ran')
+  console.log('map state has run')
   return {
     user: state.user,
     currentPhase: state.board.state.currentPhase,
@@ -132,16 +142,17 @@ const mapState = (state) => {
     currentPlayer: state.board.state.currentPlayer,
     allotmentPointsPerTurn: state.board.state.allotmentPointsPerTurn,
     allotmentLeft: state.board.state.allotmentLeft,
+    status: state.board.state.status
   }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
   const { boardId } = ownProps;
-  console.log('map dispatch has ran')
+  console.log('map dispatch has run')
 
   return {
     renderCombatGUI(user, currentPlayer, hexes, phase, defenderHexId, attackerHexId) {
-      console.log('renderCombatGUI has ran')
+      console.log('renderCombatGUI has run')
       const attackerNeighbors = getNeighbors(attackerHexId);
       const isValidMove = attackerNeighbors.includes(defenderHexId)
         && hexes[defenderHexId].playerId !== '';
@@ -159,8 +170,11 @@ const mapDispatch = (dispatch, ownProps) => {
         ownProps.history.push(`/boards/${boardId}/battle`);
       }
     },
+    // renderPhaseModal() {
+    //   ownProps.history.push(`/tutorial/${boardId}/allot`)
+    // },
     fortify(user, currentPlayer, hexes, newlySelectedHex, previouslySelectedHex, inputPlayerOrder, inputAllotmentPointsPerTurn) {
-      console.log('fortify has ran')
+      console.log('fortify has run')
       const startHexNeighbors = getNeighbors(previouslySelectedHex);
       const isValidMove = startHexNeighbors.includes(newlySelectedHex)
         && hexes[newlySelectedHex].playerId !== '';
@@ -206,7 +220,7 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     selectHex(user, hexes, currentPlayer, newHexId, oldHexId, phase) {
-      console.log('selectHex has ran')
+      console.log('selectHex has run')
 
       const isCurrentPlayer = user.username === currentPlayer;
       const isNewHex = newHexId !== oldHexId;

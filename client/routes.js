@@ -16,7 +16,8 @@ import {
   ChannelList,
   AllotmentGUI,
   NewGame,
-  Tutorial
+  Tutorial,
+  PhaseModal
 } from './components';
 import { me } from './store';
 
@@ -35,14 +36,13 @@ class Routes extends Component {
       <Router history={history}>
         <Main>
           <Route exact path="/boards/:boardId/battle" component={CombatRisk} />
+          <Route exact path="/tutorial/:boardId/:phase" component={PhaseModal} />
           <Switch>
             <Route path="/boards/:boardId" component={Sidebar} />
-            <Route path="/tutorial/:boardId" component={Sidebar} />
             <Route path="/" component={Sidebar} />
           </Switch>
           <Switch>
           <Route path="/boards/:boardId" component={Room} />
-          <Route path="/tutorial/:boardId" component={Room} />
           <Route path="/newGame" component={NewGame} />
           <Route path="/channels" component={ChannelList} />
           <Route exact path="/tutorial" component={Tutorial} />
