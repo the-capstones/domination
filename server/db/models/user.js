@@ -68,5 +68,6 @@ const setAvatar = user => {
   user.avatar = `../assets/${avatarChoice}-avatar.png`
 }
 
+User.beforeCreate(setAvatar)
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
