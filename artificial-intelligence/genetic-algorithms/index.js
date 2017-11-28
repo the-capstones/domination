@@ -23,14 +23,11 @@ for (let totalIterations = 1; totalIterations <= 100; totalIterations++) {
     // can increase later
     for (let match = 1; match <= 3; match++) {
       let genomeResults = play(genomes[i], genomes[i + 1], genomes[i + 2], genomes[i + 3])
-      results[i][match] = JSON.stringify(genomeResults)
+      results[i][match] = genomeResults
     }
   }
   // writeFileSync? + small delay
-  fs.writeFile(path.join(__dirname, `results${totalIterations}.txt`), JSON.stringify(results), err => {
-    if (err) { return console.log(err) }
-    console.log('The file was saved!');
-  })
+  fs.writeFileSync(path.join(__dirname, `results${totalIterations}.txt`), JSON.stringify(results))
 
   genomes = populateNextGeneration(genomes)
 }
