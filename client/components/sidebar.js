@@ -80,7 +80,7 @@ const Sidebar = (props) => {
           <h1>Current Phase: {currentPhase}</h1>
           {currentPhase === 'allotment' && (<h1>Allotment Left: {allotmentLeft}</h1>)}
           <div className="avatar">
-            <img src="../assets/wizard-avatar.jpg" />
+            <img src={user.avatar} />
           </div>
 
           <div className="players">

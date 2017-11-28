@@ -21,6 +21,9 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  avatar: {
+    type: Sequelize.STRING
   }
 })
 
@@ -56,6 +59,13 @@ const setSaltAndPassword = user => {
     user.salt = User.generateSalt()
     user.password = User.encryptPassword(user.password, user.salt)
   }
+}
+
+const setAvatar = user => {
+  const avatarOptions = ['king', 'soldier', 'soldier2', 'soldier3', 'viking', 'wizard']
+  let avatarRandomIndex = Math.floor(Math.random() * avatarOptions.length)
+  let avatarChoice = avatarOptions[avatarRandomIndex]
+  user.avatar = `../assets/${avatarChoice}-avatar.png`
 }
 
 User.beforeCreate(setSaltAndPassword)
