@@ -10,18 +10,35 @@
     text-align: center;
     font-family: $title;
   }
+
+  p {
+  font-size: 2rem;
+  }
+
+  a {
+    color: $neutral-dark;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: $primary;
+  }
 }
 
 .section {
   background-color: $black-light;
   margin: 0.5rem;
   padding: 1rem;
+}
 
+.section-header {
   h2 {
     font-size: 3rem;
     text-align: center;
     font-family: $title;
-    border-bottom: 1px solid $neutral;
+    border-bottom: 1px solid #efdab9;
+    margin: 0 10rem;
+    padding: 2rem;
   }
 
   h3 {
@@ -29,19 +46,5 @@
     text-align: center;
     font-family: $title;
   }
-
 }
 
-p {
-  font-size: 2rem;
-}
-
-a {
-  // font-size: 2rem;
-  color: $neutral-dark;
-  text-decoration: none;
-}
-
-a:hover {
-  color: $primary;
-}
