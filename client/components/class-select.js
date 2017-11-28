@@ -55,6 +55,7 @@ const mapDispatch = (dispatch, ownProps) => {
     selectClass(e, user, playerClasses) {
       e.preventDefault();
       const selectedClass = e.target.classSelect.value;
+      if (!selectedClass) return;
       const newPlayerClasses = Object.assign({}, playerClasses, { [user]: selectedClass });
       firebase.ref(`/boards/${boardId}/state`).update({ playerClasses: newPlayerClasses });
       ownProps.history.push(`/boards/${boardId}`);
