@@ -32,6 +32,7 @@ const Sidebar = (props) => {
 
   const colors = ['#b3482e', '#6f9bc4', '#d5a149', '#83ada0', '#c7723d']
   const numOfPlayers = playerOrder.length;
+  const playerIndex = playerOrder.indexOf(user)
 
   return (
     <div className="sidebar-wrapper">
@@ -81,7 +82,7 @@ const Sidebar = (props) => {
           <h1>Current Phase: {currentPhase}</h1>
           {currentPhase === 'allotment' && (<h1>Allotment Left: {allotmentLeft}</h1>)}
           <div className="avatar">
-            <img src={avatar} />
+              <img src={avatar} style={ {background: colors[playerIndex]}} />
           </div>
 
           <div className="players">
