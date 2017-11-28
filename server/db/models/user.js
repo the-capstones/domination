@@ -65,7 +65,7 @@ const setAvatar = user => {
   const avatarOptions = ['king', 'soldier', 'soldier1', 'soldier2', 'viking', 'wizard']
   let avatarRandomIndex = Math.floor(Math.random() * avatarOptions.length)
   let avatarChoice = avatarOptions[avatarRandomIndex]
-  user.avatar = `../assets/${avatarChoice}-avatar.png`
+  user.avatar = `../assets/avatar/${avatarChoice}-avatar.png`
 }
 
 User.beforeCreate(setAvatar)
