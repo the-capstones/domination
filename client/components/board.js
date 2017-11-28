@@ -251,7 +251,7 @@ const mapDispatch = (dispatch, ownProps) => {
         firebase.ref(`/boards/${boardId}/hexes`).update(updatedHexObj);
         firebase.ref(`/boards/${boardId}/state`).update({ allotmentLeft: inputAllotmentLeft });
         if (inputAllotmentLeft === 0) {
-          changePhaseFunction(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId);
+          changePhaseFunction(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId, selectedHex);
           // highlightNeighbors(selectedHex, currentPlayer, hexagons);
         }
       }

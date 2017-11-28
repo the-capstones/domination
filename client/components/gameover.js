@@ -27,7 +27,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     hideGameOver() {
-      const screen = document.getElementsByClassName("gameover-wrapper")[0];
+      const screen = document.getElementsByClassName('gameover-wrapper')[0];
       screen.classList.add('hide');
     }
   }
