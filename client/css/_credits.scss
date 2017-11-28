@@ -4,37 +4,44 @@
   display: flex;
   background: $black;
   flex-direction: column;
-  padding: 0 2rem;
 
   h1 {
     font-size: 4rem;
     text-align: center;
     font-family: $title;
   }
+}
+
+.section {
+  background-color: $black-light;
+  margin: 0.5rem;
+  padding: 1rem;
 
   h2 {
     font-size: 3rem;
+    text-align: center;
     font-family: $title;
-    text-indent: 4rem;
+    border-bottom: 1px solid $neutral;
   }
 
   h3 {
-    font-size: 2.5rem;
-    font-family: $title;
-    text-indent: 4rem;
-  }
-
-  p {
     font-size: 2rem;
+    text-align: center;
+    font-family: $title;
   }
 
-  a {
-    // font-size: 2rem;
-    color: $neutral-dark;
-    text-decoration: none;
-  }
+}
 
-  a:hover {
-    color: $primary;
-  }
+p {
+  font-size: 2rem;
+}
+
+a {
+  // font-size: 2rem;
+  color: $neutral-dark;
+  text-decoration: none;
+}
+
+a:hover {
+  color: $primary;
 }
