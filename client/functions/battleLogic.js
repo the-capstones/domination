@@ -82,14 +82,14 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
   attackerDice.filter(container => {
     const label = container.getElementsByTagName('label');
     const roll = dieRoll(1);
-    label[0].innerHTML = roll;
+    label[0].innerHTML = "&#x268" + (roll - 1) + "; ";
     attackerRolls.push(roll);
   })
 
   defenderDice.filter(container => {
     const label = container.getElementsByTagName('label');
     const roll = dieRoll(1);
-    label[0].innerHTML = roll;
+    label[0].innerHTML = "&#x268" + (roll - 1) + "; ";
     defenderRolls.push(roll);
   })
 
