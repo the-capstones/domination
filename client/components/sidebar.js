@@ -18,6 +18,7 @@ const Sidebar = (props) => {
     status,
     hexagons,
     user,
+    avatar,
     currentPhase,
     currentPlayer,
     changePhase,
@@ -80,7 +81,7 @@ const Sidebar = (props) => {
           <h1>Current Phase: {currentPhase}</h1>
           {currentPhase === 'allotment' && (<h1>Allotment Left: {allotmentLeft}</h1>)}
           <div className="avatar">
-            <img src={user.avatar} />
+            <img src={avatar} />
           </div>
 
           <div className="players">
@@ -139,6 +140,7 @@ const mapState = (state) => {
 
   return {
     user: state.user.username,
+    avatar: state.user.avatar,
     isLoggedIn: !!state.user.id,
     hexagons: hexagons,
     inGame: state.inGame,
