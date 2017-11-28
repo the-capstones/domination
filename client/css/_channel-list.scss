@@ -37,6 +37,16 @@
   }
 }
 
+
+.channel.titles {
+  background: $neutral;
+  color: $black-light;
+
+  &:hover {
+    background: $neutral;
+  }
+}
+
 .channel:hover {
   background: $black-dark;
 }
