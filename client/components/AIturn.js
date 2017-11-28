@@ -1,8 +1,15 @@
+'use strict'
+/* eslint "guard-for-in": 0 */
+/* eslint "no-loop-func": 0 */
+
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import firebase from '../firebase'
+import { attackMatrix } from '../../artificial-intelligence/attackMatrixCreator'
 import { nextAllotment } from '../../artificial-intelligence/allotmentFunction'
+import { battleMatrix } from '../../artificial-intelligence/battleMatrix'
+import { rollDiceAndReturnMax } from '../../artificial-intelligence/genetic-algorithms/play'
 
 
 function AIturn(props) {
@@ -43,8 +50,11 @@ const mapDispatch = (dispatch, ownProps) => {
           allotment--
           console.log(`allotting to ${hexToAllotTo}`)
           console.log(`remaining allotment is ${allotment}`)
-          firebase.ref(`/boards/${boardId}/state`).update({ allotmentLeft: allotment })
-            .then(firebase.ref(`/boards/${boardId}/hexes/${hexToAllotTo}`).update({ unit1: newUnits }))
+          firebase.ref(`/boards/${boardId}/state`)
+            .update({ allotmentLeft: allotment })
+            .then(
+              firebase.ref(`/boards/${boardId}/hexes/${hexToAllotTo}`)
+                .update({ unit1: newUnits }))
             .then(() => {
               console.log('ALLOTED UNITS TO', hexesAllotedTo)
               return (
@@ -55,12 +65,70 @@ const mapDispatch = (dispatch, ownProps) => {
           return null
         }
       } else {
-        firebase.ref(`boards/${boardId}/state`).update({currentPhase: 'attack'})
+        firebase.ref(`boards/${boardId}/state`)
+          .update({ currentPhase: 'attack' })
       }
     },
 
-    attack() {
+    attack(board, id) {
       console.log('ATTACK')
+      let minChanceToWin = 0.51
+      let hexToAttack = ''
+      let hexToAttackFrom = ''
+      let playerAttackMatrix = attackMatrix(board, id)
+
+      for (const playableHex in playerAttackMatrix) {
+        playerAttackMatrix[playableHex].forEach(attackableHex => {
+          let attackUnits = board[playableHex].unit1
+          let defendUnits = board[attackableHex].unit1
+          let chanceToWin = battleMatrix[attackUnits][defendUnits].ChanceToWin
+
+          if (chanceToWin >= minChanceToWin) {
+            minChanceToWin = chanceToWin
+            hexToAttack = attackableHex
+            hexToAttackFrom = playableHex
+          }
+        })
+      }
+
+      if (hexToAttack) {
+        let defenderId = board[hexToAttack].playerId
+
+        while (board[hexToAttackFrom].unit1 > 1 && board[hexToAttack].unit1 > 0) {
+          let attackDiceRoll = rollDiceAndReturnMax(3)
+          let defendDiceRoll = rollDiceAndReturnMax(2)
+          console.log(`${hexToAttackFrom} ATTACKING ~~~~~~~~> ${hexToAttack}`)
+          console.log(`attacker rolled ${attackDiceRoll}`)
+          console.log(`defender rolled ${defendDiceRoll}`)
+
+          // let updatedHex = attackDiceRoll > defendDiceRoll
+          //   ? {[hexToAttack]: {unit1: board[hexToAttack].unit1 - 1}}
+          //   : {[hexToAttackFrom]: {unit1: board[hexToAttackFrom].unit1 - 1}}
+
+          let hexToUpdate = attackDiceRoll > defendDiceRoll
+            ? hexToAttack
+            : hexToAttackFrom
+
+          firebase.ref(`/boards/${boardId}/hexes/${hexToUpdate}`)
+            .update({unit1: board[hexToUpdate].unit1 - 1})
+            .then(() => {
+              if (board[hexToAttackFrom].unit1 === 1) return
+
+            })
+
+
+          if (!board[hexToAttack].unit1) {
+
+            board[hexToAttack].playerId = board[hexToAttackFrom].playerId
+            console.log(`${hexToAttack} now belongs to attacker!`)
+
+            let unitsToMove = board[hexToAttackFrom].unit1 - 1
+            board[hexToAttackFrom].unit1 -= unitsToMove
+            board[hexToAttack].unit1 += unitsToMove
+            return
+          }
+        }
+      }
     },
 
   }
@@ -68,14 +136,6 @@ const mapDispatch = (dispatch, ownProps) => {
 
 // let hexesOwned = Object.keys(playerHexes).length;
 // let allotment = Math.max(Math.floor(hexesOwned / TERRITORIES_PER_UNIT_ALLOTTED), 3)
-
-
-// while (allotment) {
-//   allot(player, board)
-//   allotment--
-//   console.log(`allotment remaining: ${allotment}`)
-//   console.log('--------------------------------------------')
-// }
 
 // // battle phase
 // let inBattle = true
