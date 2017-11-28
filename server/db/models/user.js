@@ -62,10 +62,10 @@ const setSaltAndPassword = user => {
 }
 
 const setAvatar = user => {
-  const avatarOptions = ['king', 'soldier', 'soldier1', 'soldier2', 'viking', 'wizard']
+  const avatarOptions = ['king', 'soldier', 'champion', 'commander', 'viking', 'wizard']
   let avatarRandomIndex = Math.floor(Math.random() * avatarOptions.length)
   let avatarChoice = avatarOptions[avatarRandomIndex]
-  user.avatar = `../assets/avatar/${avatarChoice}-avatar.png`
+  user.avatar = `../assets/avatar/${avatarChoice}.png`
 }
 
 User.beforeCreate(setAvatar)
