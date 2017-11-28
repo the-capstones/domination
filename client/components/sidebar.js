@@ -50,6 +50,7 @@ const Sidebar = (props) => {
                 <Link to="/">Home</Link>
                 <a href="#" onClick={handleClick}>Logout</a>
                 <Link to="/rules">Rules</Link>
+                <Link to="/credits">Credits</Link>
               </div>
               : <div>
                 <Link to="/login">Login</Link>
