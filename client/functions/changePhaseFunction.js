@@ -1,6 +1,6 @@
 'use strict'
 import firebase from '../firebase';
-import { calcAllotmentPoints, getCurrentPoints, removeAllHighlights } from '../functions';
+import { highlightNeighbors, calcAllotmentPoints, getCurrentPoints, removeAllHighlights } from '../functions';
 
 export function changePhaseFunction(
     inputCurrentPhase,
@@ -8,17 +8,16 @@ export function changePhaseFunction(
     inputPlayerOrder,
     inputAllotmentPointsPerTurn,
     inputHexagons,
-    inputBoardId
+    inputBoardId,
+    selectedHex,
   ) {
     console.log('changePhaseFunction has ran')
     removeAllHighlights()
     if (inputCurrentPhase === 'allotment') {
-      firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'attack', selectedHex: '' })
-        .then(() => {
-          const allGuis = document.getElementsByClassName('allotment-guis');
-          [...allGuis].forEach(gui => gui.classList.remove('show'));
-        });
-    } else if (inputCurrentPhase === 'attack'){
+      firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'attack' })
+      selectedHex && highlightNeighbors(selectedHex, inputCurrentPlayer, inputHexagons)
+    }
+    else if (inputCurrentPhase === 'attack'){
       firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'fortification', selectedHex: '' })
     }
     else if (inputCurrentPhase === 'fortification' ) {
@@ -35,7 +34,5 @@ export function changePhaseFunction(
       calcAllotmentPoints(inputBoardId, inputHexagons);
       const currentAllotment = getCurrentPoints(inputAllotmentPointsPerTurn, nextPlayer);
       firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPlayer: nextPlayer, allotmentLeft: currentAllotment, currentPhase: 'allotment', selectedHex: '' });
-      // firebase.ref(`/boards/${inputBoardId}/state`).update({ allotmentLeft: currentAllotment });
-      // firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'allotment' });
     }
   }
