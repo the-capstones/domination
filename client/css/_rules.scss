@@ -4,18 +4,23 @@
   display: flex;
   background: $black;
   flex-direction: column;
-  padding: 0 2rem;
+  padding: 3rem 10rem;
+
 
   h1 {
     font-size: 4rem;
     text-align: center;
     font-family: $title;
+    border-bottom: 1px solid $neutral;
+    padding-bottom: 2rem;
   }
 
   h2 {
     font-size: 3rem;
     font-family: $title;
     text-indent: 4rem;
+    border-bottom: 1px solid $neutral;
+    padding-bottom: 2rem;
   }
 
   h3 {

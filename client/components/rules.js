@@ -9,16 +9,16 @@ const Rules = () => {
 
       <br />
 
-      <p>Each of your turns consists of three steps, in this order:</p>
+      <p>Each turn has 3 phases</p>
       <ol>
-        <li>Getting and placing new armies.</li>
-        <li>Attacking, if you choose to, by rolling the dice.</li>
-        <li>Fortifying your position.</li>
+        <li><bold>Allotment</bold>: Place units on your territories.</li>
+        <li><bold>Attack</bold>: Attempt to takeover an enemy territory.</li>
+        <li><bold>Fortify</bold>: move units from your territory to another.</li>
       </ol>
 
       <br />
 
-      <h2>Getting and placing new armies</h2>
+      <h2>Allotment Phase</h2>
         <p>At the beginning of each turn, you are awarded new armies you’ll add to your territories based on the number of territories you occupy. Click on one of your territories to add an army to it.</p>
 
       <br />
