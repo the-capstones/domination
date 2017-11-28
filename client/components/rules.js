@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import '../css/_room.scss';
+import '../css/_rules.scss';
 
 const Rules = () => {
   return (
