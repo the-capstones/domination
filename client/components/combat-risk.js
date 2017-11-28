@@ -16,8 +16,13 @@ const CombatRisk = props => {
 
             <div className="option-container">
               <label>{attackerName}</label>
-              <button onClick={() => handleRoll(props)}>ROLL</button>
-              <button onClick={endCombat}>END COMBAT</button>
+              {
+                attackingUnits > 1
+                && defendingUnits > 0
+                && defenderName !== attackerName
+                && <button onClick={() => handleRoll(props)}>ROLL</button>
+              }
+              <button onClick={endCombat}>{(attackingUnits === 1 || defendingUnits === 0) ? 'CONTINUE' : 'END COMBAT'}</button>
             </div>
 
             <div className="unit-container">
@@ -91,16 +96,18 @@ const mapState = (state, ownProps) => {
   const attackingHexId = state.board.state.prevSelectedHex;
   const defendingHexId = state.board.state.selectedHex;
   const boardId = ownProps.match.params.boardId;
+  const attackingHex = hexes[attackingHexId];
+  const defendingHex = hexes[defendingHexId];
 
   return {
     boardId,
     hexes,
     defendingHexId,
     attackingHexId,
-    attackingUnits: hexes[attackingHexId].unit1,
-    defendingUnits: hexes[defendingHexId].unit1,
-    attackerName: hexes[attackingHexId].playerId,
-    defenderName: hexes[defendingHexId].playerId,
+    attackingUnits: attackingHex && hexes[attackingHexId].unit1,
+    defendingUnits: defendingHex && hexes[defendingHexId].unit1,
+    attackerName: attackingHex && hexes[attackingHexId].playerId,
+    defenderName: defendingHex && hexes[defendingHexId].playerId,
     playerOrder: state.board.state.playerOrder,
   }
 }

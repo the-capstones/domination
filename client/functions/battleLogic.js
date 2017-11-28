@@ -104,13 +104,13 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
     defenderLost
     && takeOverSpace(boardId, hexes, attackingHexId, defendingHexId, attackingUnits - 1, playerOrder)
     && updateUnits(boardId, attackingHexId, 1)
-    && endCombat(attackingHexId)
+    // && endCombat(attackingHexId)
   } else {
     updateUnits(boardId, attackingHexId, attackingUnits - 1);
     displayResult(defenderName, attackerName, 'unit')
 
-    const enoughAttackingUnits = attackingUnits - 1 > 1;
-    !enoughAttackingUnits && endCombat(attackingHexId);
+    // const enoughAttackingUnits = attackingUnits - 1 > 1;
+    // !enoughAttackingUnits && endCombat(attackingHexId);
   }
 }
 

@@ -14,8 +14,7 @@ export function changePhaseFunction(
     console.log('changePhaseFunction has ran')
     removeAllHighlights()
     if (inputCurrentPhase === 'allotment') {
-      firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'attack' })
-      selectedHex && highlightNeighbors(selectedHex, inputCurrentPlayer, inputHexagons)
+      firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'attack', selectedHex: '' })
     }
     else if (inputCurrentPhase === 'attack'){
       firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'fortification', selectedHex: '' })
