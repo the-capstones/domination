@@ -106,6 +106,10 @@ nav {
     background: $black-light;
   }
 
+  tr {
+    height: 4rem;
+  }
+
   tr > th:nth-child(1) {
     width: 20%;
   }
@@ -145,4 +149,22 @@ nav {
     background: $primary;
     color: white;
   }
+}
+
+.current-state-info {
+
+  h1 {
+    margin: 2rem 0 0 0;
+  }
+
+  p {
+    font-size: 2rem;
+    text-align: center;
+    margin: 0;
+  }
+
+}
+
+.sidebar-icon {
+  width: 75%;
 }

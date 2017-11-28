@@ -37,6 +37,10 @@ body {
     color: $neutral;
     background: $primary;
   }
+
+  input {
+    border-radius: 5px;
+  }
 }
 
 .main-wrapper {
