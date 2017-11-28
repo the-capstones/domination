@@ -31,6 +31,11 @@ const Sidebar = (props) => {
 
   const colors = ['#b3482e', '#6f9bc4', '#d5a149', '#83ada0', '#c7723d']
   const numOfPlayers = playerOrder.length;
+  const icons = {
+    'allotment': 'knight',
+    'attack': 'swords',
+    'fortification': 'castle'
+  };
 
   return (
     <div className="sidebar-wrapper">
@@ -65,20 +70,22 @@ const Sidebar = (props) => {
 
       {boardId && !playerOrder.includes(user) &&
         (<h1>SPECTATOR MODE</h1>)}
-        {
-          //logic to switch phases if the player can no longer attack
-          boardId
-          && status !== 'waiting'
-          && currentPlayer === user
-          && currentPhase === 'attack'
-          && attacksLeft === 0
-          && changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId)
-        }
+      {
+        //logic to switch phases if the player can no longer attack
+        boardId
+        && status !== 'waiting'
+        && currentPlayer === user
+        && currentPhase === 'attack'
+        && attacksLeft === 0
+        && changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId)
+      }
       {boardId
         && (<div>
-          <h1>Current Player: {currentPlayer}</h1>
-          <h1>Current Phase: {currentPhase}</h1>
-          {currentPhase === 'allotment' && (<h1>Allotment Left: {allotmentLeft}</h1>)}
+          <div className="current-state-info">
+            {/*<h1>Current Player</h1><br /><p>{currentPlayer}</p>
+        <h1>Current Phase</h1><br /><p>{currentPhase}</p>*/}
+            {currentPhase === 'allotment' && (<div><h1>Allotment Points</h1><br /><p>{allotmentLeft}</p></div>)}
+          </div>
           <div className="avatar">
             <img src="../assets/wizard-avatar.jpg" />
           </div>
@@ -94,7 +101,12 @@ const Sidebar = (props) => {
                 { /*<i className="fa fa-arrow-right" aria-hidden="true"></i>*/
                   playerOrder.map((player, i) => (
                     <tr key={i}>
-                      <td className="playerColorSidebar" style={{ background: colors[i] }}></td>
+                      <td className="playerColorSidebar" style={{ background: colors[i] }}>
+                      {
+                        player === currentPlayer
+                        && <img className="sidebar-icon" src={`../assets/${icons[currentPhase]}.svg`} />
+                      }
+                      </td>
                       <td>{player}</td>
                     </tr>
                   ))
