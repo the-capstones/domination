@@ -11,10 +11,10 @@ const calcHexesOwned = (hexes) => {
   return players;
 }
 
-export const calcAllotmentPoints = (boardId, hexes, allotmentRate) => {
+export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3) => {
   const hexesOwned = calcHexesOwned(hexes);
   const allotmentPointsPerTurn = {};
-  const ALLOTMENT_RATE = 1 / allotmentRate || 0.3; // = 0.0833; // 1/12 || 1 per 12 owned
+  const ALLOTMENT_RATE = 1 / allotmentRate;
 
   for (let player in hexesOwned) {
     if (!!player) {
