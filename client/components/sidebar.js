@@ -117,7 +117,14 @@ const Sidebar = (props) => {
                         && <img className="sidebar-icon" src={`../assets/${icons[currentPhase]}.svg`} />
                       }
                       </td>
-                      <td>{player}</td>
+                      <td className="playerNameSidebar">
+                      {
+                        player.startsWith('AI-') && <img src='../assets/robot.svg' />
+                      }
+                      {
+                        player.startsWith('AI-') ? player.slice(3) : player
+                      }
+                      </td>
                     </tr>
                   ))
                 }
