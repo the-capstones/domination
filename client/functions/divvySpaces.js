@@ -2,11 +2,12 @@ import firebase from '../firebase';
 import { validBoardCheck, spriteGenerator } from './';
 
 const PERCENT_DISABLED = .20;
-const AMOUNT_OF_LANDMARKS = 6;
+let AMOUNT_OF_LANDMARKS = 6;
 
-export const divvySpaces = (playerOrder, hexes, boardId, amountVoid) => {
+export const divvySpaces = (playerOrder, hexes, boardId, amountVoid, amountLandmark) => {
   let validBoard = false;
   let percentVoid = amountVoid || PERCENT_DISABLED;
+  AMOUNT_OF_LANDMARKS = amountLandmark || AMOUNT_OF_LANDMARKS;
 
   while (!validBoard) {
     const players = ['', ...playerOrder];

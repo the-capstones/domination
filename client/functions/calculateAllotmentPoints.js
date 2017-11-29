@@ -11,14 +11,49 @@ const calcHexesOwned = (hexes) => {
   return players;
 }
 
-export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3) => {
+const landmarksOwned = (hexes) => {
+  const playersLandmarks = {};
+  const landmarks = [
+    'medieval_archery',
+    'medieval_archway',
+    'medieval_blacksmith',
+    'medieval_cabin',
+    'medieval_church',
+    'medieval_farm',
+    'medieval_house',
+    'medieval_largeCastle',
+    'medieval_lumber',
+    'medieval_mine',
+    'medieval_openCastle',
+    'medieval_ruins',
+    'medieval_smallCastle',
+    'medieval_tower',
+    'medieval_windmill'
+  ];
+
+  for (let key in hexes) {
+    const hexValue = hexes[key];
+    const playerId = hexValue.playerId;
+    const tileType = hexValue.tile;
+
+    if (landmarks.indexOf(tileType) !== -1) {
+      if (!playersLandmarks[playerId]) playersLandmarks[playerId] = 0;
+      playersLandmarks[playerId] += 1;
+    }
+  }
+
+  return playersLandmarks;
+}
+
+export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3, landmarkValue = 0) => {
+  const playerLandmarks = landmarksOwned(hexes)
   const hexesOwned = calcHexesOwned(hexes);
   const allotmentPointsPerTurn = {};
   const ALLOTMENT_RATE = 1 / allotmentRate;
 
   for (let player in hexesOwned) {
     if (!!player) {
-      allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * ALLOTMENT_RATE);
+      allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * ALLOTMENT_RATE) + (playerLandmarks[player] * landmarkValue);
     }
   }
   firebase.ref(`/boards/${boardId}/state`).update({ allotmentPointsPerTurn })

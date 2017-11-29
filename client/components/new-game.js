@@ -78,14 +78,48 @@ const NewGame = (props) => {
               <option value={9} >9</option>
               <option value={8} >8</option>
               <option value={7} >7</option>
+              <option value={6} >6</option>
               <option value={5} >5</option>
               <option value={4} >4</option>
               <option value={3} >3</option>
-              <option value={6} >6</option>
               <option value={2} >2</option>
               <option value={1} >1</option>
             </select>
             <label><small> territories owned.</small></label>
+          </div>
+
+          <div>
+            <label htmlFor="landmarksFreq"><small>Landmark frequency: </small></label>
+            <select name="landmarksFreq">
+              <option value={0} >Off</option>
+              <option value={1} >1</option>
+              <option value={2} >2</option>
+              <option value={3} >3</option>
+              <option value={4} >4</option>
+              <option value={5} >5</option>
+              <option value={6} >6</option>
+              <option value={7} >7</option>
+              <option value={8} >8</option>
+              <option value={9} >9</option>
+              <option value={10} >10</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="landmarksValue"><small>Landmark bonus amount: </small></label>
+            <select name="landmarksValue">
+              <option value={0} >0</option>
+              <option value={1} >1</option>
+              <option value={2} >2</option>
+              <option value={3} >3</option>
+              <option value={4} >4</option>
+              <option value={5} >5</option>
+              <option value={6} >6</option>
+              <option value={7} >7</option>
+              <option value={8} >8</option>
+              <option value={9} >9</option>
+              <option value={10} >10</option>
+            </select>
           </div>
         </div>
 
@@ -97,12 +131,17 @@ const NewGame = (props) => {
   )
 }
 
-const mapState = state => ({ user: state.user })
+const mapState = state => ({
+  user: state.user,
+  landmarksOn: state.landmarksOn
+})
 
 const mapDispatch = (dispatch, ownProps) => {
   return {
     handleSubmit(evt, user) {
       evt.preventDefault();
+      const landmarksFreq = evt.target.landmarksFreq.value;
+      const landmarksValue = evt.target.landmarksValue.value;
       const boardName = evt.target.boardName.value;
       const humanPlayers = evt.target.maxPlayers.value;
       const AIPlayers = evt.target.AIPlayers.value || 0;
@@ -142,6 +181,8 @@ const mapDispatch = (dispatch, ownProps) => {
         selectedHex: '',
         prevSelectedHex: '',
         playerClasses: {},
+        landmarksFreq: landmarksFreq,
+        landmarksValue: landmarksValue,
       }
 
       const board = { hexes, state, boardName, maxPlayers }
