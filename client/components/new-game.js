@@ -24,6 +24,10 @@ const NewGame = (props) => {
           <label htmlFor="maxPlayers"><small>Number of Players:</small></label>
           <input name="maxPlayers" type="number" defaultValue="2" min="2" max="5" />
         </div>
+        <div className="max-players">
+          <label htmlFor="AIPlayers"><small>Number of AI Players:</small></label>
+          <input name="AIPlayers" type="number" defaultValue="0" min="0" max="4" />
+        </div>
         <div className="gameSettings">
           <div>
             <label htmlFor="boardSize"><small>Board size:</small></label>
@@ -58,6 +62,9 @@ const mapDispatch = (dispatch, ownProps) => {
       evt.preventDefault();
       const boardName = evt.target.boardName.value;
       const maxPlayers = evt.target.maxPlayers.value || 2;
+      const AIPlayers = evt.target.AIPlayers.value || 0;
+      const AIPlayerNames = ['AI-Zero', 'AI-Eleven', 'AI-FortyTwo', 'AI-TwoThousand']
+      let playerOrder = [user.username].concat(AIPlayerNames.slice(0, AIPlayers))
       let boardSize = evt.target.boardSize.value;
       const boardConfig = configs[boardSize]
       const percentVoidSpaces = evt.target.percentVoidSpaces.value / 100;
@@ -78,7 +85,7 @@ const mapDispatch = (dispatch, ownProps) => {
       const state = {
         currentPhase: 'allotment', // or whatever default state 'start' should be default for distribution
         currentPlayer: user.username, // default 1st player
-        playerOrder: [user.username], // array of all players in order of turn
+        playerOrder: playerOrder, // array of all players in order of turn
         allotmentPointsPerTurn: { [user.username]: 3 }, //obj of points(val) per player(key) per turn
         allotmentLeft: 3,
         percentVoidSpaces: percentVoidSpaces,
