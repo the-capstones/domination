@@ -22,7 +22,13 @@ const NewGame = (props) => {
         </div>
         <div className="max-players">
           <label htmlFor="maxPlayers"><small>Number of Players:</small></label>
-          <input name="maxPlayers" type="number" defaultValue="2" min="2" max="5" />
+          <select name="maxPlayers">
+            <option value={2} >2</option>
+            <option value={3} >3</option>
+            <option value={4} >4</option>
+            <option value={5} >5</option>
+          </select>
+
         </div>
         <div className="gameSettings">
           <div>
@@ -37,7 +43,19 @@ const NewGame = (props) => {
           </div>
           <div>
             <label htmlFor="percentVoid"><small>Void spaces:</small></label>
-            <input name="percentVoidSpaces" type="number" min="0" max="50" defaultValue="20" />
+            <select name="percentVoidSpaces">
+              <option value={0} >0</option>
+              <option value={5} >5</option>
+              <option value={10} >10</option>
+              <option value={15} >15</option>
+              <option value={20} >20</option>
+              <option value={25} >25</option>
+              <option value={30} >30</option>
+              <option value={35} >35</option>
+              <option value={40} >40</option>
+              <option value={45} >45</option>
+              <option value={50} >50</option>
+            </select>
             <label><small> %</small></label>
           </div>
         </div>
