@@ -38,16 +38,23 @@
   }
 
 
-  #waiting-room {
-    width: 75vw;
-    height: 75vh;
-    background: $neutral;
-    color: $black;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-  }
+}
 
+#waiting-room {
+  width: 75vw;
+  height: 75vh;
+  background: $neutral;
+  color: $black;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  .waiting-room-content {
+    display: flex;
+    flex-direction: center;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .max-players {
@@ -109,3 +116,4 @@
     }
   }
 }
+
