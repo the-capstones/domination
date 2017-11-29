@@ -22,15 +22,25 @@ const NewGame = (props) => {
         </div>
         <div className="gameSettings">
         <div className="max-players">
-          <label htmlFor="maxPlayers"><small>Number of Players:</small></label>
+          <label htmlFor="maxPlayers"><small>Number of Human Players:</small></label>
           <select name="maxPlayers">
+            <option value={1} >1</option>
             <option value={2} >2</option>
             <option value={3} >3</option>
             <option value={4} >4</option>
             <option value={5} >5</option>
           </select>
-
         </div>
+        <div className="max-players">
+        <label htmlFor="AIPlayers"><small>Number of AI Players:</small></label>
+        <select name="AIPlayers">
+          <option value={0} >0</option>
+          <option value={1} >1</option>
+          <option value={2} >2</option>
+          <option value={3} >3</option>
+          <option value={4} >4</option>
+        </select>
+      </div>
           <div>
             <label htmlFor="boardSize"><small>Board size:</small></label>
             <select name="boardSize">
@@ -133,7 +143,11 @@ const mapDispatch = (dispatch, ownProps) => {
       const landmarksFreq = evt.target.landmarksFreq.value;
       const landmarksValue = evt.target.landmarksValue.value;
       const boardName = evt.target.boardName.value;
-      const maxPlayers = evt.target.maxPlayers.value || 2;
+      const humanPlayers = evt.target.maxPlayers.value;
+      const AIPlayers = evt.target.AIPlayers.value || 0;
+      const maxPlayers = (+AIPlayers + +humanPlayers) || 2
+      const AIPlayerNames = ['AI-Zero', 'AI-Eleven', 'AI-FortyTwo', 'AI-TwoThousand']
+      let playerOrder = [user.username].concat(AIPlayerNames.slice(0, AIPlayers))
       let boardSize = evt.target.boardSize.value;
       const boardConfig = configs[boardSize]
       const percentVoid = evt.target.percentVoid.value / 100;
@@ -155,7 +169,7 @@ const mapDispatch = (dispatch, ownProps) => {
       const state = {
         currentPhase: 'allotment', // or whatever default state 'start' should be default for distribution
         currentPlayer: user.username, // default 1st player
-        playerOrder: [user.username], // array of all players in order of turn
+        playerOrder: playerOrder, // array of all players in order of turn
         allotmentRate: allotmentRate,
         allotmentPointsPerTurn: { [user.username]: 3 }, //obj of points(val) per player(key) per turn
         allotmentLeft: 3,
