@@ -22,15 +22,15 @@ const PhaseModal = props => {
         {phase === 'ATTACK' &&
           (
             <div>
-              <p>Click on the territory from which you'd like to attack. Attackable hexes will then be highlighted in red. Then, click on the hex you' like to attack and roll the dice.</p>
-              <p>(You have to have at lest 2 units on a territory to attack.)</p>
+              <p>Click on the territory from which you're attacking. Attackable hexes will then be highlighted in red. Then, click on the hex you want to attack and roll the dice.</p>
+              <p>(You must have at lest 2 units on a territory to attack.)</p>
             </div>
           )
         }
         {phase === 'FORTIFICATION' &&
           (
             <div>
-              <p>At the end of your turn, you can move units from any one of your hexes to a neighboring hex that you own. This will move all but 1 units from the starting hex. Click on the hex you'd like to move your units from, and then the hex you'd like to move them to.</p>
+              <p>At the end of your turn, you can move units from any one of your hexes to a neighboring hex that you own. This will move all but 1 unit from the starting hex. Click on the hex you'd like to move your units from, and then the hex you'd like to move them to.</p>
             </div>
           )
         }
