@@ -22,8 +22,9 @@ const NewGame = (props) => {
         </div>
         <div className="gameSettings">
         <div className="max-players">
-          <label htmlFor="maxPlayers"><small>Number of Players:</small></label>
+          <label htmlFor="maxPlayers"><small>Number of Human Players:</small></label>
           <select name="maxPlayers">
+            <option value={1} >1</option>
             <option value={2} >2</option>
             <option value={3} >3</option>
             <option value={4} >4</option>
@@ -103,8 +104,9 @@ const mapDispatch = (dispatch, ownProps) => {
     handleSubmit(evt, user) {
       evt.preventDefault();
       const boardName = evt.target.boardName.value;
-      const maxPlayers = evt.target.maxPlayers.value || 2;
+      const humanPlayers = evt.target.maxPlayers.value;
       const AIPlayers = evt.target.AIPlayers.value || 0;
+      const maxPlayers = (+AIPlayers + +humanPlayers) || 2
       const AIPlayerNames = ['AI-Zero', 'AI-Eleven', 'AI-FortyTwo', 'AI-TwoThousand']
       let playerOrder = [user.username].concat(AIPlayerNames.slice(0, AIPlayers))
       let boardSize = evt.target.boardSize.value;
