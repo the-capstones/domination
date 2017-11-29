@@ -304,8 +304,8 @@ function biggestChangeInProduct(allHexesObj, startingHex, moveArray, artIntelpla
             const closestEnemyResult2 = closestEnemy(allHexesObj, startingHex, artIntelplayerId)
             const hexDistanceResult2 = hexDistance(startingHex, closestEnemyResult2)
             const unitsWhoCanMove = maxUnitsToFit
-            newProduct = unitsWhoCanMove * hexDistanceResult1 + (maxUnitsToMoveStart - maxUnitsToFit) * hexDistanceResult2
-            newChangeInProduct = startingProduct - newProduct
+            let newProduct = unitsWhoCanMove * hexDistanceResult1 + (maxUnitsToMoveStart - maxUnitsToFit) * hexDistanceResult2
+            let newChangeInProduct = startingProduct - newProduct
             if (newChangeInProduct > changeInProduct) {
                 changeInProduct = newChangeInProduct
                 bestHexToMoveTo = endHex
