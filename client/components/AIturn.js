@@ -7,6 +7,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import firebase from '../firebase'
+import { changePhaseFunction } from '../functions'
 import {
   bestMove,
   findPlayerStrengthQuotient,
@@ -18,13 +19,23 @@ import {
 
 
 function AIturn(props) {
-  const { phase, id, board, allotment, allot, attack, fortify } = props
+  const {
+    phase,
+    id,
+    board,
+    allotment,
+    allotmentPointsPerTurn,
+    playerOrder,
+    allot,
+    attack,
+    fortify } = props
+
   return (
     <div id="ai-turn">
       <h1> Zero's turn!</h1>
       {phase === 'allotment' && allot(allotment, board, id)}
       {phase === 'attack' && attack(board, id)}
-      {phase === 'fortification' && fortify(board, id)}
+      {phase === 'fortification' && fortify(board, id, playerOrder, allotmentPointsPerTurn)}
     </div>
   )
 }
@@ -35,7 +46,9 @@ const mapState = state => {
     id: state.board.state.currentPlayer,
     phase: state.board.state.currentPhase,
     // playerHexes: Object.keys(state.board.hexes).filter(hex => state.board[hex].playerId === id),
-    allotment: state.board.state.allotmentLeft
+    allotment: state.board.state.allotmentLeft,
+    playerOrder: state.board.state.playerOrder,
+    allotmentPointsPerTurn: state.board.state.allotmentPointsPerTurn
 
   }
 }
@@ -151,60 +164,36 @@ const mapDispatch = (dispatch, ownProps) => {
           //  update defending with new units & playerId
           firebase.ref(`/boards/${boardId}/hexes/${hexToUpdate}`)
             .update(update)
-            .then(() => {
-              console.log(`${hexToAttack} now belongs to attacker!`)
-              console.log(`${hexToAttackFrom} now has ${attackUnits} units!`)
-            })
-          console.log('test2')
         }
       } else {
         console.log('no hexes to attack')
-        firebase.ref(`boards/${boardId}/state`)
-          .update({ currentPhase: 'fortification' })
+        firebase.ref(`boards/${boardId}/state`).update({ currentPhase: 'fortification' })
       }
     },
 
-    fortify() {
-
+    fortify(board, id, playerOrder, allotmentPointsPerTurn) {
+      let bestOption = bestMove(board, id)
+      if (bestOption) {
+        let fromHex = bestOption[0]
+        let toHex = bestOption[1]
+        let startingHexUnits = board[fromHex].unit1
+        let endingHexUnits = board[toHex].unit1
+        let unitsToMove = Math.min(startingHexUnits - 1, 15 - endingHexUnits)
+        let fromHexUnits = board[fromHex].unit1 - unitsToMove
+        let toHexUnits = board[toHex].unit1 + unitsToMove
+        firebase.ref(`boards/${boardId}/hexes`).update({ [fromHex]: fromHexUnits, [toHex]: toHexUnits })
+          .then(() => {
+            console.log(`moved ${unitsToMove} from ${fromHex} to ${toHex}`)
+            // firebase.ref(`boards/${boardId}/state`)
+          })
+        console.log('FORTIFIED')
+      } else {
+        console.log('No valid fortification moves available.')
+      }
+      changePhaseFunction('fortification', 'Zero', playerOrder, allotmentPointsPerTurn, board, boardId)
     }
   }
 }
-
-// let hexesOwned = Object.keys(playerHexes).length;
-// let allotment = Math.max(Math.floor(hexesOwned / TERRITORIES_PER_UNIT_ALLOTTED), 3)
-
-// // battle phase
-// let inBattle = true
-// console.log('************* BEGINNING BATTLE *************')
-
-// while (inBattle) {
-//   let [hexToAttackFrom, hexToAttack] = chooseAttack(board, player)
-
-//   if (hexToAttack) {
-//     let defenderId = board[hexToAttack].playerId
-//     battle(hexToAttackFrom, hexToAttack, board)
-
-//     console.log('ATTACKED PLAYER', defenderId)
-//     let defenderTerritories = hasTerritories(board, defenderId)
-//     if (!defenderTerritories) {
-//       console.log(`PLAYER ${defenderId} LOST`)
-//       let playerLost = players.find(player => player.id === defenderId)
-//       playerLost.rank = gameRank;
-//       gameRank--
-//     }
-//   }
-
-//   if (!hexToAttack) {
-//     console.log('NO ADVANTAGEOUS ATTACK MOVES TO MAKE')
-//     inBattle = false
-//   }
-// }
-
-// // fortification phase
-// console.log('**************** FORTIFYING ****************')
-// fortify(board, id)
-//         }
-
 
 let AIturnContainer = withRouter(connect(mapState, mapDispatch)(AIturn))
 export default AIturnContainer

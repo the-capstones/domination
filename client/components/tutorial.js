@@ -57,7 +57,7 @@ const mapDispatch = (dispatch, ownProps) => {
         currentPhase: 'allotment', // or whatever default state 'start' should be default for distribution
         currentPlayer: user.username, // default 1st player
         playerOrder: [user.username, 'Zero'], // array of all players in order of turn
-        allotmentPointsPerTurn: { [user.username]: 3 }, //obj of points(val) per player(key) per turn
+        allotmentPointsPerTurn: { [user.username]: 3, Zero: 3 }, //obj of points(val) per player(key) per turn
         allotmentLeft: 3,
         boardLayout: boardConfig,
         hexagons,

@@ -312,7 +312,7 @@ let start = Date.now()
 // play(p1, p2, p3, p4)
 let end = Date.now()
 
-console.log(`Game ran in ${end - start} ms.`)
-console.log(`Game ran in ${(end - start / 1000) / 60} mins.`)
+// console.log(`Game ran in ${end - start} ms.`)
+// console.log(`Game ran in ${(end - start) / 1000 / 60} mins.`)
 
 module.exports = { shufflePlayerOrder, play, rollDiceAndReturnMax }
