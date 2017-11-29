@@ -67,7 +67,8 @@ class Board extends Component {
         {status === 'tutorial' && turn1 && user.username === currentPlayer && <PhaseModal phase={currentPhase} />}
         {status === 'tutorial' && user.username !== currentPlayer && turn1-- && '' }
         {status === 'tutorial' && user.username !== currentPlayer && <AIturn />}
-
+        {status === 'playing'  && currentPlayer.startsWith('AI-') && <AIturn />}
+        
         <HexGrid width={boardLayout.width} height={boardLayout.height}>
           <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={boardLayout.origin}>
             {
