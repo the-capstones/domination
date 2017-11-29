@@ -86,8 +86,13 @@ nav {
   margin: 2rem 0;
 
   img {
-    width: 50%;
+    width: 65%;
     border-radius: 50%;
+  }
+
+  button {
+    width: 100%;
+    padding: 1rem;
   }
 }
 
@@ -104,6 +109,10 @@ nav {
 
   tbody > tr:nth-child(even) {
     background: $black-light;
+  }
+
+  tr {
+    height: 4rem;
   }
 
   tr > th:nth-child(1) {
@@ -145,4 +154,22 @@ nav {
     background: $primary;
     color: white;
   }
+}
+
+.current-state-info {
+
+  h1 {
+    margin: 2rem 0 0 0;
+  }
+
+  p {
+    font-size: 2rem;
+    text-align: center;
+    margin: 0;
+  }
+
+}
+
+.sidebar-icon {
+  width: 75%;
 }

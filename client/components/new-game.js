@@ -20,13 +20,12 @@ const NewGame = (props) => {
           <label htmlFor="boardName"><small>Game Room Name</small></label>
           <input name="boardName" type="text" />
         </div>
-        <div>
-          <label htmlFor="maxPlayers"><small>Max # of Players</small></label>
-          <input name="maxPlayers" type="text" />
+        <div className="max-players">
+          <label htmlFor="maxPlayers"><small>Number of Players:</small></label>
+          <input name="maxPlayers" type="number" defaultValue="2" min="2" max="5" />
         </div>
-        <div>Select game settings</div>
-
-          <div className="gameSettings">
+        <div className="gameSettings">
+          <div>
             <label htmlFor="boardSize"><small>Board size:</small></label>
             <select name="boardSize">
               <option value={'rectangle-small'} >Small</option>
@@ -35,10 +34,13 @@ const NewGame = (props) => {
               <option value={'rectangle-epic'} >Epic</option>
               <option value={'hexagon'} >Hexagon</option>
             </select>
-
-            <label htmlFor="percentVoid"><small>Percentage of void spaces:</small></label>
-            <input name="percentVoidSpaces" type="number" min="0" max="90" />
           </div>
+          <div>
+            <label htmlFor="percentVoid"><small>Void spaces:</small></label>
+            <input name="percentVoidSpaces" type="number" min="0" max="90" defaultValue="20" />
+            <label><small> %</small></label>
+          </div>
+        </div>
 
         <div>
           <button type="submit">Start Game</button>
@@ -85,7 +87,8 @@ const mapDispatch = (dispatch, ownProps) => {
         gameSettings: 'default', // array/obj of game settings TBD
         status: 'waiting',
         selectedHex: '',
-        prevSelectedHex: ''
+        prevSelectedHex: '',
+        playerClasses: {},
       }
 
       const board = { hexes, state, boardName, maxPlayers }

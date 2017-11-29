@@ -21,8 +21,8 @@ async function seed () {
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123', username: 'cody'}),
     User.create({email: 'murphy@email.com', password: '123',  username: 'murphy'}),
-    User.create({email: 'bre@bre.com', password: '123',  username: 'BreAnna'}),
-    User.create({email: 'christian@gmail.com', password: '123',  username: 'Christian'}),
+    User.create({email: 'zeke@zeke.zeke', password: '123',  username: 'Zeke'}),
+    User.create({email: 'zach@zach.zach', password: '666',  username: 'Zachary'}),
 
   ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator

@@ -13,7 +13,12 @@ const ChannelList = (props) => {
   return (
     <div className="channel-list-wrapper">
       <div className="channel-list">
-
+        <div className="channel titles">
+          <p>Created By</p>
+          <p>Game Name</p>
+          <p>Max Players</p>
+          <p></p>
+        </div>
         {
           allBoards && Object.entries(allBoards)
             .filter(board => {
@@ -32,9 +37,9 @@ const ChannelList = (props) => {
 
               return (
                 <div key={i} className="channel">
-                  <p>Created by: {creator}</p>
-                  <p>Name: {boardName || 'Untitled'}</p>
-                  <p>Players: {amountOfCurrentPlayers}/{maxPlayers}</p>
+                  <p>{creator}</p>
+                  <p>{boardName || 'Untitled'}</p>
+                  <p>{amountOfCurrentPlayers}/{maxPlayers}</p>
                   <button onClick={() => joinGame(boardId, user)}>Join Game</button>
                 </div>
               )

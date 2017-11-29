@@ -17,3 +17,5 @@ export { default as GameOver } from './gameover';
 export { default as Tutorial } from './tutorial';
 export { default as PhaseModal } from './phase-modal';
 export { default as AIturn } from './AIturn';
+export { default as ClassSelect } from './class-select';
+export { default as Rules } from './rules';
