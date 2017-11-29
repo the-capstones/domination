@@ -28,14 +28,16 @@ function AIturn(props) {
     playerOrder,
     allot,
     attack,
-    fortify } = props
+    fortify,
+    currentPlayer,
+   } = props
 
   return (
     <div id="ai-turn">
       <h1> Zero's turn!</h1>
       {phase === 'allotment' && allot(allotment, board, id)}
-      {phase === 'attack' && attack(board, id)}
-      {phase === 'fortification' && fortify(board, id, playerOrder, allotmentPointsPerTurn)}
+      {phase === 'attack' && attack(board, id, currentPlayer)}
+      {phase === 'fortification' && fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer)}
     </div>
   )
 }
@@ -48,7 +50,8 @@ const mapState = state => {
     // playerHexes: Object.keys(state.board.hexes).filter(hex => state.board[hex].playerId === id),
     allotment: state.board.state.allotmentLeft,
     playerOrder: state.board.state.playerOrder,
-    allotmentPointsPerTurn: state.board.state.allotmentPointsPerTurn
+    allotmentPointsPerTurn: state.board.state.allotmentPointsPerTurn,
+    currentPlayer: state.board.state.currentPlayer
 
   }
 }
@@ -56,7 +59,7 @@ const mapState = state => {
 const mapDispatch = (dispatch, ownProps) => {
   let boardId = ownProps.match.params.boardId
   let hexesAllotedTo = []
-
+  
   return {
 
     allot(allotment, board, id) {
@@ -84,7 +87,7 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
 
-    attack(board, id) {
+    attack(board, id, currentPlayer) {
       console.log('ATTACK')
       let minChanceToWin = 0.40
       let hexToAttack = ''
@@ -149,7 +152,7 @@ const mapDispatch = (dispatch, ownProps) => {
             // territory will get updated with attacking units - 1
             newUnits = attackUnits - 1
             // update `update` object with moving units & AI playerId
-            update = ({ unit1: newUnits, playerId: 'Zero' })
+            update = ({ unit1: newUnits, playerId: currentPlayer })
             console.log('update is', update)
             // attacking hex only has one unit now
             firebase.ref(`/boards/${boardId}/hexes/${hexToAttackFrom}`).update({ unit1: 1 })
@@ -171,7 +174,7 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
 
-    fortify(board, id, playerOrder, allotmentPointsPerTurn) {
+    fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer) {
       let bestOption = bestMove(board, id)
       if (bestOption) {
         let fromHex = bestOption[0]
@@ -190,7 +193,7 @@ const mapDispatch = (dispatch, ownProps) => {
       } else {
         console.log('No valid fortification moves available.')
       }
-      changePhaseFunction('fortification', 'Zero', playerOrder, allotmentPointsPerTurn, board, boardId)
+      changePhaseFunction('fortification', currentPlayer, playerOrder, allotmentPointsPerTurn, board, boardId)
     }
   }
 }
