@@ -1,0 +1,113 @@
+@import './_variables.scss';
+
+.credits-wrapper {
+  display: flex;
+  background: $black;
+  flex-direction: column;
+
+  h1 {
+    font-size: 4rem;
+    text-align: center;
+    font-family: $title;
+  }
+
+  p {
+  font-size: 2rem;
+  }
+
+  a {
+    color: $neutral-dark;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: $primary;
+  }
+}
+
+.about-us {
+  margin: 3rem 20rem;
+}
+
+.credits-section-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-basis: 40%;
+  background-color: $black-light;
+  border: 1px solid $neutral;
+  border-radius: 5px;
+  margin: 5rem 0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+  img {
+    width: 150px;
+    margin: 2rem;
+  }
+
+  h2 {
+    font-size: 3rem;
+    text-align: center;
+    font-family: $title;
+    border-bottom: 1px solid $neutral;
+    margin: 2rem 10rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+    text-align: center;
+    font-family: $title;
+  }
+
+  a, i, a:link {
+    font-size: 3rem;
+    color: $black;
+  }
+
+  i {
+    margin: 0 2rem;
+  }
+
+  a:hover, i:hover {
+    color: $neutral;
+  }
+
+}
+
+.bg-blue,
+.bg-red,
+.bg-green,
+.bg-yellow {
+  width: 100%;
+}
+
+.bg-blue {
+  background: $player-blue;
+}
+
+.bg-red {
+  background: $player-red;
+}
+
+.bg-green {
+  background: $player-green;
+}
+
+.bg-yellow {
+  background: $player-yellow;
+}
+

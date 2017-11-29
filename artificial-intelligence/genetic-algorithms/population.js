@@ -33,7 +33,7 @@ function AIgenome(CTWmin, PSQmin, attackStrategy, allotmentStrategy, id) {
 
 function generateStartingGenomes() {
   let genomes = []
-  for (let i = 1; i <= 20; i++) {
+  for (let i = 1; i <= 100; i++) {
     genomes.push(new AIgenome(null, null, null, null, i))
   }
   return genomes;

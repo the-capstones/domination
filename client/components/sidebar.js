@@ -53,6 +53,7 @@ const Sidebar = (props) => {
                 <Link to="/">Home</Link>
                 <a href="#" onClick={handleClick}>Logout</a>
                 <Link to="/rules">Rules</Link>
+                <Link to="/credits">Credits</Link>
               </div>
               : <div>
                 <Link to="/login">Login</Link>
@@ -67,6 +68,7 @@ const Sidebar = (props) => {
         <div className="home-menu">
           <Link to="/newGame">New Game</Link>
           <Link to="/channels">Join Game</Link>
+          <Link to="/tutorial">Tutorial</Link>
         </div>
       </div>)
       }

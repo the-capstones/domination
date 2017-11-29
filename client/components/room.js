@@ -25,6 +25,11 @@ export function Room(props) {
           <Board boardId={boardId} />
         )
       }
+      {status === 'tutorial' &&
+        (
+          <Board boardId={boardId} />
+        )
+      }
     </div>
   )
 }
@@ -34,6 +39,7 @@ const mapState = state => ({ board: state.board, user: state.user })
 const mapDispatch = (dispatch, ownProps) => {
   const boardId = ownProps.match.params.boardId
   firebase.ref(`/boards/${boardId}`).on('value', snap => {
+    console.log('FIREBASE UPDATE')
     dispatch(setBoard(snap.val()))
   })
   return {}

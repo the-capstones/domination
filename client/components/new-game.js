@@ -31,7 +31,9 @@ const NewGame = (props) => {
               <option value={'rectangle-small'} >Small</option>
               <option value={'rectangle-medium'} >Medium</option>
               <option value={'rectangle-large'} >Large</option>
-              <option value={'rectangle-epic'} >Epic</option>
+              {
+                // <option value={'rectangle-epic'} >Epic</option>
+              }
               <option value={'hexagon'} >Hexagon</option>
             </select>
           </div>

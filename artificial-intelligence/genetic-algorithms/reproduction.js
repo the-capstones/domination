@@ -7,7 +7,7 @@ function selectParent(genomes) {
   // random number between 0 & sum of all genomes' skill
   // as skill levels are adjusted with TrueSkill, their sum remains the same
   let random = Math.random() * DEFAULT_SKILL_LEVEL * genomes.length;
-  for (var i = 0; random > 0; i++) {
+  for (var i = 0; random > 0 && i < genomes.length; i++) {
     random -= genomes[i].skill[0]
   }
   let selectedGenome = genomes[--i]

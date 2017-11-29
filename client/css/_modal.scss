@@ -1,57 +1,52 @@
 @import './_variables.scss';
 
-.channel-list-wrapper {
+#phase-modal-wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   width: 100vw;
-  height: 100vh;
+  // height: 100vh;
   background: $black-light;
 
-  h1 {
+  h3 {
     font-family: $title;
-    font-size: 4rem;
+    font-size: 3.5rem;
+    margin-bottom: 0;
   }
 }
 
-.channel-list {
+#phase-modal {
   width: 80%;
   height: 80%;
-  background: $black;
   padding: 2.5rem;
-  overflow: scroll;
+  font-size: 2rem;
 
+  p {
+    font-size: 2.5rem;
+    font-family: $text;
+    padding-top: 0;
+  }
 }
+
+
 
 .channel {
   margin: 1rem;
   padding: 1rem;
   display: flex;
   justify-content: space-evenly;
-  font-size: 2rem;
+  font-size: 1.5rem;
   background: $black-light;
-  border-radius: 5px;
 
   button {
-    padding: 0.25rem 2rem;
-    font-size: 2rem;
+    padding: 0.5rem 1rem;
     background: $neutral;
     color: $black;
   }
 
   p {
     min-width: 10rem;
-  }
-}
-
-
-.channel.titles {
-  background: $neutral;
-  color: $black-light;
-
-  &:hover {
-    background: $neutral;
   }
 }
 
