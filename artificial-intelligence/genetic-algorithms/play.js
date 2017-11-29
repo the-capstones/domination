@@ -53,7 +53,7 @@ function allot(player, board) {
   // const start = process.memoryUsage().heapUsed / 1024 / 1024;
   let allotStrategy = player.allotmentStrategy
   let hexToAllotTo = nextAllotment(board, player.id, allotStrategy)
-  
+
   if (hexToAllotTo) {
     board[hexToAllotTo].unit1++
     // console.log(`allotted unit to ${hexToAllotTo}.`)
@@ -95,25 +95,25 @@ function battle(attackingHex, defendingHex, board) {
   // console.log(`${attackingHex} ATTACKING ~~~~~~~~> ${defendingHex}`)
   // console.log(`attacker rolled ${attackDiceRoll}`)
   // console.log(`defender rolled ${defendDiceRoll}`)
-  
+
   attackDiceRoll > defendDiceRoll
   ? board[defendingHex].unit1--
   : board[attackingHex].unit1--
-  
+
   if (board[attackingHex].unit1 === 1) return
-  
+
   if (!board[defendingHex].unit1) {
-    
+
     board[defendingHex].playerId = board[attackingHex].playerId
     // console.log(`${defendingHex} now belongs to attacker!`)
-    
+
     let unitsToMove = board[attackingHex].unit1 - 1
     board[attackingHex].unit1 -= unitsToMove
     board[defendingHex].unit1 += unitsToMove
     return
   }
-  
-  // const end = (process.memoryUsage().heapUsed / 1024 / 1024) - start  
+
+  // const end = (process.memoryUsage().heapUsed / 1024 / 1024) - start
   // console.log(`The battle() script uses approximately ${end} MB`);
   // const used = process.memoryUsage().heapUsed / 1024 / 1024;
   // console.log(`The entire process is currently using approximately ${used} MB`);
@@ -131,7 +131,7 @@ function chooseAttack(board, player, inputLastAttack) {
   let hexToAttack = ''
   let hexToAttackFrom = ''
   let playerAttackMatrix = attackMatrix(board, id)
-  
+
   if (playerStrengthQuotientThreshold) {
     let min = playerStrengthQuotientThreshold
     for (const playableHex in playerAttackMatrix) {
@@ -145,7 +145,7 @@ function chooseAttack(board, player, inputLastAttack) {
       })
     }
   }
-  
+
   if (!hexToAttack) {
     let minChanceToWin = chanceToWinThreshold
     let minLostRatio = Infinity
@@ -157,7 +157,7 @@ function chooseAttack(board, player, inputLastAttack) {
         let expectedUnits = battleMatrix[attackUnits][defendUnits].ExpectedUnits
         let chanceToWin = battleMatrix[attackUnits][defendUnits].ChanceToWin
         let unitsLostRatio = (attackUnits - expectedUnits) / chanceToWin
-        
+
         if (attackStrategy === MAXIMIZE_TERRITORY_GAINS && chanceToWin >= minChanceToWin) {
           minChanceToWin = chanceToWin
           hexToAttack = attackableHex
@@ -185,7 +185,7 @@ function fortify(board, id) {
   // const start = process.memoryUsage().heapUsed / 1024 / 1024;
   let bestOption = bestMove(board, id)
   // console.log('BEST OPTION:', bestOption)
-  
+
   if (bestOption) {
     let fromHex = bestOption[0]
     let toHex = bestOption[1]
@@ -230,20 +230,20 @@ function play(player1, player2, player3, player4) {
       // rank is assigned to players in the order that they lose,
       // so if not assigned yet they are still in the game
       if (!player.rank) {
-        
+
         let { id } = player
         // console.log('********************************************')
         // console.log(`********** STARTING PLAYER ${id} TURN **********`)
         // console.log('STARTING TURN ****************')
         // console.log('********************************************')
-        
+
         let playerHexes = myHexes(board, id);
         let hexesOwned = Object.keys(playerHexes).length;
-        
+
         // allotment phase
         let allotment = Math.max(Math.floor(hexesOwned / TERRITORIES_PER_UNIT_ALLOTTED), 3)
         // console.log(`starting allotment: ${allotment} based on ${hexesOwned} territories`)
-        
+
         // console.log('**************** ALLOTMENT ****************')
         while (allotment) {
           allot(player, board)
@@ -251,14 +251,14 @@ function play(player1, player2, player3, player4) {
           // console.log(`allotment remaining: ${allotment}`)
           // console.log('--------------------------------------------')
         }
-        
+
         // battle phase
         let inBattle = true
         // console.log('**************** ATTACK ****************')
-        
+
         while (inBattle) {
           let [hexToAttackFrom, hexToAttack] = chooseAttack(board, player, lastAttack)
-          
+
           if (hexToAttack) {
             let defenderId = board[hexToAttack].playerId
             battle(hexToAttackFrom, hexToAttack, board)
@@ -272,22 +272,22 @@ function play(player1, player2, player3, player4) {
               gameRank--
             }
           }
-          
+
           if (!hexToAttack) {
             // console.log('NO ADVANTAGEOUS ATTACK MOVES TO MAKE')
             lastAttack++
             inBattle = false
           }
         }
-        
+
         // fortification phase
         // console.log('**************** FORTIFYING ****************')
         fortify(board, id)
       }
-      
+
     })
   }
-  
+
   let playerWon = players.find(player => !player.rank)
   playerWon.rank = gameRank
   trueskill.AdjustPlayers(players)
