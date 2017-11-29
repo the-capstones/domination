@@ -11,7 +11,41 @@ const calcHexesOwned = (hexes) => {
   return players;
 }
 
+const landmarksOwned = (hexes) => {
+  const playersLandmarks = {};
+  const landmarks = [
+    'medieval_archery',
+    'medieval_archway',
+    'medieval_blacksmith',
+    'medieval_cabin',
+    'medieval_church',
+    'medieval_farm',
+    'medieval_house',
+    'medieval_largeCastle',
+    'medieval_lumber',
+    'medieval_mine',
+    'medieval_openCastle',
+    'medieval_ruins',
+    'medieval_smallCastle',
+    'medieval_tower',
+    'medieval_windmill'
+  ];
+
+  for (let key in hexes) {
+    const hexValue = hexes[key];
+    const playerId = hexValue.playerId;
+    const tileType = hexValue.tile;
+    if (landmarks.indexOf(tileType) !== -1) {
+      if (!playersLandmarks[playerId]) playersLandmarks[playerId] = 0;
+      playersLandmarks[playerId] += 1;
+    }
+  }
+
+  return playersLandmarks;
+}
+
 export const calcAllotmentPoints = (boardId, hexes) => {
+  console.log(landmarksOwned(hexes))
   const hexesOwned = calcHexesOwned(hexes);
   const allotmentPointsPerTurn = {};
   const PER_HEX_POINTS = 0.0833; // 1/15 || 1 per 15 owned
