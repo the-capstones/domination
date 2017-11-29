@@ -87,7 +87,7 @@ function movableHexes(allHexesObj, artIntelplayerId) {
     let movableHexObj = {}
     const myHexesResults = attackMatrixFunctions.myHexes(allHexesObj, artIntelplayerId)
     const enoughUnitsResults = attackMatrixFunctions.enoughUnits(myHexesResults)
-    for (hexString in enoughUnitsResults) {
+    for (let hexString in enoughUnitsResults) {
         const adjacentHexResults = attackMatrixFunctions.adjacentHex(hexString)
         let enemiesNear = 0
         let movableHexArray = []
@@ -291,8 +291,8 @@ function biggestChangeInProduct(allHexesObj, startingHex, moveArray, artIntelpla
             const closestEnemyResult = closestEnemy(allHexesObj, endHex, artIntelplayerId)
             const hexDistanceResult = hexDistance(endHex, closestEnemyResult)
             const unitsWhoCanMove = maxUnitsToMoveStart
-            newProduct = unitsWhoCanMove * hexDistanceResult
-            newChangeInProduct = startingProduct - newProduct
+            let newProduct = unitsWhoCanMove * hexDistanceResult
+            let newChangeInProduct = startingProduct - newProduct
             if (newChangeInProduct > changeInProduct) {
                 changeInProduct = newChangeInProduct
                 bestHexToMoveTo = endHex
@@ -304,8 +304,8 @@ function biggestChangeInProduct(allHexesObj, startingHex, moveArray, artIntelpla
             const closestEnemyResult2 = closestEnemy(allHexesObj, startingHex, artIntelplayerId)
             const hexDistanceResult2 = hexDistance(startingHex, closestEnemyResult2)
             const unitsWhoCanMove = maxUnitsToFit
-            newProduct = unitsWhoCanMove * hexDistanceResult1 + (maxUnitsToMoveStart - maxUnitsToFit) * hexDistanceResult2
-            newChangeInProduct = startingProduct - newProduct
+            let newProduct = unitsWhoCanMove * hexDistanceResult1 + (maxUnitsToMoveStart - maxUnitsToFit) * hexDistanceResult2
+            let newChangeInProduct = startingProduct - newProduct
             if (newChangeInProduct > changeInProduct) {
                 changeInProduct = newChangeInProduct
                 bestHexToMoveTo = endHex

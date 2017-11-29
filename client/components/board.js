@@ -70,6 +70,8 @@ class Board extends Component {
         {status === 'tutorial' && user.username !== currentPlayer && <AIturn />}
         {/*status === 'tutorial' && currentPhase === 'fortification' && turn1 && giveExtraUnit() */}
 
+        {status === 'playing'  && currentPlayer.startsWith('AI-') && <AIturn />}
+
         <HexGrid width={boardLayout.width} height={boardLayout.height}>
           <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={boardLayout.origin}>
             {
