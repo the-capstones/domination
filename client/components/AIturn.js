@@ -16,6 +16,7 @@ import {
   battleMatrix,
   rollDiceAndReturnMax
 } from '../../artificial-intelligence'
+import { setTimeout } from 'core-js/library/web/timers';
 
 
 function AIturn(props) {
@@ -33,9 +34,9 @@ function AIturn(props) {
   return (
     <div id="ai-turn">
       <h1> Zero's turn!</h1>
-      {phase === 'allotment' && allot(allotment, board, id)}
-      {phase === 'attack' && attack(board, id)}
-      {phase === 'fortification' && fortify(board, id, playerOrder, allotmentPointsPerTurn)}
+      {phase === 'allotment' && setTimeout(allot(allotment, board, id), 2000)}
+      {phase === 'attack' && setTimeout(attack(board, id), 2000)}
+      {phase === 'fortification' && setTimeout(fortify(board, id, playerOrder, allotmentPointsPerTurn), 2000)}
     </div>
   )
 }
