@@ -87,7 +87,7 @@ function movableHexes(allHexesObj, artIntelplayerId) {
     let movableHexObj = {}
     const myHexesResults = attackMatrixFunctions.myHexes(allHexesObj, artIntelplayerId)
     const enoughUnitsResults = attackMatrixFunctions.enoughUnits(myHexesResults)
-    for (hexString in enoughUnitsResults) {
+    for (let hexString in enoughUnitsResults) {
         const adjacentHexResults = attackMatrixFunctions.adjacentHex(hexString)
         let enemiesNear = 0
         let movableHexArray = []
