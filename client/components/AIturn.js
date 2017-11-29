@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom'
 import firebase from '../firebase'
 import { attackMatrix } from '../../artificial-intelligence/attackMatrixCreator'
 import { nextAllotment } from '../../artificial-intelligence/allotmentFunction'
-import { battleMatrix } from '../../artificial-intelligence/battleMatrix'
+import battleMatrix from '../../artificial-intelligence/battleMatrix'
 import { rollDiceAndReturnMax } from '../../artificial-intelligence/genetic-algorithms/play'
 
 
@@ -36,12 +36,12 @@ const mapState = state => {
 
 const mapDispatch = (dispatch, ownProps) => {
   let boardId = ownProps.match.params.boardId
+  let hexesAllotedTo = []
 
   return {
 
     allot(allotment, board, id) {
       if (allotment) {
-        let hexesAllotedTo = []
         let hexToAllotTo = nextAllotment(board, id)
 
         if (hexToAllotTo) {
@@ -53,13 +53,10 @@ const mapDispatch = (dispatch, ownProps) => {
           firebase.ref(`/boards/${boardId}/state`)
             .update({ allotmentLeft: allotment })
             .then(
-              firebase.ref(`/boards/${boardId}/hexes/${hexToAllotTo}`)
-                .update({ unit1: newUnits }))
+            firebase.ref(`/boards/${boardId}/hexes/${hexToAllotTo}`)
+              .update({ unit1: newUnits }))
             .then(() => {
               console.log('ALLOTED UNITS TO', hexesAllotedTo)
-              return (
-                <span>Alloted units to {hexesAllotedTo}</span>
-              )
             })
         } else {
           return null
@@ -72,16 +69,16 @@ const mapDispatch = (dispatch, ownProps) => {
 
     attack(board, id) {
       console.log('ATTACK')
-      let minChanceToWin = 0.51
-      let hexToAttack = ''
-      let hexToAttackFrom = ''
+      let minChanceToWin = 0.40, hexToAttack = '', hexToAttackFrom = ''
       let playerAttackMatrix = attackMatrix(board, id)
 
       for (const playableHex in playerAttackMatrix) {
         playerAttackMatrix[playableHex].forEach(attackableHex => {
-          let attackUnits = board[playableHex].unit1
+          let attackUnits = board[playableHex].unit1 - 1
           let defendUnits = board[attackableHex].unit1
+          console.log(`${attackUnits} VS ${defendUnits}`)
           let chanceToWin = battleMatrix[attackUnits][defendUnits].ChanceToWin
+          console.log('chanceToWin:', chanceToWin)
 
           if (chanceToWin >= minChanceToWin) {
             minChanceToWin = chanceToWin
@@ -92,45 +89,57 @@ const mapDispatch = (dispatch, ownProps) => {
       }
 
       if (hexToAttack) {
-        let defenderId = board[hexToAttack].playerId
-
-        while (board[hexToAttackFrom].unit1 > 1 && board[hexToAttack].unit1 > 0) {
+        while (board[hexToAttackFrom].unit1 > 1 && board[hexToAttack].unit1 > 0 && board[hexToAttack].playerId !== 'Zero') {
+          console.log(board[hexToAttackFrom].unit1)
+          console.log(board[hexToAttack].unit1)
           let attackDiceRoll = rollDiceAndReturnMax(3)
           let defendDiceRoll = rollDiceAndReturnMax(2)
           console.log(`${hexToAttackFrom} ATTACKING ~~~~~~~~> ${hexToAttack}`)
           console.log(`attacker rolled ${attackDiceRoll}`)
           console.log(`defender rolled ${defendDiceRoll}`)
 
-          // let updatedHex = attackDiceRoll > defendDiceRoll
-          //   ? {[hexToAttack]: {unit1: board[hexToAttack].unit1 - 1}}
-          //   : {[hexToAttackFrom]: {unit1: board[hexToAttackFrom].unit1 - 1}}
-
           let hexToUpdate = attackDiceRoll > defendDiceRoll
             ? hexToAttack
             : hexToAttackFrom
+          console.log(`HEX TO UPDATE IS ${hexToUpdate}`)
 
-          firebase.ref(`/boards/${boardId}/hexes/${hexToUpdate}`)
-            .update({unit1: board[hexToUpdate].unit1 - 1})
-            .then(() => {
-              if (board[hexToAttackFrom].unit1 === 1) return
+          let newUnits = board[hexToUpdate].unit1 - 1
+          let update = ({ unit1: newUnits })
+          console.log(`NEW UNITS ARE ${newUnits}`)
 
-            })
+          // if newUnits === 0, that means that defender lost
+          // and attacker takes control of territory
+          if (!newUnits) {
+            // territory will get updated with attacking units - 1
+            newUnits = board[hexToAttackFrom].unit1 - 1
+            // update `update` object with moving units & AI playerId
+            update = ({ unit1: newUnits, playerId: 'Zero' })
+            console.log('update is', update)
+            // attacking hex only has one unit now
+            firebase.ref(`/boards/${boardId}/hexes/${hexToAttackFrom}`).update({ unit1: 1 })
+            .then(console.log('updated?'))
 
-
-          if (!board[hexToAttack].unit1) {
-
-            board[hexToAttack].playerId = board[hexToAttackFrom].playerId
-            console.log(`${hexToAttack} now belongs to attacker!`)
-
-            let unitsToMove = board[hexToAttackFrom].unit1 - 1
-            board[hexToAttackFrom].unit1 -= unitsToMove
-            board[hexToAttack].unit1 += unitsToMove
-            return
+            console.log('test1')
           }
+          // if defender won, update attacking with -1 units
+          // if attacker won but defender still has units,
+          //   update defending with -1 units
+          // if attacker won and defender has no units, will
+          //  update defending with new units & playerId
+          firebase.ref(`/boards/${boardId}/hexes/${hexToUpdate}`)
+            .update(update)
+            .then(() => {
+              console.log(`${hexToAttack} now belongs to attacker!`)
+              console.log(`${hexToAttackFrom} now has ${board[hexToAttackFrom].unit1} units!`)
+            })
+          console.log('test2')
         }
-      }
+      } else {
+        console.log('no hexes to attack')
+        firebase.ref(`boards/${boardId}/state`)
+          .update({ currentPhase: 'fortification' })
+       }
     },
-
   }
 }
 
@@ -171,6 +180,5 @@ const mapDispatch = (dispatch, ownProps) => {
 
 
 let AIturnContainer = withRouter(connect(mapState, mapDispatch)(AIturn))
-
 export default AIturnContainer
 
