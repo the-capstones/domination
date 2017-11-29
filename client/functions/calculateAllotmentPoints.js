@@ -45,8 +45,7 @@ const landmarksOwned = (hexes) => {
   return playersLandmarks;
 }
 
-export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3) => {
-  const POINTS_PER_LANDMARK = 1;
+export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3, landmarkValue = 0) => {
   const playerLandmarks = landmarksOwned(hexes)
   const hexesOwned = calcHexesOwned(hexes);
   const allotmentPointsPerTurn = {};
@@ -54,7 +53,7 @@ export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3) => {
 
   for (let player in hexesOwned) {
     if (!!player) {
-      allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * ALLOTMENT_RATE) + (playerLandmarks[player] * POINTS_PER_LANDMARK);
+      allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * ALLOTMENT_RATE) + (playerLandmarks[player] * landmarkValue);
     }
   }
   firebase.ref(`/boards/${boardId}/state`).update({ allotmentPointsPerTurn })
