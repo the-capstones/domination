@@ -30,12 +30,16 @@ const NewGame = (props) => {
             <option value={5} >5</option>
           </select>
         </div>
-     {  
-        // <div className="max-players">
-        //   <label htmlFor="AIPlayers"><small>Number of AI Players:</small></label>
-        //   <input name="AIPlayers" type="number" defaultValue="0" min="0" max="4" />
-        // </div>
-      }
+        <div className="max-players">
+        <label htmlFor="AIPlayers"><small>Number of AI Players:</small></label>
+        <select name="AIPlayers">
+          <option value={0} >0</option>
+          <option value={1} >1</option>
+          <option value={2} >2</option>
+          <option value={3} >3</option>
+          <option value={4} >4</option>
+        </select>
+      </div>
           <div>
             <label htmlFor="boardSize"><small>Board size:</small></label>
             <select name="boardSize">
