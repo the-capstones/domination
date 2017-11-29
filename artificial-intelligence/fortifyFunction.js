@@ -292,7 +292,7 @@ function biggestChangeInProduct(allHexesObj, startingHex, moveArray, artIntelpla
             const hexDistanceResult = hexDistance(endHex, closestEnemyResult)
             const unitsWhoCanMove = maxUnitsToMoveStart
             let newProduct = unitsWhoCanMove * hexDistanceResult
-            newChangeInProduct = startingProduct - newProduct
+            let newChangeInProduct = startingProduct - newProduct
             if (newChangeInProduct > changeInProduct) {
                 changeInProduct = newChangeInProduct
                 bestHexToMoveTo = endHex
