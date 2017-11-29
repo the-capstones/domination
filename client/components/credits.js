@@ -45,7 +45,7 @@ const Credits = () => {
                 </a>
                 &bull;
                 <a href="https://github.com/Cosmet">
-                <i className="fa fa-github-alt" aria-hidden="true"></i>
+                  <i className="fa fa-github-alt" aria-hidden="true"></i>
                 </a>
                 &bull;
                 <a href="https://www.linkedin.com/in/damian-michniak/">
@@ -106,6 +106,9 @@ const Credits = () => {
         </div>
       </div>
 
+      <span id="forkongithub">
+        <a href="https://github.com/the-capstones/domination">Fork me on GitHub</a>
+      </span>
     </div>
   )
 }
