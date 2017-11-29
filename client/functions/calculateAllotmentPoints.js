@@ -14,7 +14,33 @@ const calcHexesOwned = (hexes) => {
 export const calcAllotmentPoints = (boardId, hexes) => {
   const hexesOwned = calcHexesOwned(hexes);
   const allotmentPointsPerTurn = {};
-  const PER_HEX_POINTS = 0.0833; // 1/15 || 1 per 15 owned
+  const SMALL_BOARD_HEX_POINTS = 0.3;
+  const MEDIUM_BOARD_HEX_POINTS = 0.25;
+  const LARGE_BOARD_HEX_POINTS = 0.2;
+  const HEXAGON_BOARD_HEX_POINTS = 0.4;
+  let PER_HEX_POINTS; // = 0.0833; // 1/12 || 1 per 12 owned
+
+  switch (Object.keys(hexes).length) {
+    case 25:
+      PER_HEX_POINTS = SMALL_BOARD_HEX_POINTS;
+      break;
+
+    case 48:
+      PER_HEX_POINTS = MEDIUM_BOARD_HEX_POINTS;
+      break;
+
+    case 96:
+      PER_HEX_POINTS = LARGE_BOARD_HEX_POINTS;
+      break;
+
+    case 37:
+      PER_HEX_POINTS = HEXAGON_BOARD_HEX_POINTS;
+      break;
+
+    default:
+      PER_HEX_POINTS = 0.0833; // 1/12 || 1 per 12 owned
+  }
+console.log(PER_HEX_POINTS)
 
   for (let player in hexesOwned) {
     if (!!player) {
