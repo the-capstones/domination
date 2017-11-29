@@ -1,0 +1,6 @@
+export * from './fortifyFunction'
+export * from './nextAttackFunction'
+export * from './attackMatrixCreator'
+export * from './allotmentFunction'
+export * from './battleMatrix'
+export * from './genetic-algorithms/play'

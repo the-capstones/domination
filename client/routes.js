@@ -16,6 +16,8 @@ import {
   ChannelList,
   AllotmentGUI,
   NewGame,
+  Tutorial,
+  PhaseModal,
   Credits,
   ClassSelect,
   Rules,
@@ -38,6 +40,7 @@ class Routes extends Component {
         <Main>
           <Route exact path="/boards/:boardId/battle" component={CombatRisk} />
           <Route exact path="/boards/:boardId/class-select" component={ClassSelect} />
+          <Route exact path="/tutorial/:boardId/:phase" component={PhaseModal} />
           <Switch>
             <Route path="/boards/:boardId" component={Sidebar} />
             <Route path="/" component={Sidebar} />
@@ -45,6 +48,7 @@ class Routes extends Component {
           <Switch>
           <Route path="/boards/:boardId" component={Room} />
           <Route path="/newGame" component={NewGame} />
+          <Route exact path="/tutorial" component={Tutorial} />
           <Route path="/credits" component={Credits} />
           <Route path="/rules" component={Rules} />
             <Route path="/channels" component={ChannelList} />
