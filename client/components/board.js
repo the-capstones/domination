@@ -23,7 +23,7 @@ import '../css/_board.scss';
 class Board extends Component {
 
   componentDidMount() {
-    console.log('component did mount has run')
+    // console.log('component did mount has run')
     const { playerOrder, hexes, boardId, allotmentRate } = this.props;
     addIdToHexes();
     addColors(playerOrder, hexes);
@@ -31,7 +31,7 @@ class Board extends Component {
   }
 
   componentDidUpdate() {
-    console.log('component did update has run')
+    // console.log('component did update has run')
     const { playerOrder, hexes } = this.props;
     addColors(playerOrder, hexes);
   }
@@ -130,7 +130,7 @@ class Board extends Component {
 }
 
 const mapState = (state) => {
-  console.log('map state has run')
+  // console.log('map state has run')
   return {
     user: state.user,
     currentPhase: state.board.state.currentPhase,
@@ -150,11 +150,11 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch, ownProps) => {
   const { boardId } = ownProps;
-  console.log('map dispatch has run')
+  // console.log('map dispatch has run')
 
   return {
     renderCombatGUI(user, currentPlayer, hexes, phase, defenderHexId, attackerHexId) {
-      console.log('renderCombatGUI has run')
+      // console.log('renderCombatGUI has run')
       const attackerNeighbors = getNeighbors(attackerHexId);
       const isValidMove = attackerNeighbors.includes(defenderHexId)
         && hexes[defenderHexId].playerId !== '';
@@ -176,7 +176,7 @@ const mapDispatch = (dispatch, ownProps) => {
     //   ownProps.history.push(`/tutorial/${boardId}/allot`)
     // },
     fortify(user, currentPlayer, hexes, newlySelectedHex, previouslySelectedHex, inputPlayerOrder, inputAllotmentPointsPerTurn) {
-      console.log('fortify has run')
+      // console.log('fortify has run')
       const startHexNeighbors = getNeighbors(previouslySelectedHex);
       const isValidMove = startHexNeighbors.includes(newlySelectedHex)
         && hexes[newlySelectedHex].playerId !== '';
@@ -222,7 +222,7 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     selectHex(user, hexes, currentPlayer, newHexId, oldHexId, phase) {
-      console.log('selectHex has run')
+      // console.log('selectHex has run')
 
       const isCurrentPlayer = user.username === currentPlayer;
       const isNewHex = newHexId !== oldHexId;
