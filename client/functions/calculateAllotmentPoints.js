@@ -11,40 +11,14 @@ const calcHexesOwned = (hexes) => {
   return players;
 }
 
-export const calcAllotmentPoints = (boardId, hexes) => {
+export const calcAllotmentPoints = (boardId, hexes, allotmentRate) => {
   const hexesOwned = calcHexesOwned(hexes);
   const allotmentPointsPerTurn = {};
-  const SMALL_BOARD_HEX_POINTS = 0.3;
-  const MEDIUM_BOARD_HEX_POINTS = 0.25;
-  const LARGE_BOARD_HEX_POINTS = 0.2;
-  const HEXAGON_BOARD_HEX_POINTS = 0.4;
-  let PER_HEX_POINTS; // = 0.0833; // 1/12 || 1 per 12 owned
-
-  switch (Object.keys(hexes).length) {
-    case 25:
-      PER_HEX_POINTS = SMALL_BOARD_HEX_POINTS;
-      break;
-
-    case 48:
-      PER_HEX_POINTS = MEDIUM_BOARD_HEX_POINTS;
-      break;
-
-    case 96:
-      PER_HEX_POINTS = LARGE_BOARD_HEX_POINTS;
-      break;
-
-    case 37:
-      PER_HEX_POINTS = HEXAGON_BOARD_HEX_POINTS;
-      break;
-
-    default:
-      PER_HEX_POINTS = 0.0833; // 1/12 || 1 per 12 owned
-  }
-console.log(PER_HEX_POINTS)
+  const ALLOTMENT_RATE = 1 / allotmentRate || 0.3; // = 0.0833; // 1/12 || 1 per 12 owned
 
   for (let player in hexesOwned) {
     if (!!player) {
-      allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * PER_HEX_POINTS);
+      allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * ALLOTMENT_RATE);
     }
   }
   firebase.ref(`/boards/${boardId}/state`).update({ allotmentPointsPerTurn })
