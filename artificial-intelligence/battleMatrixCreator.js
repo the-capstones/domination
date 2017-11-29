@@ -27,10 +27,10 @@ const defendDice = 2;
 // maxUnits: This defines the max number of units that a player can have on a territory.
 // **NOTE: This gets really slow above 15 units!**
 const maxUnits = 15
-// console.log the variables
-console.log('----------------');
-console.log('----------------');
-console.log(
+// // console.log the variables
+// console.log('----------------');
+// console.log('----------------');
+// console.log(
   'In each battle the attacker will roll ',
   attackDice,
   'dice. The defender will roll ',
@@ -44,7 +44,7 @@ console.log(
   maxUnits - 1,
   'units at a time.'
 );
-console.log('----------------');
+// console.log('----------------');
 
 // Dice Combinatorics
 
@@ -104,26 +104,26 @@ function expectedProbability(arr) {
 // Step 4: Define the probability objects for attacker dice and defender dice for easy reference.
 const attackObj = expectedProbability(attackersDiceRolls);
 const defendObj = expectedProbability(defendersDiceRolls);
-console.log(
+// console.log(
   'Based on the variables above, the following object gives the chance for the highest die roll of the attacker.'
 );
-console.log(attackObj);
-console.log('----------------');
-console.log(
+// console.log(attackObj);
+// console.log('----------------');
+// console.log(
   'Based on the variables above, the following object gives the chance for the highest die roll of the defender.'
 );
-console.log(defendObj);
-console.log('----------------');
+// console.log(defendObj);
+// console.log('----------------');
 // Step 5: Calculate the probability that an attacker will win in a 1 on 1 battle
 function calculateAttackerWinPercentage(arr, attackObj, defendObj) {
   let attackerWinPercentage = 0;
   arr.forEach(diceCombo => {
     if (diceCombo[0] > diceCombo[1]) {
-      //   console.log(diceCombo, 'attacker won')
+      //   // console.log(diceCombo, 'attacker won')
       attackerWinPercentage +=
         attackObj[diceCombo[0]] * defendObj[diceCombo[1]];
     } else {
-      //   console.log(diceCombo, 'defender won')
+      //   // console.log(diceCombo, 'defender won')
     }
   });
   return attackerWinPercentage;
@@ -134,12 +134,12 @@ const attackerWinPercentage = calculateAttackerWinPercentage(
   attackObj,
   defendObj
 );
-console.log(
+// console.log(
   'In any given 1 on 1 battle, the attacker should win ',
   (attackerWinPercentage * 100).toFixed(2),
   '% of the time.'
 );
-console.log('----------------');
+// console.log('----------------');
 
 // Step 6: Create the battle matrix for a variable number of attackers and defenders
 
@@ -258,9 +258,9 @@ function expectedBattleOutcome(fullBattleObj) {
 }
 
 expectedBattleOutcome(fullBattleObject);
-console.log("Below, you'll see a battle probability matrix object.",
+// console.log("Below, you'll see a battle probability matrix object.",
 'The first key in the object is the number of units the attacker has.',
 'The second key represents the number of units the defender has.',
 "In the last section, you'll see the expected chance of the attacker winning that engagement and the expected number of units they would have if they went through with the attack.")
-console.log('----------------');
-console.log(util.inspect(fullBattleObject, false, null));
+// console.log('----------------');
+// console.log(util.inspect(fullBattleObject, false, null));

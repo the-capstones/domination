@@ -24,10 +24,10 @@ class Board extends Component {
 
   componentDidMount() {
     console.log('component did mount has run')
-    const { playerOrder, hexes, boardId } = this.props;
+    const { playerOrder, hexes, boardId, allotmentRate } = this.props;
     addIdToHexes();
     addColors(playerOrder, hexes);
-    calcAllotmentPoints(boardId, hexes);
+    calcAllotmentPoints(boardId, hexes, allotmentRate);
   }
 
   componentDidUpdate() {
@@ -52,7 +52,7 @@ class Board extends Component {
       fortify,
       allotmentLeft,
       addUnit,
-      status
+      status,
     } = this.props;
     const layout = boardLayout.layout;
     const size = { x: layout.width, y: layout.height };
@@ -141,6 +141,7 @@ const mapState = (state) => {
     hexagons: state.board.state.hexagons,
     playerOrder: state.board.state.playerOrder,
     currentPlayer: state.board.state.currentPlayer,
+    allotmentRate: state.board.state.allotmentRate,
     allotmentPointsPerTurn: state.board.state.allotmentPointsPerTurn,
     allotmentLeft: state.board.state.allotmentLeft,
     status: state.board.state.status

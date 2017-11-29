@@ -48,7 +48,7 @@ const hexesStep1 = {
     },
 }
 
-// test the function myHexes with the console.log statement below
+// test the function myHexes with the // console.log statement below
 // it should return:
 // {
 // myHex1: { movesLeft: 0, playerId: 1, unit1: 6 },
@@ -56,7 +56,7 @@ const hexesStep1 = {
 // myHex3: { movesLeft: 2, playerId: 1, unit1: 6 },
 // myHex4: { movesLeft: 2, playerId: 1, unit1: 6 }
 // }
-// console.log(attackMatrixFunctions.myHexes(hexesStep1, myPlayerId))
+// // console.log(attackMatrixFunctions.myHexes(hexesStep1, myPlayerId))
 
 // Step 2: For a given player territory, identify how many enemy units are in adjacent hexes
 // and subtract the number of units in that territory.
@@ -93,9 +93,9 @@ function unitStrengthDifference(allHexesObj, startingHex, artIntelplayerId, meas
     return difference
 }
 
-// test the function unitStrengthDifference with the console.log statement below
+// test the function unitStrengthDifference with the // console.log statement below
 // it should return 4
-// console.log(unitStrengthDifference(hexesStep2, '0,0,0'))
+// // console.log(unitStrengthDifference(hexesStep2, '0,0,0'))
 
 // Step 3: For all territories, filter the ones out that have 15 units and choose
 // the one that has the highest value in step 2.
@@ -126,6 +126,7 @@ const hexesStep3 = {
 }
 
 function nextAllotment(allHexesObj, artIntelplayerId, measurementType){
+    // const start = process.memoryUsage().heapUsed / 1024 / 1024;
     const myHexesResults = attackMatrixFunctions.myHexes(allHexesObj, artIntelplayerId)
     let allotableHexes = []
     for (const hex in myHexesResults) {
@@ -140,12 +141,16 @@ function nextAllotment(allHexesObj, artIntelplayerId, measurementType){
             mostNeededAllotment = hex
         }
     })
+    // const end = (process.memoryUsage().heapUsed / 1024 / 1024) - start
+    // console.log(`The nextAllotment() script uses approximately ${end} MB`);
+    // const used = process.memoryUsage().heapUsed / 1024 / 1024;
+    // console.log(`The entire process is currently using approximately ${used} MB`);
     return mostNeededAllotment
 }
 
-// test the function nextAllotment with the console.log statement below
+// test the function nextAllotment with the // console.log statement below
 // it should return '5,5,5'
-console.log(nextAllotment(hexesStep3, myPlayerId, 'differenceInUnits'))
+// console.log(nextAllotment(hexesStep3, myPlayerId, 'differenceInUnits'))
 
 module.exports = {
     unitStrengthDifference,

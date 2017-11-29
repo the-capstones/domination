@@ -4,9 +4,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
   background: $black-light;
+
+  h1 {
+    font-family: $title;
+    font-size: 4rem;
+  }
 }
 
 .channel-list {
