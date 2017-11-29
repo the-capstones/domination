@@ -218,7 +218,7 @@ const WaitingRoom = (props) => {
               <button
                 className="text"
                 type="submit"
-                onClick={(evnt) => props.startGame(evnt, board.state.playerOrder, board.hexes, board.state.percentVoidSpaces, board.state.board.landmarkFreq)}
+                onClick={(evnt) => props.startGame(evnt, board.state.playerOrder, board.hexes, board.state.percentVoidSpaces, board.state.landmarkFreq)}
               >
                 Start Game
               </button>
