@@ -17,6 +17,8 @@ import {
   AllotmentGUI,
   NewGame,
   Credits,
+  ClassSelect,
+  Rules,
 } from './components';
 import { me } from './store';
 
@@ -35,6 +37,7 @@ class Routes extends Component {
       <Router history={history}>
         <Main>
           <Route exact path="/boards/:boardId/battle" component={CombatRisk} />
+          <Route exact path="/boards/:boardId/class-select" component={ClassSelect} />
           <Switch>
             <Route path="/boards/:boardId" component={Sidebar} />
             <Route path="/" component={Sidebar} />
@@ -43,6 +46,7 @@ class Routes extends Component {
           <Route path="/boards/:boardId" component={Room} />
           <Route path="/newGame" component={NewGame} />
           <Route path="/credits" component={Credits} />
+          <Route path="/rules" component={Rules} />
             <Route path="/channels" component={ChannelList} />
             {!isLoggedIn && <Route exact path="/" component={Login} />}
             {isLoggedIn && <Route exact path="/" component={ChannelList} />}

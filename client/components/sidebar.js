@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { logout, setInGame } from '../store';
 import { changePhaseFunction, attackMatrix } from '../functions';
-import firebase from '../firebase'
+import firebase from '../firebase';
 
 
 import '../css/_sidebar.scss';
@@ -25,12 +25,15 @@ const Sidebar = (props) => {
     allotmentPointsPerTurn,
     leaveGame,
     allotmentLeft,
-    attacksLeft
+    attacksLeft,
+    showSelectClass,
+    playerClasses
   } = props;
   const boardId = props.match.params.boardId;
 
   const colors = ['#b3482e', '#6f9bc4', '#d5a149', '#83ada0', '#c7723d']
   const numOfPlayers = playerOrder.length;
+  const playerIndex = playerOrder.indexOf(user)
   const icons = {
     'allotment': 'knight',
     'attack': 'swords',
@@ -88,7 +91,12 @@ const Sidebar = (props) => {
             {currentPhase === 'allotment' && (<div><h1>Allotment Points</h1><br /><p>{allotmentLeft}</p></div>)}
           </div>
           <div className="avatar">
-            <img src="../assets/wizard-avatar.jpg" />
+            {
+              playerClasses
+              && playerClasses.hasOwnProperty(user)
+                ? <img src={`../assets/avatar/${playerClasses[user]}.png`} style={{ background: colors[playerIndex] }} />
+                : <button onClick={showSelectClass}>Select A Class</button>
+            }
           </div>
 
           <div className="players">
@@ -161,7 +169,8 @@ const mapState = (state) => {
     playerOrder: isBoardLoaded && state.board.state.playerOrder || [],
     allotmentPointsPerTurn: isBoardLoaded && state.board.state.allotmentPointsPerTurn,
     allotmentLeft: isBoardLoaded && state.board.state.allotmentLeft,
-    attacksLeft: attacksLeft
+    attacksLeft: attacksLeft,
+    playerClasses: isBoardLoaded && state.board.state.playerClasses,
   }
 }
 
@@ -193,6 +202,9 @@ const mapDispatch = (dispatch, ownProps) => {
         allotmentPointsPerTurn,
         hexagons,
         boardId)
+    },
+    showSelectClass() {
+      ownProps.history.push(`/boards/${boardId}/class-select`)
     }
   }
 }
