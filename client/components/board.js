@@ -1,19 +1,21 @@
+'use strict'
+/* eslint "max-params": 0 */
+
 import React, { Component } from 'react';
-import { HexGrid, Layout, Hexagon, Text, HexUtils } from 'react-hexgrid';
+import { HexGrid, Layout, Hexagon, Text, HexUtils, Pattern } from 'react-hexgrid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import firebase from '../firebase'
-import { GameOver } from './';
+import { GameOver, PhaseModal, AIturn } from './';
 import {
-  hexagons,
-  config,
   addColors,
   addIdToHexes,
   calcAllotmentPoints,
   getNeighbors,
   highlightNeighbors,
   highlightMovableNeighbors,
-  changePhaseFunction
+  changePhaseFunction,
+  spriteGenerator,
 } from '../functions';
 
 import '../css/_board.scss';
@@ -21,7 +23,7 @@ import '../css/_board.scss';
 class Board extends Component {
 
   componentDidMount() {
-    console.log('component did mount has ran')
+    console.log('component did mount has run')
     const { playerOrder, hexes, boardId } = this.props;
     addIdToHexes();
     addColors(playerOrder, hexes);
@@ -29,18 +31,17 @@ class Board extends Component {
   }
 
   componentDidUpdate() {
-    console.log('component did update has ran')
-
+    console.log('component did update has run')
     const { playerOrder, hexes } = this.props;
     addColors(playerOrder, hexes);
   }
 
   render() {
-    const layout = config.layout;
-    const size = { x: layout.width, y: layout.height };
     const {
       user,
+      boardLayout,
       hexes,
+      hexagons,
       currentPhase,
       currentPlayer,
       playerOrder,
@@ -51,12 +52,24 @@ class Board extends Component {
       fortify,
       allotmentLeft,
       addUnit,
+      status
     } = this.props;
+    const layout = boardLayout.layout;
+    const size = { x: layout.width, y: layout.height };
+    let turn1 = true
+
+    const [theme, landmarks, tiles] = spriteGenerator('medieval', true);
 
     return (
       <div className="board">
-        <HexGrid width={config.width} height={config.height}>
-          <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={config.origin}>
+
+        {/*logic if in tutorial mode */}
+        {status === 'tutorial' && turn1 && user.username === currentPlayer && <PhaseModal phase={currentPhase} />}
+        {status === 'tutorial' && user.username !== currentPlayer && turn1-- && '' }
+        {status === 'tutorial' && user.username !== currentPlayer && <AIturn />}
+
+        <HexGrid width={boardLayout.width} height={boardLayout.height}>
+          <Layout size={size} flat={layout.flat} spacing={layout.spacing} origin={boardLayout.origin}>
             {
               hexagons.map((hex, i) => {
                 const hexId = `${hex.q},${hex.r},${hex.s}`;
@@ -67,6 +80,7 @@ class Board extends Component {
                   q={hex.q}
                   r={hex.r}
                   s={hex.s}
+                  fill={hexes[hexId] && hexes[hexId].tile}
                   onClick={() => {
                     const isCurrentPlayer = user.username === currentPlayer;
                     isCurrentPlayer && selectHex(user, hexes, currentPlayer, hexId, selectedHex, currentPhase);
@@ -87,6 +101,16 @@ class Board extends Component {
             }
           </Layout>
           {/*<Pattern id="img1" link="favicon.ico" />*/ /*fill="img1"*/}
+          {
+            tiles.map((name, i) => (
+              <Pattern key={i} id={name} link={`../assets/${theme}/${name}.png`} />
+            ))
+          }
+          {
+            landmarks.map((name, i) => (
+              <Pattern key={i} id={name} link={`../assets/${theme}/landmarks/${name}.png`} />
+            ))
+          }
         </HexGrid>
         {
           user
@@ -105,27 +129,30 @@ class Board extends Component {
 }
 
 const mapState = (state) => {
-  console.log('map state has ran')
+  console.log('map state has run')
   return {
     user: state.user,
     currentPhase: state.board.state.currentPhase,
     selectedHex: state.board.state.selectedHex,
     prevSelectedHex: state.board.state.prevSelectedHex,
     hexes: state.board.hexes,
+    boardLayout: state.board.state.boardLayout,
+    hexagons: state.board.state.hexagons,
     playerOrder: state.board.state.playerOrder,
     currentPlayer: state.board.state.currentPlayer,
     allotmentPointsPerTurn: state.board.state.allotmentPointsPerTurn,
     allotmentLeft: state.board.state.allotmentLeft,
+    status: state.board.state.status
   }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
   const { boardId } = ownProps;
-  console.log('map dispatch has ran')
+  console.log('map dispatch has run')
 
   return {
     renderCombatGUI(user, currentPlayer, hexes, phase, defenderHexId, attackerHexId) {
-      console.log('renderCombatGUI has ran')
+      console.log('renderCombatGUI has run')
       const attackerNeighbors = getNeighbors(attackerHexId);
       const isValidMove = attackerNeighbors.includes(defenderHexId)
         && hexes[defenderHexId].playerId !== '';
@@ -143,8 +170,11 @@ const mapDispatch = (dispatch, ownProps) => {
         ownProps.history.push(`/boards/${boardId}/battle`);
       }
     },
+    // renderPhaseModal() {
+    //   ownProps.history.push(`/tutorial/${boardId}/allot`)
+    // },
     fortify(user, currentPlayer, hexes, newlySelectedHex, previouslySelectedHex, inputPlayerOrder, inputAllotmentPointsPerTurn) {
-      console.log('fortify has ran')
+      console.log('fortify has run')
       const startHexNeighbors = getNeighbors(previouslySelectedHex);
       const isValidMove = startHexNeighbors.includes(newlySelectedHex)
         && hexes[newlySelectedHex].playerId !== '';
@@ -190,7 +220,7 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     selectHex(user, hexes, currentPlayer, newHexId, oldHexId, phase) {
-      console.log('selectHex has ran')
+      console.log('selectHex has run')
 
       const isCurrentPlayer = user.username === currentPlayer;
       const isNewHex = newHexId !== oldHexId;
@@ -219,7 +249,10 @@ const mapDispatch = (dispatch, ownProps) => {
       }
     },
     addUnit(user, id, hexagons, inputAllotmentLeft, currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, selectedHex) {
-      if (user !== currentPlayer || hexagons[id].unit1 >= 15) return;
+      if (!hexagons[id]
+        || hexagons[id].playerId !== user
+        || user !== currentPlayer
+        || hexagons[id].unit1 >= 15) return;
       if (inputAllotmentLeft > 0) {
         inputAllotmentLeft -= 1;
         const updatedHexArr = Object.entries(hexagons).filter(hex => hex[0] === id);
@@ -232,7 +265,7 @@ const mapDispatch = (dispatch, ownProps) => {
         firebase.ref(`/boards/${boardId}/hexes`).update(updatedHexObj);
         firebase.ref(`/boards/${boardId}/state`).update({ allotmentLeft: inputAllotmentLeft });
         if (inputAllotmentLeft === 0) {
-          changePhaseFunction(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId);
+          changePhaseFunction(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId, selectedHex);
           // highlightNeighbors(selectedHex, currentPlayer, hexagons);
         }
       }

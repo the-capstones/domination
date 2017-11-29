@@ -42,8 +42,11 @@ svg g polygon {
 }
 
 svg g text {
-  font-size: 0.18em;
-  fill: white;
+  font-family: $hex-text;
+  font-size: 0.45rem;
+  font-weight: bold;
+  stroke: $neutral-light;
+  stroke-width: 0.1;
   fill-opacity: 1;
 }
 
@@ -69,7 +72,7 @@ svg g text {
 }
 
 .hex-fill-black {
-  fill: $black;
+
 }
 
 // Don't know what this did

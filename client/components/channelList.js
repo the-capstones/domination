@@ -13,25 +13,33 @@ const ChannelList = (props) => {
   return (
     <div className="channel-list-wrapper">
       <div className="channel-list">
-
+        <div className="channel titles">
+          <p>Created By</p>
+          <p>Game Name</p>
+          <p>Max Players</p>
+          <p></p>
+        </div>
         {
           allBoards && Object.entries(allBoards)
             .filter(board => {
-              return board[1].state.status === 'waiting'
-                && board[1].maxPlayers > board[1].state.playerOrder.length
+              if (board[1].state.playerOrder) {
+                return board[1].state.status === 'waiting'
+                  && board[1].maxPlayers > board[1].state.playerOrder.length
+              }
             })
             .map((board, i) => {
               const boardId = board[0];
               const boardState = board[1];
               const { boardName, maxPlayers } = boardState;
+              const creator = boardState.state.playerOrder[0];
               const currentPlayers = boardState.state.playerOrder;
               const amountOfCurrentPlayers = currentPlayers && Object.keys(currentPlayers).length;
 
               return (
                 <div key={i} className="channel">
-                  <p>{boardId}</p>
-                  <p>{boardName}</p>
-                  <p>players {amountOfCurrentPlayers}/{maxPlayers}</p>
+                  <p>{creator}</p>
+                  <p>{boardName || 'Untitled'}</p>
+                  <p>{amountOfCurrentPlayers}/{maxPlayers}</p>
                   <button onClick={() => joinGame(boardId, user)}>Join Game</button>
                 </div>
               )

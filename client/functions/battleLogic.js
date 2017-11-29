@@ -58,11 +58,13 @@ const takeOverSpace = (boardId, hexes, attackingHexId, defendingHexId, attacking
   return true;
 }
 
-const displayResult = (winnerId, loserId, unitOrSpace) => {
+const displayResult = (winnerId, loserId, unitOrSpace, attackerName) => {
   const resultElement = document.getElementById('result');
   const guiMessage = `${winnerId} wins. ${loserId} loses a ${unitOrSpace}.`;
+  const setColor = winnerId === attackerName ? '#00ff00' : '#ff0000';
 
   resultElement.innerHTML = guiMessage;
+  resultElement.style.color = setColor;
 }
 
 export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendingHexId, attackingUnits, defendingUnits, attackerName, defenderName, playerOrder }) => {
@@ -82,14 +84,14 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
   attackerDice.filter(container => {
     const label = container.getElementsByTagName('label');
     const roll = dieRoll(1);
-    label[0].innerHTML = roll;
+    label[0].innerHTML = "&#x268" + (roll - 1) + "; ";
     attackerRolls.push(roll);
   })
 
   defenderDice.filter(container => {
     const label = container.getElementsByTagName('label');
     const roll = dieRoll(1);
-    label[0].innerHTML = roll;
+    label[0].innerHTML = "&#x268" + (roll - 1) + "; ";
     defenderRolls.push(roll);
   })
 
@@ -98,19 +100,19 @@ export const handleRoll = ({ boardId, hexes, endCombat, attackingHexId, defendin
 
   if (attackerHighestRoll > defenderHighestRoll) {
     updateUnits(boardId, defendingHexId, defendingUnits - 1);
-    displayResult(attackerName, defenderName, 'unit')
+    displayResult(attackerName, defenderName, 'unit', attackerName)
 
     const defenderLost = defendingUnits <= 1;
     defenderLost
     && takeOverSpace(boardId, hexes, attackingHexId, defendingHexId, attackingUnits - 1, playerOrder)
     && updateUnits(boardId, attackingHexId, 1)
-    && endCombat(attackingHexId)
+    // && endCombat(attackingHexId)
   } else {
     updateUnits(boardId, attackingHexId, attackingUnits - 1);
-    displayResult(defenderName, attackerName, 'unit')
+    displayResult(defenderName, attackerName, 'unit', attackerName)
 
-    const enoughAttackingUnits = attackingUnits - 1 > 1;
-    !enoughAttackingUnits && endCombat(attackingHexId);
+    // const enoughAttackingUnits = attackingUnits - 1 > 1;
+    // !enoughAttackingUnits && endCombat(attackingHexId);
   }
 }
 

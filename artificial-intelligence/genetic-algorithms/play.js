@@ -5,7 +5,7 @@
 /* eslint "guard-for-in": 0 */
 
 const trueskill = require('trueskill')
-const fs = require('fs')
+// const fs = require('fs')
 const battleMatrix = require('../battleMatrix')
 const { hexagons } = require('../funcs/gridGenerator')
 const { bestMove } = require('../fortifyFunction')
@@ -351,4 +351,4 @@ let p4 = {
 const used = process.memoryUsage().heapUsed / 1024 / 1024;
 console.log(`The entire process is currently using approximately ${used} MB`);
 
-module.exports = { shufflePlayerOrder, play }
+module.exports = { shufflePlayerOrder, play, rollDiceAndReturnMax }

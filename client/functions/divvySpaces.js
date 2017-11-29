@@ -1,16 +1,18 @@
 import firebase from '../firebase';
-import { validBoardCheck } from './';
+import { validBoardCheck, spriteGenerator } from './';
 
 const PERCENT_DISABLED = .20;
+const AMOUNT_OF_LANDMARKS = 6;
 
-export const divvySpaces = (playerOrder, hexes, boardId) => {
+export const divvySpaces = (playerOrder, hexes, boardId, amountVoid) => {
   let validBoard = false;
+  let percentVoid = amountVoid || PERCENT_DISABLED;
 
   while (!validBoard) {
     const players = ['', ...playerOrder];
     const numPlayers = playerOrder.length;
     let numSpaces = Object.keys(hexes).length;
-    let numVoidSpaces = Math.floor(numSpaces * PERCENT_DISABLED);
+    let numVoidSpaces = Math.floor(numSpaces * percentVoid);
     let numAllotSpaces = numSpaces - numVoidSpaces;
 
     // distributes spaces evenly to players
@@ -32,22 +34,46 @@ export const divvySpaces = (playerOrder, hexes, boardId) => {
       { color: 'orange', amount: spacesPerPlayer },
     ]
 
+    const sprites = spriteGenerator('medieval');
+    let landmarksAvailable = [];
+
     // used for validBoardCheck
     let initialValidHex;
 
     const hexesCopy = Object.assign({}, hexes);
+    const copyKeys = Object.keys(hexesCopy);
 
-    Object.keys(hexesCopy).forEach(id => {
+    while (landmarksAvailable.length < AMOUNT_OF_LANDMARKS) {
+      const randomHex = Math.floor(Math.random() * copyKeys.length);
+      landmarksAvailable.push(copyKeys[randomHex]);
+    }
+
+    copyKeys.forEach(id => {
       let successfulAssign = false;
       while (!successfulAssign) {
+        // player
         const assign = Math.floor(Math.random() * (numPlayers + 1));
         const assignment = assignmentColors[assign];
         const player = players[assign];
         const hex = hexesCopy[id];
 
+        // sprite
+        const tiles = sprites.tiles;
+        const spriteAssign = Math.floor(Math.random() * tiles.length);
+        let sprite = player === ''
+          ? sprites.disabled
+          : tiles[spriteAssign];
+
+        if (player !== '' && landmarksAvailable.includes(id)) {
+          const landmarks = sprites.landmarks;
+          const landmarkAssign = Math.floor(Math.random() * landmarks.length);
+          sprite = landmarks[landmarkAssign];
+        }
+
         if (assignment.amount > 0) {
           assignment.amount--;
           hex.playerId = player;
+          hex.tile = sprite;
           successfulAssign = true;
         }
         if (!initialValidHex && hexesCopy[id].playerId !== '') initialValidHex = id;
@@ -68,10 +94,11 @@ export const addColors = (playerOrder, hexes) => {
   if (hexes) {
     Object.keys(hexes).forEach(id => {
       const hex = document.getElementById(id)
+      const text = [...hex.parentElement.childNodes][1];
       const username = hexes[id].playerId;
       const playerId = players.indexOf(username);
-      hex.classList.remove('hex-fill-red', 'hex-fill-black', 'hex-fill-blue', 'hex-fill-yellow', 'hex-fill-green', 'hex-fill-orange')
-      hex.classList.add(`hex-fill-${colors[playerId]}`);
+      text.classList.remove('hex-fill-red', 'hex-fill-black', 'hex-fill-blue', 'hex-fill-yellow', 'hex-fill-green', 'hex-fill-orange')
+      text.classList.add(`hex-fill-${colors[playerId]}`);
     })
   }
 }
