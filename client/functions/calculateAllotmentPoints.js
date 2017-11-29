@@ -11,14 +11,14 @@ const calcHexesOwned = (hexes) => {
   return players;
 }
 
-export const calcAllotmentPoints = (boardId, hexes) => {
+export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3) => {
   const hexesOwned = calcHexesOwned(hexes);
   const allotmentPointsPerTurn = {};
-  const PER_HEX_POINTS = 0.0833; // 1/15 || 1 per 15 owned
+  const ALLOTMENT_RATE = 1 / allotmentRate;
 
   for (let player in hexesOwned) {
     if (!!player) {
-      allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * PER_HEX_POINTS);
+      allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * ALLOTMENT_RATE);
     }
   }
   firebase.ref(`/boards/${boardId}/state`).update({ allotmentPointsPerTurn })

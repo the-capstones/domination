@@ -12,6 +12,7 @@ const ChannelList = (props) => {
 
   return (
     <div className="channel-list-wrapper">
+      <h1>Available Games</h1>
       <div className="channel-list">
         <div className="channel titles">
           <p>Created By</p>

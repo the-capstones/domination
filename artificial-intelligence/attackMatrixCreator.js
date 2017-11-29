@@ -88,9 +88,9 @@ function playableHexes(hexesObj, artIntelplayerId) {
     return enoughUnitsResults
 }
 
-// test the function playableHexes with the console.log statements below
-// console.log(hexesStep1)
-// console.log(playableHexes(hexesStep1, myPlayerId))
+// test the function playableHexes with the // console.log statements below
+// // console.log(hexesStep1)
+// // console.log(playableHexes(hexesStep1, myPlayerId))
 
 // Step 2: For a given hex, which hexes can I attack?          (container Function: attackableHexes)
 // --adjacent hexes,                                           (function: adjacentHex)
@@ -182,10 +182,10 @@ function attackableHexes(allHexesObj, startingHexString, artIntelplayerId) {
     return attackableHexArr
 }
 
-// test the function attackableHexes with the console.log statements below
-// console.log(startingHex, 'dummy starting hex')
-// console.log(attackableHexes(hexesStep2, startingHex, myPlayerId), 'final results!')
-// console.log(findAllEnemyHexesOnBoard(hexesStep2, myPlayerId), 'all enemy hexes!')
+// test the function attackableHexes with the // console.log statements below
+// // console.log(startingHex, 'dummy starting hex')
+// // console.log(attackableHexes(hexesStep2, startingHex, myPlayerId), 'final results!')
+// // console.log(findAllEnemyHexesOnBoard(hexesStep2, myPlayerId), 'all enemy hexes!')
 
 // Step 3: For a given board, what are all the attacks I can make?
 // (container Function: attackMatrix)
@@ -288,15 +288,15 @@ function attackMatrix(hexesObj, artIntelplayerId) {
     return attackMoveObj
 }
 
-// // test the function attackMatrix with the console.log statements below
-// console.log('----------------');
-// console.log('----------------');
-// console.log('starting board state')
-// console.log(hexesStep3)
-// console.log('----------------');
-// console.log('----------------');
-// console.log('starting playerId for the artificial intelligence', myPlayerId)
-// console.log(attackMatrix(hexesStep3, myPlayerId))
+// // test the function attackMatrix with the // console.log statements below
+// // console.log('----------------');
+// // console.log('----------------');
+// // console.log('starting board state')
+// // console.log(hexesStep3)
+// // console.log('----------------');
+// // console.log('----------------');
+// // console.log('starting playerId for the artificial intelligence', myPlayerId)
+// // console.log(attackMatrix(hexesStep3, myPlayerId))
 
 module.exports = {
     attackMatrix,

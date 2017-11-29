@@ -20,25 +20,62 @@ const NewGame = (props) => {
           <label htmlFor="boardName"><small>Game Room Name</small></label>
           <input name="boardName" type="text" />
         </div>
+        <div className="gameSettings">
         <div className="max-players">
           <label htmlFor="maxPlayers"><small>Number of Players:</small></label>
-          <input name="maxPlayers" type="number" defaultValue="2" min="2" max="5" />
+          <select name="maxPlayers">
+            <option value={2} >2</option>
+            <option value={3} >3</option>
+            <option value={4} >4</option>
+            <option value={5} >5</option>
+          </select>
+
         </div>
-        <div className="gameSettings">
           <div>
             <label htmlFor="boardSize"><small>Board size:</small></label>
             <select name="boardSize">
               <option value={'rectangle-small'} >Small</option>
               <option value={'rectangle-medium'} >Medium</option>
               <option value={'rectangle-large'} >Large</option>
-              <option value={'rectangle-epic'} >Epic</option>
+              {
+                // <option value={'rectangle-epic'} >Epic</option>
+              }
               <option value={'hexagon'} >Hexagon</option>
             </select>
           </div>
           <div>
             <label htmlFor="percentVoid"><small>Void spaces:</small></label>
-            <input name="percentVoidSpaces" type="number" min="0" max="90" defaultValue="20" />
+            <select name="percentVoid">
+              <option value={0} >0</option>
+              <option value={5} >5</option>
+              <option value={10} >10</option>
+              <option value={15} >15</option>
+              <option value={20} >20</option>
+              <option value={25} >25</option>
+              <option value={30} >30</option>
+              <option value={35} >35</option>
+              <option value={40} >40</option>
+              <option value={45} >45</option>
+              <option value={50} >50</option>
+            </select>
             <label><small> %</small></label>
+          </div>
+
+          <div>
+            <label htmlFor="allotmentRate"><small>Recieve an army for every </small></label>
+            <select name="allotmentRate">
+              <option value={10} >10</option>
+              <option value={9} >9</option>
+              <option value={8} >8</option>
+              <option value={7} >7</option>
+              <option value={5} >5</option>
+              <option value={4} >4</option>
+              <option value={3} >3</option>
+              <option value={6} >6</option>
+              <option value={2} >2</option>
+              <option value={1} >1</option>
+            </select>
+            <label><small> territories owned.</small></label>
           </div>
         </div>
 
@@ -60,7 +97,8 @@ const mapDispatch = (dispatch, ownProps) => {
       const maxPlayers = evt.target.maxPlayers.value || 2;
       let boardSize = evt.target.boardSize.value;
       const boardConfig = configs[boardSize]
-      const percentVoidSpaces = evt.target.percentVoidSpaces.value / 100;
+      const percentVoid = evt.target.percentVoid.value / 100;
+      const allotmentRate = evt.target.allotmentRate.value;
       const hexagons = createGrid(boardConfig)
       let hexes = {}
 
@@ -79,9 +117,10 @@ const mapDispatch = (dispatch, ownProps) => {
         currentPhase: 'allotment', // or whatever default state 'start' should be default for distribution
         currentPlayer: user.username, // default 1st player
         playerOrder: [user.username], // array of all players in order of turn
+        allotmentRate: allotmentRate,
         allotmentPointsPerTurn: { [user.username]: 3 }, //obj of points(val) per player(key) per turn
         allotmentLeft: 3,
-        percentVoidSpaces: percentVoidSpaces,
+        percentVoidSpaces: percentVoid,
         boardLayout: boardConfig,
         hexagons: hexagons,
         gameSettings: 'default', // array/obj of game settings TBD
