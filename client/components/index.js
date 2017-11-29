@@ -14,5 +14,6 @@ export { default as CombatRisk } from './combat-risk';
 export { default as CombatCustom } from './combat-custom';
 export { default as ChannelList } from './channelList';
 export { default as GameOver } from './gameover';
+export { default as Credits } from './credits';
 export { default as ClassSelect } from './class-select';
 export { default as Rules } from './rules';

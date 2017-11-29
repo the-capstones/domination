@@ -16,6 +16,7 @@ import {
   ChannelList,
   AllotmentGUI,
   NewGame,
+  Credits,
   ClassSelect,
   Rules,
 } from './components';
@@ -44,6 +45,7 @@ class Routes extends Component {
           <Switch>
           <Route path="/boards/:boardId" component={Room} />
           <Route path="/newGame" component={NewGame} />
+          <Route path="/credits" component={Credits} />
           <Route path="/rules" component={Rules} />
             <Route path="/channels" component={ChannelList} />
             {!isLoggedIn && <Route exact path="/" component={Login} />}
