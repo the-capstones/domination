@@ -17,11 +17,16 @@ const Credits = () => {
 
               <h2>Zachary D Friedman </h2>
               <h3>
-                <a href="https://zacharydfriedman.herokuapp.com/"><i class="fa fa-globe" aria-hidden="true"></i>
-                </a>|
-            <a href="https://github.com/ZacharyDudley"> <i class="fa fa-github-alt" aria-hidden="true"></i>
-                </a>|
-            <a href="https://www.linkedin.com/in/zacharydfriedman/"> <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                <a href="https://zacharydfriedman.herokuapp.com/">
+                  <i class="fa fa-globe" aria-hidden="true"></i>
+                </a>
+                &bull;
+                <a href="https://github.com/ZacharyDudley">
+                  <i class="fa fa-github-alt" aria-hidden="true"></i>
+                </a>
+                &bull;
+                <a href="https://www.linkedin.com/in/zacharydfriedman/">
+                  <i class="fa fa-linkedin-square" aria-hidden="true"></i>
                 </a>
               </h3>
             </div>
@@ -35,11 +40,16 @@ const Credits = () => {
             <div className="bg-yellow">
               <h2>Damian Michniak</h2>
               <h3>
-                <a href=""><i class="fa fa-globe" aria-hidden="true"></i>
-                </a>|
-            <a href="https://github.com/Cosmet"> <i class="fa fa-github-alt" aria-hidden="true"></i>
-                </a>|
-            <a href="https://www.linkedin.com/in/damian-michniak/"> <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                <a href="">
+                  <i class="fa fa-globe" aria-hidden="true"></i>
+                </a>
+                &bull;
+                <a href="https://github.com/Cosmet">
+                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                </a>
+                &bull;
+                <a href="https://www.linkedin.com/in/damian-michniak/">
+                  <i class="fa fa-linkedin-square" aria-hidden="true"></i>
                 </a>
               </h3>
             </div>
@@ -54,11 +64,16 @@ const Credits = () => {
 
               <h2>BreAnna Silva</h2>
               <h3>
-                <a href=""><i class="fa fa-globe" aria-hidden="true"></i>
-                </a>|
-            <a href="https://github.com/bfsilva713"> <i class="fa fa-github-alt" aria-hidden="true"></i>
-                </a>|
-            <a href="https://www.linkedin.com/in/breannafsilva/"> <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                <a href="">
+                  <i class="fa fa-globe" aria-hidden="true"></i>
+                </a>
+                &bull;
+                <a href="https://github.com/bfsilva713">
+                  <i class="fa fa-github-alt" aria-hidden="true"></i>
+                </a>
+                &bull;
+                <a href="https://www.linkedin.com/in/breannafsilva/">
+                  <i class="fa fa-linkedin-square" aria-hidden="true"></i>
                 </a>
               </h3>
             </div>
@@ -73,11 +88,16 @@ const Credits = () => {
 
               <h2>Christian Sadi</h2>
               <h3>
-                <a href=""><i class="fa fa-globe" aria-hidden="true"></i>
-                </a>|
-            <a href="https://github.com/bizdevchristian"> <i class="fa fa-github-alt" aria-hidden="true"></i>
-                </a>|
-            <a href="https://www.linkedin.com/in/christiansadi/"> <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                <a href="">
+                  <i class="fa fa-globe" aria-hidden="true"></i>
+                </a>
+                &bull;
+                <a href="https://github.com/bizdevchristian">
+                  <i class="fa fa-github-alt" aria-hidden="true"></i>
+                </a>
+                &bull;
+                <a href="https://www.linkedin.com/in/christiansadi/">
+                  <i class="fa fa-linkedin-square" aria-hidden="true"></i>
                 </a>
               </h3>
             </div>
