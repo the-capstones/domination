@@ -181,7 +181,10 @@ const mapDispatch = (dispatch, ownProps) => {
         let unitsToMove = Math.min(startingHexUnits - 1, 15 - endingHexUnits)
         let fromHexUnits = board[fromHex].unit1 - unitsToMove
         let toHexUnits = board[toHex].unit1 + unitsToMove
-        firebase.ref(`boards/${boardId}/hexes`).update({ [fromHex]: {unit1: fromHexUnits}, [toHex]: {unit1: toHexUnits} })
+        firebase.ref(`boards/${boardId}/hexes/${fromHex}`).update({unit1: fromHexUnits})
+          .then(() => {
+            firebase.ref(`boards/${boardId}/hexes/${toHex}`).update({unit1: toHexUnits})
+          })
           .then(() => {
             console.log(`moved ${unitsToMove} from ${fromHex} to ${toHex}`)
             // firebase.ref(`boards/${boardId}/state`)
