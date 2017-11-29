@@ -23,7 +23,7 @@ const PhaseModal = props => {
           (
             <div>
               <p>Click on the territory from which you're attacking. Attackable hexes will then be highlighted in red. Then, click on the hex you want to attack and roll the dice.</p>
-              <p>(You must have at lest 2 units on a territory to attack.)</p>
+              <p>(You must have at least 2 units on a territory to attack.)</p>
             </div>
           )
         }
