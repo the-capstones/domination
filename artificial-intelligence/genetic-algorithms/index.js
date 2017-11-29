@@ -5,9 +5,6 @@ const { generateStartingGenomes } = require('./population')
 const { play } = require('./play')
 const { populateNextGeneration } = require('./reproduction')
 
-// QUESTION
-// ran into error while running to test (screen shot saved - 'JavaScipt heap out of memory').
-
 /* generate starting genomes: array of 20 AI players with random genetic material */
 
 let genomes = generateStartingGenomes()
