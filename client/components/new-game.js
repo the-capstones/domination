@@ -37,7 +37,7 @@ const NewGame = (props) => {
           </div>
           <div>
             <label htmlFor="percentVoid"><small>Void spaces:</small></label>
-            <input name="percentVoidSpaces" type="number" min="0" max="90" defaultValue="20" />
+            <input name="percentVoidSpaces" type="number" min="0" max="50" defaultValue="20" />
             <label><small> %</small></label>
           </div>
         </div>
