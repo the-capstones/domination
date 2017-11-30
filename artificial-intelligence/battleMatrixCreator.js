@@ -31,19 +31,19 @@ const maxUnits = 15
 // console.log('----------------');
 // console.log('----------------');
 // console.log(
-  'In each battle the attacker will roll ',
-  attackDice,
-  'dice. The defender will roll ',
-  defendDice,
-  "dice. The highest die of each party's rolls will be compared.",
-  "The attacker wins only if his die roll is higher than the defender's die roll.",
-  'In the event of a tie, the defender wins.',
-  'The maximum number of units on a territory is',
-  maxUnits,
-  '. Because an attacker must leave 1 unit on a territory at all times, they can attack with at most',
-  maxUnits - 1,
-  'units at a time.'
-);
+//   'In each battle the attacker will roll ',
+//   attackDice,
+//   'dice. The defender will roll ',
+//   defendDice,
+//   "dice. The highest die of each party's rolls will be compared.",
+//   "The attacker wins only if his die roll is higher than the defender's die roll.",
+//   'In the event of a tie, the defender wins.',
+//   'The maximum number of units on a territory is',
+//   maxUnits,
+//   '. Because an attacker must leave 1 unit on a territory at all times, they can attack with at most',
+//   maxUnits - 1,
+//   'units at a time.'
+// );
 // console.log('----------------');
 
 // Dice Combinatorics
@@ -105,16 +105,21 @@ function expectedProbability(arr) {
 const attackObj = expectedProbability(attackersDiceRolls);
 const defendObj = expectedProbability(defendersDiceRolls);
 // console.log(
-  'Based on the variables above, the following object gives the chance for the highest die roll of the attacker.'
-);
-// console.log(attackObj);
-// console.log('----------------');
-// console.log(
-  'Based on the variables above, the following object gives the chance for the highest die roll of the defender.'
-);
+//   'Based on the variables above, the following object gives the chance for the highest die roll of the attacker.'
+// );
+// // console.log(attackObj);
+// // console.log('----------------');
+// // console.log(
+//   'Based on the variables above, the following object gives the chance for the highest die roll of the defender.'
+// );
 // console.log(defendObj);
 // console.log('----------------');
 // Step 5: Calculate the probability that an attacker will win in a 1 on 1 battle
+
+// QUESTION
+// what is this supposed to do? not sure why we're only looking at one player's
+// dice rolls, and then comparing the first element to the second within
+// that same hand
 function calculateAttackerWinPercentage(arr, attackObj, defendObj) {
   let attackerWinPercentage = 0;
   arr.forEach(diceCombo => {
@@ -135,10 +140,10 @@ const attackerWinPercentage = calculateAttackerWinPercentage(
   defendObj
 );
 // console.log(
-  'In any given 1 on 1 battle, the attacker should win ',
-  (attackerWinPercentage * 100).toFixed(2),
-  '% of the time.'
-);
+//   'In any given 1 on 1 battle, the attacker should win ',
+//   (attackerWinPercentage * 100).toFixed(2),
+//   '% of the time.'
+// );
 // console.log('----------------');
 
 // Step 6: Create the battle matrix for a variable number of attackers and defenders
@@ -235,6 +240,8 @@ function battleProbabilityMatrixCreator(
 
 battleProbabilityMatrixCreator(maxUnits - 1, maxUnits);
 
+console.log(fullBattleObject)
+
 function expectedBattleOutcome(fullBattleObj) {
   for (const attackerUnits in fullBattleObj) {
     for (const defenderUnits in fullBattleObj[attackerUnits]) {
@@ -257,10 +264,10 @@ function expectedBattleOutcome(fullBattleObj) {
   }
 }
 
-expectedBattleOutcome(fullBattleObject);
+// expectedBattleOutcome(fullBattleObject);
 // console.log("Below, you'll see a battle probability matrix object.",
-'The first key in the object is the number of units the attacker has.',
-'The second key represents the number of units the defender has.',
-"In the last section, you'll see the expected chance of the attacker winning that engagement and the expected number of units they would have if they went through with the attack.")
+// 'The first key in the object is the number of units the attacker has.',
+// 'The second key represents the number of units the defender has.',
+// "In the last section, you'll see the expected chance of the attacker winning that engagement and the expected number of units they would have if they went through with the attack.")
 // console.log('----------------');
 // console.log(util.inspect(fullBattleObject, false, null));

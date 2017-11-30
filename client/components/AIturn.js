@@ -35,9 +35,9 @@ function AIturn(props) {
   return (
     <div id="ai-turn">
       <h1> Zero's turn!</h1>
-      {phase === 'allotment' && allot(allotment, board, id)}
-      {phase === 'attack' && attack(board, id, currentPlayer)}
-      {phase === 'fortification' && fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer)}
+      {phase === 'allotment' && setTimeout(() => {allot(allotment, board, id)}, 2000)}
+      {phase === 'attack' && setTimeout(() => {attack(board, id, currentPlayer)}, 2000)}
+      {phase === 'fortification' && setTimeout(() => {fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer)}, 2000)}
     </div>
   )
 }
