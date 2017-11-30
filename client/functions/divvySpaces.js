@@ -47,7 +47,6 @@ export const divvySpaces = (playerOrder, hexes, boardId, amountVoid, amountLandm
     while (landmarksAvailable.length < AMOUNT_OF_LANDMARKS) {
       const randomHex = Math.floor(Math.random() * copyKeys.length);
       if (!landmarksAvailable.includes(copyKeys[randomHex])) landmarksAvailable.push(copyKeys[randomHex]);
-      console.log('LANDMARKS AVAIL', landmarksAvailable)
     }
 
     copyKeys.forEach(id => {
