@@ -94,7 +94,7 @@ const Sidebar = (props) => {
           <div className="avatar">
             {
               playerClasses
-              && playerClasses.hasOwnProperty(user)
+                && playerClasses.hasOwnProperty(user)
                 ? <img src={`../assets/avatar/${playerClasses[user]}.png`} style={{ background: colors[playerIndex] }} />
                 : <button onClick={showSelectClass}>Select A Class</button>
             }
@@ -104,7 +104,10 @@ const Sidebar = (props) => {
             <table>
               <tbody>
                 <tr>
-                  <th><i className="fa fa-pie-chart" aria-hidden="true"></i>
+                  <th>
+                    <Link to={`/boards/${boardId}/scoreboard`}>
+                      <i className="fa fa-pie-chart" aria-hidden="true"></i>
+                    </Link>
                   </th>
                   <th>Username</th>
                 </tr>
@@ -112,10 +115,10 @@ const Sidebar = (props) => {
                   playerOrder.map((player, i) => (
                     <tr key={i}>
                       <td className="playerColorSidebar" style={{ background: colors[i] }}>
-                      {
-                        player === currentPlayer
-                        && <img className="sidebar-icon" src={`../assets/${icons[currentPhase]}.svg`} />
-                      }
+                        {
+                          player === currentPlayer
+                          && <img className="sidebar-icon" src={`../assets/${icons[currentPhase]}.svg`} />
+                        }
                       </td>
                       <td className="playerNameSidebar">
                       {

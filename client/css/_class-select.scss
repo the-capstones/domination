@@ -10,13 +10,14 @@
   z-index: 999;
   width: 100vw;
   height: 100vh;
+  overflow: scroll;
 
   .title {
     font-family: $title;
     font-size: 1.5rem;
     width: 60vw;
     border-radius: 5px 5px 0 0;
-    border: 1px solid $neutral-dark;
+    border: 1px solid $neutral;
     background: $black;
     text-align:center;
   }
@@ -30,6 +31,7 @@
     background: $black;
     border-radius: 0 0 5px 5px;
     border: 1px solid $neutral;
+    overflow: scroll;
 
     label {
       display: flex;

@@ -1,0 +1,74 @@
+@import './_variables.scss';
+
+.scoreboard-wrapper {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  top: 0;
+  z-index: 999;
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
+
+  .title {
+    font-family: $title;
+    font-size: 1.5rem;
+    width: 60vw;
+    border-radius: 5px 5px 0 0;
+    border: 1px solid $neutral;
+    background: $black;
+    text-align:center;
+  }
+}
+
+.scoreboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 60vw;
+  height: 60vh;
+  background: $black;
+  border-radius: 0 0 5px 5px;
+  border: 1px solid $neutral;
+  overflow: scroll;
+
+  button {
+    align-self: flex-end;
+    font-family: $title;
+    font-size: 2rem;
+    height: 6rem;
+    width: 100%;
+    background: $primary;
+    color: $neutral;
+    border: none;
+    border-radius: 0 0 5px 5px;
+
+    &:hover {
+      background: $primary-light;
+    }
+  }
+}
+
+.scoreboard-player {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $black-light;
+  height: 5rem;
+  width: 100%;
+  margin: 1rem;
+  border-radius: 5px;
+  border: 1px solid $neutral;
+  font-size: 1.5rem;
+
+  div {
+    flex-basis: 20%;
+  }
+
+  .scoreboard-colors {
+    height: 100%;
+    flex-basis: 50px;
+  }
+}
