@@ -8,7 +8,7 @@ export const divvySpaces = (playerOrder, hexes, boardId, amountVoid, amountLandm
   let validBoard = false;
   let percentVoid = amountVoid || PERCENT_DISABLED;
   AMOUNT_OF_LANDMARKS = amountLandmark || AMOUNT_OF_LANDMARKS;
-console.log('IN DIVVY ', AMOUNT_OF_LANDMARKS)
+
   while (!validBoard) {
     const players = ['', ...playerOrder];
     const numPlayers = playerOrder.length;
@@ -69,7 +69,6 @@ console.log('IN DIVVY ', AMOUNT_OF_LANDMARKS)
         if (player !== '' && landmarksAvailable.includes(id)) {
           const landmarks = sprites.landmarks;
           const landmarkAssign = Math.floor(Math.random() * landmarks.length);
-          console.log(landmarks[landmarkAssign])
           sprite = landmarks[landmarkAssign];
         }
 
