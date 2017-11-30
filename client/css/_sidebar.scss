@@ -128,8 +128,25 @@ nav {
     color: $black;
   }
 
+  .fa-pie-chart {
+    color: $neutral;
+  }
+
   .fa-pie-chart:hover {
     color: $primary;
+  }
+
+  .playerNameSidebar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    img {
+      position: absolute;
+      right: 0;
+      width: 25px;
+    }
   }
 }
 
