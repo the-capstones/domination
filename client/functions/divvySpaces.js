@@ -8,7 +8,7 @@ export const divvySpaces = (playerOrder, hexes, boardId, amountVoid, amountLandm
   let validBoard = false;
   let percentVoid = amountVoid || PERCENT_DISABLED;
   AMOUNT_OF_LANDMARKS = amountLandmark || AMOUNT_OF_LANDMARKS;
-
+console.log('IN DIVVY ', AMOUNT_OF_LANDMARKS)
   while (!validBoard) {
     const players = ['', ...playerOrder];
     const numPlayers = playerOrder.length;
@@ -47,6 +47,7 @@ export const divvySpaces = (playerOrder, hexes, boardId, amountVoid, amountLandm
     while (landmarksAvailable.length < AMOUNT_OF_LANDMARKS) {
       const randomHex = Math.floor(Math.random() * copyKeys.length);
       landmarksAvailable.push(copyKeys[randomHex]);
+      console.log('LANDMARKS AVAIL', landmarksAvailable)
     }
 
     copyKeys.forEach(id => {
