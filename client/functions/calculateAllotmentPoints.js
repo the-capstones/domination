@@ -53,8 +53,7 @@ export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3, landmarkV
 
   for (let player in hexesOwned) {
     if (!!player) {
-      allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * ALLOTMENT_RATE) + (playerLandmarks[player] * landmarkValue);
-      console.log(player, allotmentPointsPerTurn)
+      allotmentPointsPerTurn[player] = Math.floor(hexesOwned[player] * ALLOTMENT_RATE) + (playerLandmarks[player] || 0 * landmarkValue);
     }
   }
   firebase.ref(`/boards/${boardId}/state`).update({ allotmentPointsPerTurn })
