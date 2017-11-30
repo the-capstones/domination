@@ -12,7 +12,6 @@ const WaitingRoom = (props) => {
   const { board, user } = props
   const maxPlayers = board.maxPlayers
   const numPlayers = board.state.playerOrder.length
-console.log('WAITING FREQ', board.state.landmarksFreq)
   return (
     <div id="waiting-room">
       <div id="waiting-room-content">
