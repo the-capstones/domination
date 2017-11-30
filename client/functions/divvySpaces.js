@@ -1,8 +1,8 @@
 import firebase from '../firebase';
 import { validBoardCheck, spriteGenerator } from './';
 
-const PERCENT_DISABLED = .20;
-let AMOUNT_OF_LANDMARKS = 6;
+const PERCENT_DISABLED = 0;
+let AMOUNT_OF_LANDMARKS = 5;
 
 export const divvySpaces = (playerOrder, hexes, boardId, amountVoid, amountLandmark) => {
   let validBoard = false;
@@ -46,7 +46,7 @@ console.log('IN DIVVY ', AMOUNT_OF_LANDMARKS)
 
     while (landmarksAvailable.length < AMOUNT_OF_LANDMARKS) {
       const randomHex = Math.floor(Math.random() * copyKeys.length);
-      landmarksAvailable.push(copyKeys[randomHex]);
+      if (!landmarksAvailable.includes(copyKeys[randomHex])) landmarksAvailable.push(copyKeys[randomHex]);
       console.log('LANDMARKS AVAIL', landmarksAvailable)
     }
 
@@ -69,6 +69,7 @@ console.log('IN DIVVY ', AMOUNT_OF_LANDMARKS)
         if (player !== '' && landmarksAvailable.includes(id)) {
           const landmarks = sprites.landmarks;
           const landmarkAssign = Math.floor(Math.random() * landmarks.length);
+          console.log(landmarks[landmarkAssign])
           sprite = landmarks[landmarkAssign];
         }
 
