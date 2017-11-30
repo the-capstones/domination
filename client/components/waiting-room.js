@@ -241,7 +241,6 @@ const mapDispatch = (dispatch, ownProps) => {
     startGame(evnt, playerOrder, hexes, percentVoid, landmarkFreq) {
       evnt.preventDefault();
       const boardId = ownProps.match.params.boardId;
-      console.log('WAITING ', landmarkFreq)
       divvySpaces(playerOrder, hexes, boardId, percentVoid, landmarkFreq);
       dispatch(setInGame(true));
       firebase.ref(`/boards/${boardId}/state`).update({ status: 'playing' });
