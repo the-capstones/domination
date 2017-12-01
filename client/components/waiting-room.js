@@ -12,7 +12,6 @@ const WaitingRoom = (props) => {
   const { board, user } = props
   const maxPlayers = board.maxPlayers
   const numPlayers = board.state.playerOrder.length
-
   return (
     <div id="waiting-room">
       <div id="waiting-room-content">
@@ -218,7 +217,7 @@ const WaitingRoom = (props) => {
               <button
                 className="text"
                 type="submit"
-                onClick={(evnt) => props.startGame(evnt, board.state.playerOrder, board.hexes, board.state.percentVoidSpaces)}
+                onClick={(evnt) => props.startGame(evnt, board.state.playerOrder, board.hexes, board.state.percentVoidSpaces, board.state.landmarksFreq)}
               >
                 Start Game
               </button>
@@ -231,15 +230,18 @@ const WaitingRoom = (props) => {
 }
 
 const mapState = state => {
-  return { board: state.board, user: state.user }
+  return {
+    board: state.board,
+    user: state.user,
+  }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
   return {
-    startGame(evnt, playerOrder, hexes, percentVoid) {
+    startGame(evnt, playerOrder, hexes, percentVoid, landmarkFreq) {
       evnt.preventDefault();
       const boardId = ownProps.match.params.boardId;
-      divvySpaces(playerOrder, hexes, boardId, percentVoid);
+      divvySpaces(playerOrder, hexes, boardId, percentVoid, landmarkFreq);
       dispatch(setInGame(true));
       firebase.ref(`/boards/${boardId}/state`).update({ status: 'playing' });
     }

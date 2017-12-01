@@ -18,7 +18,7 @@ const ChannelList = (props) => {
           <p>Created By</p>
           <p>Game Name</p>
           <p>Max Players</p>
-          <p></p>
+          <p />
         </div>
         {
           allBoards && Object.entries(allBoards)

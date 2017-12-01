@@ -17,6 +17,7 @@ import {
   rollDiceAndReturnMax
 } from '../../artificial-intelligence'
 
+import '../css/_ai-turn.scss';
 
 function AIturn(props) {
   const {
