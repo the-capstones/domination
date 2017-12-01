@@ -43,7 +43,7 @@ function AIturn(props) {
       (<div>{currentPlayer} is allotting their units to the board</div>)
     }
     {phase === 'attack' &&
-      (<div>{currentPlayer} is attacking you!</div>)
+      (<div>{currentPlayer} is attacking!</div>)
     }
     {phase === 'fortification' &&
       (<div>{currentPlayer} is fortifying their armies</div>)
@@ -95,7 +95,6 @@ const mapDispatch = (dispatch, ownProps) => {
     },
 
     attack(board, id, currentPlayer) {
-      console.log('ATTACK')
       let minChanceToWin = 0.528
       let hexToAttack = ''
       let hexToAttackFrom = ''
@@ -113,11 +112,9 @@ const mapDispatch = (dispatch, ownProps) => {
 
           let attackUnits = board[playableHex].unit1 - 1
           let defendUnits = board[attackableHex].unit1
-          console.log(`${attackUnits} VS ${defendUnits}`)
 
           if (!hexToAttack) {
             let chanceToWin = battleMatrix[attackUnits][defendUnits].ChanceToWin
-            console.log('chanceToWin:', chanceToWin)
 
             if (chanceToWin >= minChanceToWin) {
               minChanceToWin = chanceToWin
@@ -133,18 +130,12 @@ const mapDispatch = (dispatch, ownProps) => {
         let defendUnits = board[hexToAttack].unit1
 
         while (attackUnits > 1 && defendUnits > 0) {
-          console.log(`attack units: ${attackUnits}`)
-          console.log(`defend units: ${defendUnits}`)
           let attackDiceRoll = rollDiceAndReturnMax(3)
           let defendDiceRoll = rollDiceAndReturnMax(2)
-          console.log(`${hexToAttackFrom} ATTACKING ~~~~~~~~> ${hexToAttack}`)
-          console.log(`attacker rolled ${attackDiceRoll}`)
-          console.log(`defender rolled ${defendDiceRoll}`)
 
           let hexToUpdate = attackDiceRoll > defendDiceRoll
             ? hexToAttack
             : hexToAttackFrom
-          console.log(`HEX TO UPDATE IS ${hexToUpdate}`)
 
           let newUnits = hexToUpdate === hexToAttack
             ? --defendUnits
