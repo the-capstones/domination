@@ -34,10 +34,19 @@ function AIturn(props) {
 
   return (
     <div id="ai-turn">
-      <h1> Zero's turn!</h1>
-      {phase === 'allotment' && allot(allotment, board, id)}
-      {phase === 'attack' && attack(board, id, currentPlayer)}
-      {phase === 'fortification' && fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer)}
+      <h1> {currentPlayer.slice(3)}'s turn!</h1>
+      {phase === 'allotment' && setTimeout(() => {allot(allotment, board, id)}, 2000)}
+      {phase === 'attack' && setTimeout(() => {attack(board, id, currentPlayer)}, 2000)}
+      {phase === 'fortification' && setTimeout(() => {fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer)}, 2000)}
+    {phase === 'allotment' &&
+      (<div>{currentPlayer.slice(3)} is allotting their units to the board</div>)
+    }
+    {phase === 'attack' &&
+      (<div>{currentPlayer.slice(3)} is attacking you!</div>)
+    }
+    {phase === 'fortification' &&
+      (<div>{currentPlayer.slice(3)} is fortifying their armies</div>)
+    }
     </div>
   )
 }
@@ -59,7 +68,7 @@ const mapState = state => {
 const mapDispatch = (dispatch, ownProps) => {
   let boardId = ownProps.match.params.boardId
   let hexesAllotedTo = []
-  
+
   return {
 
     allot(allotment, board, id) {
@@ -75,9 +84,6 @@ const mapDispatch = (dispatch, ownProps) => {
             .then(
             firebase.ref(`/boards/${boardId}/hexes/${hexToAllotTo}`)
               .update({ unit1: newUnits }))
-            .then(() => {
-              // console.log('ALLOTED UNITS TO', hexesAllotedTo)
-            })
         } else {
           return null
         }
@@ -88,7 +94,7 @@ const mapDispatch = (dispatch, ownProps) => {
     },
 
     attack(board, id, currentPlayer) {
-      // console.log('ATTACK')
+      console.log('ATTACK')
       let minChanceToWin = 0.40
       let hexToAttack = ''
       let hexToAttackFrom = ''
@@ -106,11 +112,11 @@ const mapDispatch = (dispatch, ownProps) => {
 
           let attackUnits = board[playableHex].unit1 - 1
           let defendUnits = board[attackableHex].unit1
-          // console.log(`${attackUnits} VS ${defendUnits}`)
+          console.log(`${attackUnits} VS ${defendUnits}`)
 
           if (!hexToAttack) {
             let chanceToWin = battleMatrix[attackUnits][defendUnits].ChanceToWin
-            // console.log('chanceToWin:', chanceToWin)
+            console.log('chanceToWin:', chanceToWin)
 
             if (chanceToWin >= minChanceToWin) {
               minChanceToWin = chanceToWin
@@ -126,18 +132,18 @@ const mapDispatch = (dispatch, ownProps) => {
         let defendUnits = board[hexToAttack].unit1
 
         while (attackUnits > 1 && defendUnits > 0) {
-          // console.log(`attack units: ${attackUnits}`)
-          // console.log(`defend units: ${defendUnits}`)
+          console.log(`attack units: ${attackUnits}`)
+          console.log(`defend units: ${defendUnits}`)
           let attackDiceRoll = rollDiceAndReturnMax(3)
           let defendDiceRoll = rollDiceAndReturnMax(2)
-          // console.log(`${hexToAttackFrom} ATTACKING ~~~~~~~~> ${hexToAttack}`)
-          // console.log(`attacker rolled ${attackDiceRoll}`)
-          // console.log(`defender rolled ${defendDiceRoll}`)
+          console.log(`${hexToAttackFrom} ATTACKING ~~~~~~~~> ${hexToAttack}`)
+          console.log(`attacker rolled ${attackDiceRoll}`)
+          console.log(`defender rolled ${defendDiceRoll}`)
 
           let hexToUpdate = attackDiceRoll > defendDiceRoll
             ? hexToAttack
             : hexToAttackFrom
-          // console.log(`HEX TO UPDATE IS ${hexToUpdate}`)
+          console.log(`HEX TO UPDATE IS ${hexToUpdate}`)
 
           let newUnits = hexToUpdate === hexToAttack
             ? --defendUnits
@@ -153,12 +159,12 @@ const mapDispatch = (dispatch, ownProps) => {
             newUnits = attackUnits - 1
             // update `update` object with moving units & AI playerId
             update = ({ unit1: newUnits, playerId: currentPlayer })
-            // console.log('update is', update)
+            console.log('update is', update)
             // attacking hex only has one unit now
             firebase.ref(`/boards/${boardId}/hexes/${hexToAttackFrom}`).update({ unit1: 1 })
-              // .then(console.log('updated?'))
+              .then(console.log('updated?'))
 
-            // console.log('test1')
+            console.log('test1')
           }
           // if defender won, update attacking with -1 units
           // if attacker won but defender still has units,
@@ -169,12 +175,12 @@ const mapDispatch = (dispatch, ownProps) => {
             .update(update)
         }
       } else {
-        // console.log('no hexes to attack')
+        console.log('no hexes to attack')
         firebase.ref(`boards/${boardId}/state`).update({ currentPhase: 'fortification' })
       }
     },
 
-    fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer) {
+    fortify(board, id, playerOrder, allotmentPointsPerTurn) {
       let bestOption = bestMove(board, id)
       if (bestOption) {
         let fromHex = bestOption[0]
@@ -184,16 +190,19 @@ const mapDispatch = (dispatch, ownProps) => {
         let unitsToMove = Math.min(startingHexUnits - 1, 15 - endingHexUnits)
         let fromHexUnits = board[fromHex].unit1 - unitsToMove
         let toHexUnits = board[toHex].unit1 + unitsToMove
-        firebase.ref(`boards/${boardId}/hexes`).update({ [fromHex]: fromHexUnits, [toHex]: toHexUnits })
+        firebase.ref(`boards/${boardId}/hexes/${fromHex}`).update({unit1: fromHexUnits})
           .then(() => {
-            // console.log(`moved ${unitsToMove} from ${fromHex} to ${toHex}`)
+            firebase.ref(`boards/${boardId}/hexes/${toHex}`).update({unit1: toHexUnits})
+          })
+          .then(() => {
+            console.log(`moved ${unitsToMove} from ${fromHex} to ${toHex}`)
             // firebase.ref(`boards/${boardId}/state`)
           })
-        // console.log('FORTIFIED')
+        console.log('FORTIFIED')
       } else {
-        // console.log('No valid fortification moves available.')
+        console.log('No valid fortification moves available.')
       }
-      changePhaseFunction('fortification', currentPlayer, playerOrder, allotmentPointsPerTurn, board, boardId)
+      changePhaseFunction('fortification', id, playerOrder, allotmentPointsPerTurn, board, boardId)
     }
   }
 }

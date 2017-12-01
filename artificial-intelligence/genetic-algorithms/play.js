@@ -347,7 +347,7 @@ let p4 = {
 // let end = Date.now()
 
 // console.log(`Game ran in ${end - start} ms.`)
-// // console.log(`Game ran in ${((end - start) / 1000) / 60} mins.`)
+// console.log(`Game ran in ${((end - start) / 1000) / 60} mins.`)
 // const used = process.memoryUsage().heapUsed / 1024 / 1024;
 // console.log(`The entire process is currently using approximately ${used} MB`);
 

@@ -172,16 +172,16 @@ function bestAttack(allHexesObj, artIntelplayerId, battleMatrix, minThresholdToA
 // The AI bot may include strength quotient of enemy forces in their
 // attack decisions - use functions below
 
-function findAllEnemyHexesOnBoard(allHexesObj, artIntelplayerId) {
-    let results = []
+// function findAllEnemyHexesOnBoard(allHexesObj, artIntelplayerId) {
+//     let results = []
 
-    for (const hex in allHexesObj) {
-        if (allHexesObj[hex] && allHexesObj[hex].playerId !== '' && allHexesObj[hex].playerId !== artIntelplayerId) {
-            results.push(hex)
-        }
-    }
-    return results
-}
+//     for (const hex in allHexesObj) {
+//         if (allHexesObj[hex] && allHexesObj[hex].playerId !== '' && allHexesObj[hex].playerId !== artIntelplayerId) {
+//             results.push(hex)
+//         }
+//     }
+//     return results
+// }
 
 function findPlayerStrengthQuotient(hexesObj, startHex) {
     const owner = startHex.playerId
@@ -199,6 +199,5 @@ function findPlayerStrengthQuotient(hexesObj, startHex) {
 
 module.exports = {
     bestAttack,
-    findPlayerStrengthQuotient,
-    findAllEnemyHexesOnBoard
+    findPlayerStrengthQuotient
 }

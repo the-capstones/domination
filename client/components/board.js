@@ -53,6 +53,7 @@ class Board extends Component {
       allotmentLeft,
       addUnit,
       status,
+      // giveExtraUnit
     } = this.props;
     const layout = boardLayout.layout;
     const size = { x: layout.width, y: layout.height };
@@ -67,6 +68,8 @@ class Board extends Component {
         {status === 'tutorial' && turn1 && user.username === currentPlayer && <PhaseModal phase={currentPhase} />}
         {status === 'tutorial' && user.username !== currentPlayer && turn1-- && '' }
         {status === 'tutorial' && user.username !== currentPlayer && <AIturn />}
+        {/*status === 'tutorial' && currentPhase === 'fortification' && turn1 && giveExtraUnit() */}
+
         {status === 'playing'  && currentPlayer.startsWith('AI-') && <AIturn />}
 
         <HexGrid width={boardLayout.width} height={boardLayout.height}>
