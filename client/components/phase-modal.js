@@ -15,15 +15,14 @@ const PhaseModal = props => {
         {phase === 'ALLOTMENT' &&
           (
             <div>
-              <p>At the beginning of your turn, you can place additional units (1 per 15 territores that you own; at least 3). Click on a hex to allot a unit to it.</p>
+              <p>At the beginning of your turn, you can place additional units. Click on a hex to allot a unit to it.</p>
             </div>
           )
         }
         {phase === 'ATTACK' &&
           (
             <div>
-              <p>Click on the territory from which you're attacking. Attackable hexes will then be highlighted in red. Then, click on the hex you want to attack and roll the dice.</p>
-              <p>(You must have at least 2 units on a territory to attack.)</p>
+              <p>Click on the territory you're attacking from. Then, click on the hex you want to attack and roll the dice. (You must have at least 2 units on a territory to attack.)</p>
             </div>
           )
         }

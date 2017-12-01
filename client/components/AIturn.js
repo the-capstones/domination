@@ -36,9 +36,9 @@ function AIturn(props) {
   return (
     <div id="ai-turn">
       <h1> {currentPlayer}'s turn!</h1>
-      {phase === 'allotment' && setTimeout(() => {allot(allotment, board, id)}, 2000)}
-      {phase === 'attack' && setTimeout(() => {attack(board, id, currentPlayer)}, 2000)}
-      {phase === 'fortification' && setTimeout(() => {fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer)}, 2000)}
+      {phase === 'allotment' && setTimeout(() => {allot(allotment, board, id)}, 1000) && ''}
+      {phase === 'attack' && setTimeout(() => {attack(board, id, currentPlayer)}, 1000) && ''}
+      {phase === 'fortification' && setTimeout(() => {fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer)}, 1000) && ''}
     {phase === 'allotment' &&
       (<div>{currentPlayer} is allotting their units to the board</div>)
     }
