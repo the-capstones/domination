@@ -1,0 +1,15 @@
+@import './_variables.scss';
+
+#ai-turn {
+  position: absolute;
+  top: 1rem;
+  font-size: 2rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+  left: 10%;
+  right: 0;
+  width: 40%;
+  border: 1px solid $neutral;
+  border-radius: 5px;
+  background: $black-light;
+}
