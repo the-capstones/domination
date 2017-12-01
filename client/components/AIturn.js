@@ -96,7 +96,7 @@ const mapDispatch = (dispatch, ownProps) => {
 
     attack(board, id, currentPlayer) {
       console.log('ATTACK')
-      let minChanceToWin = 0.40
+      let minChanceToWin = 0.528
       let hexToAttack = ''
       let hexToAttackFrom = ''
       let maxPSQ = 1.64
