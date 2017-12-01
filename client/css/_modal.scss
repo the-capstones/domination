@@ -1,46 +1,41 @@
 @import './_variables.scss';
 
 .modal-wrapper {
-  position: absolute;
-  top: -1rem;
+  position: fixed;
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
-  margin: 0px;
   justify-content: center;
-  // align-items: center;
-  // width: 100vw;
-  // // height: 100vh;
-  // background: $black-light;
-
-  width: 100%;
-  // background: $black;
-  padding: 2.5rem;
+  align-items: center;
+  top: 1rem;
+  padding: 0 auto;
+  margin: 0 auto;
+  width: 75%;
 
   h3 {
     font-family: $title;
-    font-size: 2.5rem;
-    margin-bottom: 0;
+    font-size: 2rem;
+    margin: 0;
   }
 }
 
 .modal {
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   margin: 1rem;
   padding: 1rem;
   display: flex;
-  justify-content: space-evenly;
   background: $black-light;
   border-radius: 5px;
+  border: 1px solid $neutral;
   width: 100%;
 
   width: 80%;
   height: 80%;
-  padding: 2.5rem;
+  padding: 1rem 2rem;
 
   p {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-family: $text;
     padding-top: 0;
   }

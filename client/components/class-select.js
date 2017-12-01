@@ -27,6 +27,9 @@ const ClassSelect = (props) => {
             />
             <img src={`../../assets/avatar/${playerClass}.png`} />
             <h3>{playerClass.charAt(0).toUpperCase() + playerClass.slice(1)}</h3>
+            <div className="class-overlay">
+              <p>testing</p>
+            </div>
             </label>
           ))
         }

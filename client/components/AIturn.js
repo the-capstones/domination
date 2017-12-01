@@ -17,6 +17,7 @@ import {
   rollDiceAndReturnMax
 } from '../../artificial-intelligence'
 
+import '../css/_ai-turn.scss';
 
 function AIturn(props) {
   const {
@@ -34,18 +35,18 @@ function AIturn(props) {
 
   return (
     <div id="ai-turn">
-      <h1> {currentPlayer.slice(3)}'s turn!</h1>
+      <h1> {currentPlayer}'s turn!</h1>
       {phase === 'allotment' && setTimeout(() => {allot(allotment, board, id)}, 2000)}
       {phase === 'attack' && setTimeout(() => {attack(board, id, currentPlayer)}, 2000)}
       {phase === 'fortification' && setTimeout(() => {fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer)}, 2000)}
     {phase === 'allotment' &&
-      (<div>{currentPlayer.slice(3)} is allotting their units to the board</div>)
+      (<div>{currentPlayer} is allotting their units to the board</div>)
     }
     {phase === 'attack' &&
-      (<div>{currentPlayer.slice(3)} is attacking you!</div>)
+      (<div>{currentPlayer} is attacking you!</div>)
     }
     {phase === 'fortification' &&
-      (<div>{currentPlayer.slice(3)} is fortifying their armies</div>)
+      (<div>{currentPlayer} is fortifying their armies</div>)
     }
     </div>
   )
