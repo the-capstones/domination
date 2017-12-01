@@ -9,9 +9,9 @@ const PhaseModal = props => {
   // const phase = props.match.params.phase
 
   return (
-    <div id="phase-modal-wrapper">
-      <h3>{phase} PHASE</h3>
-      <div id="phase-modal">
+    <div className="modal-wrapper">
+      <div className="modal">
+        <h3>{phase} PHASE</h3>
         {phase === 'ALLOTMENT' &&
           (
             <div>

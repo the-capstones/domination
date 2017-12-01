@@ -1,55 +1,47 @@
 @import './_variables.scss';
 
-#phase-modal-wrapper {
+.modal-wrapper {
+  position: absolute;
+  top: -1rem;
   display: flex;
   flex-direction: column;
+  padding: 0.5rem;
+  margin: 0px;
   justify-content: center;
-  align-items: center;
-  width: 100vw;
-  // height: 100vh;
-  background: $black-light;
+  // align-items: center;
+  // width: 100vw;
+  // // height: 100vh;
+  // background: $black-light;
+
+  width: 100%;
+  // background: $black;
+  padding: 2.5rem;
 
   h3 {
     font-family: $title;
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     margin-bottom: 0;
   }
 }
 
-#phase-modal {
-  width: 80%;
-  height: 80%;
-  padding: 2.5rem;
-  font-size: 2rem;
-
-  p {
-    font-size: 2.5rem;
-    font-family: $text;
-    padding-top: 0;
-  }
-}
-
-
-
-.channel {
+.modal {
+  display: flex;
+  flex-direction: column;
   margin: 1rem;
   padding: 1rem;
   display: flex;
   justify-content: space-evenly;
-  font-size: 1.5rem;
   background: $black-light;
+  border-radius: 5px;
+  width: 100%;
 
-  button {
-    padding: 0.5rem 1rem;
-    background: $neutral;
-    color: $black;
-  }
+  width: 80%;
+  height: 80%;
+  padding: 2.5rem;
 
   p {
-    min-width: 10rem;
+    font-size: 2rem;
+    font-family: $text;
+    padding-top: 0;
   }
-}
-
-.channel:hover {
-  background: $black-dark;
 }
