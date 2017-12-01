@@ -94,12 +94,7 @@ const mapDispatch = (dispatch, ownProps) => {
     },
 
     attack(board, id, currentPlayer) {
-<<<<<<< Updated upstream
-      console.log('ATTACK')
-      let minChanceToWin = 0.52
-=======
       let minChanceToWin = 0.528
->>>>>>> Stashed changes
       let hexToAttack = ''
       let hexToAttackFrom = ''
       let maxPSQ = 1.64
