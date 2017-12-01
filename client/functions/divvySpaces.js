@@ -1,12 +1,13 @@
 import firebase from '../firebase';
 import { validBoardCheck, spriteGenerator } from './';
 
-const PERCENT_DISABLED = .20;
-const AMOUNT_OF_LANDMARKS = 6;
+const PERCENT_DISABLED = 0;
+let AMOUNT_OF_LANDMARKS = 5;
 
-export const divvySpaces = (playerOrder, hexes, boardId, amountVoid) => {
+export const divvySpaces = (playerOrder, hexes, boardId, amountVoid, amountLandmark) => {
   let validBoard = false;
   let percentVoid = amountVoid || PERCENT_DISABLED;
+  AMOUNT_OF_LANDMARKS = amountLandmark || AMOUNT_OF_LANDMARKS;
 
   while (!validBoard) {
     const players = ['', ...playerOrder];
@@ -45,7 +46,7 @@ export const divvySpaces = (playerOrder, hexes, boardId, amountVoid) => {
 
     while (landmarksAvailable.length < AMOUNT_OF_LANDMARKS) {
       const randomHex = Math.floor(Math.random() * copyKeys.length);
-      landmarksAvailable.push(copyKeys[randomHex]);
+      if (!landmarksAvailable.includes(copyKeys[randomHex])) landmarksAvailable.push(copyKeys[randomHex]);
     }
 
     copyKeys.forEach(id => {
