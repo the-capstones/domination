@@ -21,6 +21,7 @@ import {
   Credits,
   ClassSelect,
   Rules,
+  Scoreboard,
 } from './components';
 import { me } from './store';
 
@@ -40,6 +41,7 @@ class Routes extends Component {
         <Main>
           <Route exact path="/boards/:boardId/battle" component={CombatRisk} />
           <Route exact path="/boards/:boardId/class-select" component={ClassSelect} />
+          <Route exact path="/boards/:boardId/scoreboard" component={Scoreboard} />
           <Route exact path="/tutorial/:boardId/:phase" component={PhaseModal} />
           <Switch>
             <Route path="/boards/:boardId" component={Sidebar} />

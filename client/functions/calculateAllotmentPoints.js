@@ -12,6 +12,7 @@ const calcHexesOwned = (hexes) => {
 }
 
 export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3) => {
+  console.log('calcAllotmentPoints args', arguments)
   const hexesOwned = calcHexesOwned(hexes);
   const allotmentPointsPerTurn = {};
   const ALLOTMENT_RATE = 1 / allotmentRate;
@@ -25,6 +26,7 @@ export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3) => {
 }
 
 export const getCurrentPoints = (allotmentPointsPerTurn, username) => {
+  console.log('getCurrentPoints', arguments)
   let points;
   for (let key in allotmentPointsPerTurn) {
     if (key === username) points = allotmentPointsPerTurn[key];

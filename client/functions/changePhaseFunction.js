@@ -11,7 +11,7 @@ export function changePhaseFunction(
     inputBoardId,
     selectedHex,
   ) {
-    console.log('changePhaseFunction has run')
+    // console.log('changePhaseFunction has run')
     removeAllHighlights()
     if (inputCurrentPhase === 'allotment') {
       firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPhase: 'attack', selectedHex: '' })
@@ -32,6 +32,7 @@ export function changePhaseFunction(
       const nextPlayer = inputPlayerOrder[nextIdx];
       calcAllotmentPoints(inputBoardId, inputHexagons);
       const currentAllotment = getCurrentPoints(inputAllotmentPointsPerTurn, nextPlayer);
+      console.log('current Allotment',currentAllotment)
       firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPlayer: nextPlayer, allotmentLeft: currentAllotment, currentPhase: 'allotment', selectedHex: '' });
     }
   }
