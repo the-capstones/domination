@@ -34,18 +34,18 @@ function AIturn(props) {
 
   return (
     <div id="ai-turn">
-      <h1> {currentPlayer.slice(3)}'s turn!</h1>
-      {phase === 'allotment' && setTimeout(() => {allot(allotment, board, id)}, 2000)}
-      {phase === 'attack' && setTimeout(() => {attack(board, id, currentPlayer)}, 2000)}
-      {phase === 'fortification' && setTimeout(() => {fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer)}, 2000)}
+      <h1> {currentPlayer}'s turn!</h1>
+      {phase === 'allotment' && setTimeout(() => {allot(allotment, board, id)}, 1000) && ''}
+      {phase === 'attack' && setTimeout(() => {attack(board, id, currentPlayer)}, 1000) && ''}
+      {phase === 'fortification' && setTimeout(() => {fortify(board, id, playerOrder, allotmentPointsPerTurn, currentPlayer)}, 1000) && ''}
     {phase === 'allotment' &&
-      (<div>{currentPlayer.slice(3)} is allotting their units to the board</div>)
+      (<div>{currentPlayer} is allotting their units to the board</div>)
     }
     {phase === 'attack' &&
-      (<div>{currentPlayer.slice(3)} is attacking you!</div>)
+      (<div>{currentPlayer} is attacking!</div>)
     }
     {phase === 'fortification' &&
-      (<div>{currentPlayer.slice(3)} is fortifying their armies</div>)
+      (<div>{currentPlayer} is fortifying their armies</div>)
     }
     </div>
   )
@@ -94,8 +94,12 @@ const mapDispatch = (dispatch, ownProps) => {
     },
 
     attack(board, id, currentPlayer) {
+<<<<<<< Updated upstream
       console.log('ATTACK')
       let minChanceToWin = 0.52
+=======
+      let minChanceToWin = 0.528
+>>>>>>> Stashed changes
       let hexToAttack = ''
       let hexToAttackFrom = ''
       let maxPSQ = 1.64
@@ -112,11 +116,9 @@ const mapDispatch = (dispatch, ownProps) => {
 
           let attackUnits = board[playableHex].unit1 - 1
           let defendUnits = board[attackableHex].unit1
-          console.log(`${attackUnits} VS ${defendUnits}`)
 
           if (!hexToAttack) {
             let chanceToWin = battleMatrix[attackUnits][defendUnits].ChanceToWin
-            console.log('chanceToWin:', chanceToWin)
 
             if (chanceToWin >= minChanceToWin) {
               minChanceToWin = chanceToWin
@@ -132,18 +134,12 @@ const mapDispatch = (dispatch, ownProps) => {
         let defendUnits = board[hexToAttack].unit1
 
         while (attackUnits > 1 && defendUnits > 0) {
-          console.log(`attack units: ${attackUnits}`)
-          console.log(`defend units: ${defendUnits}`)
           let attackDiceRoll = rollDiceAndReturnMax(3)
           let defendDiceRoll = rollDiceAndReturnMax(2)
-          console.log(`${hexToAttackFrom} ATTACKING ~~~~~~~~> ${hexToAttack}`)
-          console.log(`attacker rolled ${attackDiceRoll}`)
-          console.log(`defender rolled ${defendDiceRoll}`)
 
           let hexToUpdate = attackDiceRoll > defendDiceRoll
             ? hexToAttack
             : hexToAttackFrom
-          console.log(`HEX TO UPDATE IS ${hexToUpdate}`)
 
           let newUnits = hexToUpdate === hexToAttack
             ? --defendUnits
