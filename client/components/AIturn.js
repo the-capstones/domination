@@ -151,12 +151,12 @@ const mapDispatch = (dispatch, ownProps) => {
             newUnits = attackUnits - 1
             // update `update` object with moving units & AI playerId
             update = ({ unit1: newUnits, playerId: currentPlayer })
-            console.log('update is', update)
+            // console.log('update is', update)
             // attacking hex only has one unit now
             firebase.ref(`/boards/${boardId}/hexes/${hexToAttackFrom}`).update({ unit1: 1 })
-              .then(console.log('updated?'))
+              // .then(console.log('updated?'))
 
-            console.log('test1')
+            // console.log('test1')
           }
           // if defender won, update attacking with -1 units
           // if attacker won but defender still has units,
@@ -167,7 +167,7 @@ const mapDispatch = (dispatch, ownProps) => {
             .update(update)
         }
       } else {
-        console.log('no hexes to attack')
+        // console.log('no hexes to attack')
         firebase.ref(`boards/${boardId}/state`).update({ currentPhase: 'fortification' })
       }
     },
@@ -187,12 +187,12 @@ const mapDispatch = (dispatch, ownProps) => {
             firebase.ref(`boards/${boardId}/hexes/${toHex}`).update({unit1: toHexUnits})
           })
           .then(() => {
-            console.log(`moved ${unitsToMove} from ${fromHex} to ${toHex}`)
+            // console.log(`moved ${unitsToMove} from ${fromHex} to ${toHex}`)
             // firebase.ref(`boards/${boardId}/state`)
           })
-        console.log('FORTIFIED')
+        // console.log('FORTIFIED')
       } else {
-        console.log('No valid fortification moves available.')
+        // console.log('No valid fortification moves available.')
       }
       changePhaseFunction('fortification', id, playerOrder, allotmentPointsPerTurn, board, boardId)
     }

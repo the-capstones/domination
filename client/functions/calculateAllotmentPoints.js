@@ -60,7 +60,7 @@ export const calcAllotmentPoints = (boardId, hexes, allotmentRate = 3, landmarkV
 }
 
 export const getCurrentPoints = (allotmentPointsPerTurn, username) => {
-  console.log('getCurrentPoints', arguments)
+  // console.log('getCurrentPoints', arguments)
   let points;
   for (let key in allotmentPointsPerTurn) {
     if (key === username) points = allotmentPointsPerTurn[key];
