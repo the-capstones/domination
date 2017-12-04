@@ -31,7 +31,7 @@ export function changePhaseFunction(
       }
       const nextPlayer = inputPlayerOrder[nextIdx];
       calcAllotmentPoints(inputBoardId, inputHexagons);
-      const currentAllotment = getCurrentPoints(inputAllotmentPointsPerTurn, nextPlayer);
+      let currentAllotment = getCurrentPoints(inputAllotmentPointsPerTurn, nextPlayer);
       // console.log('current Allotment',currentAllotment)
       if (isNaN(currentAllotment)) {
         currentAllotment = 3
