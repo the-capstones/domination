@@ -40,6 +40,7 @@ const landmarksOwned = (hexes) => {
       if (!playersLandmarks[playerId]) playersLandmarks[playerId] = 0;
       playersLandmarks[playerId] += 1;
     }
+    console.log('LM KEYS ', playersLandmarks)
   }
 
   return playersLandmarks;
