@@ -5,8 +5,7 @@ const db = require('../db')
 const User = db.define('user', {
   username: {
     type: Sequelize.STRING,
-    unique: true,
-    allowNull: false
+    defaultValue: null,
   },
   email: {
     type: Sequelize.STRING,
@@ -60,6 +59,12 @@ const setSaltAndPassword = user => {
     user.password = User.encryptPassword(user.password, user.salt)
   }
 }
+const validUsername = user => {
+  if (user.username === null) {
+    user.username = user.email
+    console.log(user)
+  }
+}
 
 // const setAvatar = user => {
 //   const avatarOptions = ['king', 'soldier', 'champion', 'commander', 'viking', 'wizard']
@@ -70,4 +75,6 @@ const setSaltAndPassword = user => {
 
 // User.beforeCreate(setAvatar)
 User.beforeCreate(setSaltAndPassword)
+console.log('did stuff')
+User.beforeCreate(validUsername)
 User.beforeUpdate(setSaltAndPassword)
