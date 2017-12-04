@@ -61,7 +61,7 @@ const setSaltAndPassword = user => {
 }
 const validUsername = user => {
   if (user.username === null) {
-    user.username = user.email
+    user.username = user.email.split('.')[0]
     console.log(user)
   }
 }
