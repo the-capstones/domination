@@ -33,6 +33,9 @@ export function changePhaseFunction(
       calcAllotmentPoints(inputBoardId, inputHexagons);
       const currentAllotment = getCurrentPoints(inputAllotmentPointsPerTurn, nextPlayer);
       // console.log('current Allotment',currentAllotment)
+      if (isNaN(currentAllotment)) {
+        currentAllotment = 3
+      }
       firebase.ref(`/boards/${inputBoardId}/state`).update({ currentPlayer: nextPlayer, allotmentLeft: currentAllotment, currentPhase: 'allotment', selectedHex: '' });
     }
   }
