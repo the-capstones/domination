@@ -137,6 +137,12 @@ const Sidebar = (props) => {
         </div>)
       }
 
+      {boardId && hexagons && currentPlayer && status !== 'waiting' && currentPlayer === user
+      && Object.entries(hexagons).filter( hexArr=> {
+        return hexArr[1].playerId === currentPlayer
+      }).length === 0
+      && changePhase(currentPhase, currentPlayer, playerOrder, allotmentPointsPerTurn, hexagons, boardId)
+    }
       {boardId && status !== 'waiting' && currentPlayer === user
         && (
           <div>
