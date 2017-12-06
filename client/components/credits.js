@@ -78,7 +78,7 @@ const Credits = () => {
               </h3>
             </div>
           </div>
-          <p>Some words about BreAnna</p>
+          <p>BreAnna made this with love</p>
         </div>
 
         <div className="section">
