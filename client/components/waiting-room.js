@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { setInGame } from '../store';
 import firebase from '../firebase'
 import { divvySpaces } from '../functions';
 
@@ -242,7 +241,6 @@ const mapDispatch = (dispatch, ownProps) => {
       evnt.preventDefault();
       const boardId = ownProps.match.params.boardId;
       divvySpaces(playerOrder, hexes, boardId, percentVoid, landmarkFreq);
-      dispatch(setInGame(true));
       firebase.ref(`/boards/${boardId}/state`).update({ status: 'playing' });
     }
   }
