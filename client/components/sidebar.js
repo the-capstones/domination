@@ -9,7 +9,7 @@ import firebase from '../firebase';
 
 import '../css/_sidebar.scss';
 
-const Sidebar = (props) => {
+export const Sidebar = (props) => {
 
   const {
     isLoggedIn,
