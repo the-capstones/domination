@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { logout, setInGame } from '../store';
+import { logout } from '../store';
 import { changePhaseFunction, attackMatrix } from '../functions';
 import firebase from '../firebase';
 
@@ -14,7 +14,6 @@ export const Sidebar = (props) => {
   const {
     isLoggedIn,
     handleClick,
-    inGame,
     status,
     hexagons,
     user,
@@ -54,11 +53,12 @@ export const Sidebar = (props) => {
                 <a href="#" onClick={handleClick}>Logout</a>
                 <Link to="/rules">Rules</Link>
                 <Link to="/credits">Credits</Link>
-              </div>
-              : <div>
+                </div>
+                : <div>
                 <Link to="/login">Login</Link>
                 <Link to="/signup">Sign Up</Link>
                 <Link to="/rules">Rules</Link>
+                <Link to="/credits">Credits</Link>
               </div>
           }
         </div>
@@ -179,7 +179,6 @@ const mapState = (state) => {
     user: state.user.username,
     isLoggedIn: !!state.user.id,
     hexagons: hexagons,
-    inGame: state.inGame,
     status: isBoardLoaded && state.board.state.status,
     currentPlayer: currentPlayer,
     currentPhase: isBoardLoaded && state.board.state.currentPhase || '',
@@ -200,7 +199,6 @@ const mapDispatch = (dispatch, ownProps) => {
     },
     leaveGame(user, playerOrder) {
       const newPlayerOrder = playerOrder.filter(player => player !== user);
-      dispatch(setInGame(false));
       ownProps.history.push('/');
       firebase.ref(`/boards/${boardId}/state`).update({ playerOrder: newPlayerOrder });
     },

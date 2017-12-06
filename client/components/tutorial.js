@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createGrid, divvySpaces } from '../functions'
 import configs from '../configurations';
-import { setInGame } from '../store'
 import firebase from '../firebase'
 
 import '../css/_tutorial.scss'
@@ -73,7 +72,6 @@ const mapDispatch = (dispatch, ownProps) => {
         .then(snap => {
           boardId = snap.key
           divvySpaces(state.playerOrder, hexes, boardId)
-          dispatch(setInGame(true));
           ownProps.history.push(`/boards/${boardId}`);
         })
     }

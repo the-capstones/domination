@@ -5,12 +5,10 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import user from './user';
 import board from './setBoard'
 import boardsList from './getBoards'
-import inGame from './inGame';
 
 const reducer = combineReducers({
   user,
   board,
-  inGame,
   boardsList
 });
 
@@ -23,7 +21,6 @@ const store = createStore(reducer, middleware);
 
 export default store
 export * from './user';
-export * from './inGame';
 export * from './setBoard';
 export * from './getBoards';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { setInGame, getBoards } from '../store';
+import { getBoards } from '../store';
 import firebase from '../firebase'
 
 import '../css/_channel-list.scss';
@@ -83,7 +83,6 @@ const mapDispatch = (dispatch, ownProps) => {
         firebase.ref(`/boards/${boardId}/state`).update({ playerOrder });
         ownProps.history.push(`/boards/${boardId}`)
       }
-      dispatch(setInGame(true));
     },
   }
 }

@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createGrid } from '../functions'
 import configs from '../configurations';
-import { setInGame } from '../store';
 import firebase from '../firebase';
 
 import '../css/_auth-form.scss';
@@ -188,7 +187,6 @@ const mapDispatch = (dispatch, ownProps) => {
       const board = { hexes, state, boardName, maxPlayers }
       firebase.ref('boards').push(board)
         .then(snap => ownProps.history.push(`/boards/${snap.key}`));
-      dispatch(setInGame(true));
     }
   }
 }
